@@ -8,10 +8,9 @@ import java.util.*;
  */
 public class WallNut extends Plant {
 
-    /**
-     * Default constructor
-     */
-    public WallNut() {
-    }
+	public WallNut(int health, int cost, float reloadTime) {
+		super(health, cost, reloadTime);
+		// TODO Auto-generated constructor stub
 
+	}
 }

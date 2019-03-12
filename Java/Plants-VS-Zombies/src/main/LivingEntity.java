@@ -11,12 +11,17 @@ public class LivingEntity extends GameObject {
     /**
      * Default constructor
      */
-    public LivingEntity() {
-    }
 
-    /**
+	public LivingEntity(int health) {
+		super();
+		this.health = health;
+	}
+
+
+	/**
      * 
      */
     private int health;
+
 
 }

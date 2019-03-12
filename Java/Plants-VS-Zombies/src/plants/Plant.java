@@ -12,15 +12,22 @@ public class Plant extends LivingEntity {
     /**
      * Default constructor
      */
-    public Plant() {
-    }
+
+	public Plant(int health, int cost, float reloadTime) {
+		super(health);
+		this.cost = cost;
+		this.reloadTime = reloadTime;
+	}
+
 
     /**
      * 
      */
     private int cost;
 
-    /**
+
+
+	/**
      * 
      */
     private float reloadTime;

@@ -8,10 +8,10 @@ import java.util.*;
  */
 public class ConeheadZombie extends Zombie {
 
-    /**
-     * Default constructor
-     */
-    public ConeheadZombie() {
-    }
+	public ConeheadZombie(int health, float speed) {
+		super(health, speed);
+		// TODO Auto-generated constructor stub
+	}
+
 
 }

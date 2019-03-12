@@ -10,16 +10,16 @@ import main.LivingEntity;
  */
 public class Zombie extends LivingEntity {
 
-    /**
-     * Default constructor
-     */
-    public Zombie() {
-    }
+	public Zombie(int health, float speed) {
+		super(health);
+		this.speed = speed;
+	}
 
     /**
      * 
      */
     private float speed;
+
 
 
 }
