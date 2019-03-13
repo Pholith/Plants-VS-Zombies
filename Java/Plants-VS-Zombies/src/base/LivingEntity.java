@@ -11,8 +11,6 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
-import com.sun.media.sound.Toolkit;
-
 /**
  * 
  */
