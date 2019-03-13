@@ -3,7 +3,7 @@ package projectiles;
 
 import java.util.*;
 
-import main.GameObject;
+import base.GameObject;
 
 /**
  * 

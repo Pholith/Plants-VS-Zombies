@@ -3,7 +3,7 @@ package zombies;
 
 import java.util.*;
 
-import main.LivingEntity;
+import base.LivingEntity;
 
 /**
  * 
