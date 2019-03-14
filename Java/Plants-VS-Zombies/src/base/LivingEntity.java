@@ -12,9 +12,12 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+<<<<<<< HEAD
 import com.sun.accessibility.internal.resources.accessibility;
 import com.sun.media.sound.Toolkit;
 
+=======
+>>>>>>> 87c994f5b795e2ef923217faf0a1fc9b71a2f938
 /**
  * 
  */
