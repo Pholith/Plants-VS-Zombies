@@ -59,8 +59,8 @@ public abstract class GameObject {
      * @throws IOException 
      * 
      */
-    public String display() {
-    	return "";
+    public Sprite display() {
+    	return null;
     }
 
 }

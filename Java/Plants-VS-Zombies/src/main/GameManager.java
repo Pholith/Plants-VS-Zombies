@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,8 @@ import javax.imageio.ImageIO;
 import base.Camera;
 import base.GameObject;
 import base.LivingEntity;
+import base.UI_Label;
+import base.Vector2;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
@@ -29,31 +32,44 @@ import fr.umlv.zen5.Event.Action;
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
 	    	sceneContent = new ArrayList<GameObject>(); 
-	    	loadedSprites = new HashMap<String, Image>();
+	    	clock = Clock.systemDefaultZone(); 		    
 	    }
+	    private static final Resources RESOURCES = new Resources();
+	    public static Resources getResources() { return RESOURCES;  }
 	    
 	
 	    
-	    private Camera mainCamera;
-	    
 	    private float resolutionX;
-	    private float resolutionY; 
-	    
-	    ArrayList<GameObject> sceneContent;
-	    Map<String,Image> loadedSprites;
-	       
+	    private float resolutionY;    
 	    
 	    
-	    void StartManager() throws IOException {
+	    
+	    private final Clock clock; 
+	    private int currentFps;
+	    private int savedFps;	    
+	    private long lastSecTime;
+	    
+	   	    
+	    private final ArrayList<GameObject> sceneContent;
+	    private Camera mainCamera;
+	  
+	 
+	    private UI_Label fpsBox;
+	    
+	    
+	    
+	    
+	    
+	    void startManager() throws IOException {
 	    	
 	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
-	    	mainCamera = new Camera();
-	    	GameObject testAffiche = new LivingEntity(20);
+	   
+
+	    	RESOURCES.startGame();
 	    	
-	    	loadSpriteAtPath("resources/textures/error.png");
-	    	
-	    	loadSpriteAtPath("resources/textures/plants/plant_idl_0.png");
+	     	mainCamera = new Camera();	    
+	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
 	    	
 	    	
 	    	////////////////////////////////////////Démarage de la boucle principale
@@ -67,27 +83,32 @@ import fr.umlv.zen5.Event.Action;
 			      
 			      System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
 			      
-			      while (true) {
-			    	  
+			      
+			      while (true) {		    	  
 			    	  
 			      inputCheck(context);
 			      render(context);
-		
+			      fpsCount();
+			      
 			      }
 			 });
 	    }   
 	    
 	    
-	
+
 	    
 	    private void render(ApplicationContext context) {			
 	    	  
 		      context.renderFrame(graphics -> {  
 		    	  graphics.setColor(Color.WHITE);
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
-		    	  mainCamera.Render(sceneContent,graphics);		
+		    	  mainCamera.render(sceneContent,graphics);		
+		    	  
+		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
+
 		      });
 	    }
+	    
 	    
 	    
 	    
@@ -112,22 +133,22 @@ import fr.umlv.zen5.Event.Action;
 	    		sceneContent.add(obj);
 	    }
 	    
-	    
-	    
-	    public void loadSpriteAtPath(String spriteLink ) throws IOException {
-	     	
-	    	   File pathToFile = new File(spriteLink);
-	    	   Image image = ImageIO.read(pathToFile);    	
-	    	   loadedSprites.put(spriteLink, image);
-	    	   
+
+	    private void fpsCount() {
+	    	
+	    	currentFps++;
+	    	
+	    	if(clock.millis() - lastSecTime >= 500) {
+	    		savedFps = currentFps*2;
+	    		currentFps = 0;
+	    		lastSecTime = clock.millis();
+	    	}
 	    }
+	  
 	    
-	    public Image getImageByPath(String spriteLink ){
-		     	if(loadedSprites.containsKey(spriteLink))
-		     		return loadedSprites.get(spriteLink);
-		     	return null;
-	    }
-	    
+		public long getClockMillis() {
+			return clock.millis();
+		}
 	    
 	    
 	    

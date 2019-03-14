@@ -3,6 +3,7 @@ package plants;
 import java.util.*;
 
 import base.LivingEntity;
+import base.Vector2;
 
 /**
  * 
@@ -14,7 +15,7 @@ public class Plant extends LivingEntity {
      */
 
 	public Plant(int health, int cost, float reloadTime) {
-		super(health);
+		super(health, null, null);
 		this.cost = cost;
 		this.reloadTime = reloadTime;
 	}
