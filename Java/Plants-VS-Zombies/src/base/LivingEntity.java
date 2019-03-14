@@ -1,6 +1,7 @@
 package base;
 
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MediaTracker;
@@ -11,6 +12,7 @@ import java.util.*;
 
 import javax.imageio.ImageIO;
 
+import com.sun.accessibility.internal.resources.accessibility;
 import com.sun.media.sound.Toolkit;
 
 /**
@@ -26,11 +28,8 @@ public class LivingEntity extends GameObject {
 	public LivingEntity(int health) {
 		super();
 		this.health = health;
-		
-		
 	}
 
-	
 	
 
 	/**
@@ -38,26 +37,10 @@ public class LivingEntity extends GameObject {
      */
     private int health;
 
+  
     
     @Override
-    public void display(Vector2 camPos, Graphics2D graphics ) {
-    	
-    	//Boucherie gros TEST pour charger les img (tkt elle seront pas chargés ici les img) de plus le 
-    	// display est mal foutu.
-    	
-    	
-    	   File pathToFile = new File("resources/textures/plants/plant_idl_0.png");
-    	   Image image = null;
-		try {			
-			image = ImageIO.read(pathToFile);
-			
-			graphics.drawImage(image, 30, 30, 150, 150, 0, 0, 16, 16, null);
-			
-		System.out.println("aaaaa");
-		} catch (IOException e) {
-			System.out.println("bbbbb");	
-		}
-    	
-    	
+    public String display() {    	
+  	   return "resources/textures/plants/plant_idl_0.png";
     }
 }

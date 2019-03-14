@@ -28,8 +28,7 @@ public abstract class GameObject {
     	position = pos;
     	GameManager.getInstance().addGameObjectToScene(this);
     }
-    
-    
+      
     
     final public Vector2 getPosition() {
 		return position;
@@ -60,8 +59,8 @@ public abstract class GameObject {
      * @throws IOException 
      * 
      */
-    public void display(Vector2 camPos, Graphics2D graphics ) {
-
+    public String display() {
+    	return "";
     }
 
 }
