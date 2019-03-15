@@ -26,7 +26,7 @@ public class Camera extends GameObject {
 	}
 		
 	
-	public void render(ArrayList<GameObject> sceneObjs,Graphics2D graphics) {
+	public void render(ArrayList<GameObject> sceneObjs, Graphics2D graphics) {
 		
 		int screenPixelPerUnit = Constant.screenPixelPerUnit;
 		float TexturepixelPerUnit = Constant.texturePixelPerUnit;
@@ -45,22 +45,26 @@ public class Camera extends GameObject {
 		int spriteWidth, spriteHeight;
 		UI_Element uiElem;
 		
-		
+		float renderSize;
 		
 		
 		for(GameObject obj : sceneObjs) {
+		
+			
+			renderSize = obj.getRenderScale();
+			
+			//graphics.scale(renderSize, renderSize);
 			
 			
 			if(obj instanceof UI_Element) {				
 				uiElem = (UI_Element)obj;				
 				uiElem.selfDisplay(getPosition(), graphics);
 	
-			}else {
+			}else{
 				
 			
-				spr = obj.display();
-	
-				
+			spr = obj.display();
+
 				
 			if(spr == null)
 				continue;
@@ -71,15 +75,18 @@ public class Camera extends GameObject {
 			objPos = obj.getPosition();
 					
 			//mouvement de la camera
-			finalPos = new Vector2((objPos.getX()-posX)*screenPixelPerUnit, (objPos.getY()-posY) * screenPixelPerUnit);
+			finalPos = new Vector2(
+					(objPos.getX() - posX) * screenPixelPerUnit,
+					(objPos.getY() - posY) * screenPixelPerUnit);
 						
+			
 			//	if(img == null)//En cas d'erreur de chargement du sprite, on charge un sprite "error"
 			//		img = GameManager.getInstance().getImageByPath(Constant.errorTexture);
 			
 						
 			
-			spriteWidth = (int)spr.getWidth();
-			spriteHeight = (int)spr.getHeight();
+			spriteWidth = (int)(spr.getWidth()* renderSize);
+			spriteHeight = (int)(spr.getHeight()*renderSize);
 			
 			spriteCoord1 = spr.getBottomLeftCorner();
 			spriteCoord2 = spr.getTopRightCorner();
@@ -87,18 +94,28 @@ public class Camera extends GameObject {
     		graphics.drawImage(spr.getBaseImg(),
     				(int)finalPos.getX(),
     				(int)finalPos.getY(),
-    				(int)finalPos.getX() + (int)(screenPixelPerUnit * (spriteWidth /TexturepixelPerUnit)),
+    				
+    				((int)finalPos.getX() + (int)(screenPixelPerUnit * (spriteWidth /TexturepixelPerUnit))),
     				(int)finalPos.getY() + (int)(screenPixelPerUnit * (spriteHeight/TexturepixelPerUnit)),
     				
-    				(int)spriteCoord1.getX(), (int)spriteCoord1.getY(),
-    				(int)spriteCoord2.getX(), (int)spriteCoord2.getY(), null);			
+    				
+    				
+    				(int)spriteCoord1.getX(),
+    				(int)spriteCoord1.getY(),
+    				
+    				(int)spriteCoord2.getX(),
+    				(int)spriteCoord2.getY(), null);			
 		
 		
     		
 		//graphics.setColor(Color.black);		
 		//graphics.drawString(  Integer.toString(cnt), 200, 200);
 			}
+			
+			
+			
 		}
+		
 	}
 }
 	

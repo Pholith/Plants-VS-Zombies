@@ -22,6 +22,7 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
 import fr.umlv.zen5.Event.Action;
+import fr.umlv.zen5.KeyboardKey;
 
 
 	///Cette classe est un singleton. Le jeu démare à sa creation , à l'appel de la fonction StartManger();
@@ -51,12 +52,10 @@ import fr.umlv.zen5.Event.Action;
 	    
 	   	    
 	    private final ArrayList<GameObject> sceneContent;
-	    private Camera mainCamera;
-	  
-	 
+	    private Camera mainCamera;	 
 	    private UI_Label fpsBox;
 	    
-	    
+	    	    
 	    
 	    
 	    
@@ -100,9 +99,12 @@ import fr.umlv.zen5.Event.Action;
 	    private void render(ApplicationContext context) {			
 	    	  
 		      context.renderFrame(graphics -> {  
+		    	  //clear les graphics
 		    	  graphics.setColor(Color.WHITE);
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
-		    	  mainCamera.render(sceneContent,graphics);		
+		    	
+		    	  //affichage des  
+		    	  mainCamera.render(sceneContent, graphics);		
 		    	  
 		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
 
@@ -119,11 +121,24 @@ import fr.umlv.zen5.Event.Action;
 	          return;
 	        }
 		  Action action = event.getAction();
-	        if (action == Action.KEY_PRESSED || action == Action.KEY_RELEASED) {
+
+		  KeyboardKey key =  event.getKey();
+		  
+		  
+	        if (key == KeyboardKey.UNDEFINED) {//action == Action.KEY_PRESSED || action == Action.KEY_RELEASED) {
 	          System.out.println("abort abort !");
 	          context.exit(0);
 	          return;
 	        }
+		  		  
+	        
+	        if (key == KeyboardKey.LEFT)
+	        	mainCamera.translation(-0.1f, 0);
+	        	
+	        if (key == KeyboardKey.RIGHT)
+	        	mainCamera.translation(0.1f, 0);
+	        		
+		  
 		  }
 	  
 	    
@@ -133,13 +148,14 @@ import fr.umlv.zen5.Event.Action;
 	    		sceneContent.add(obj);
 	    }
 	    
+	    
 
 	    private void fpsCount() {
 	    	
 	    	currentFps++;
 	    	
-	    	if(clock.millis() - lastSecTime >= 500) {
-	    		savedFps = currentFps*2;
+	    	if(clock.millis() - lastSecTime >= 1000) {
+	    		savedFps = currentFps;
 	    		currentFps = 0;
 	    		lastSecTime = clock.millis();
 	    	}

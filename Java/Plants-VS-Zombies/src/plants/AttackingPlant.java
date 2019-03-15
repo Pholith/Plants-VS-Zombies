@@ -3,6 +3,8 @@ package plants;
 
 import java.util.*;
 
+import base.Vector2;
+
 /**
  * 
  */
@@ -12,9 +14,9 @@ public class AttackingPlant extends Plant {
      * Default constructor
      */
 
-	public AttackingPlant(int health, int cost, float reloadTime, int dommage, int range) {
-		super(health, cost, reloadTime);
-		this.dommage = dommage;
+	public AttackingPlant(int health, Vector2 position, int cost, float reloadTime, int damages, float range,  String animationPath, float animationSpeed) {
+		super(health, position, cost, reloadTime, animationPath , animationSpeed);
+		this.damages = damages;
 		this.range = range;
 	}
 
@@ -22,7 +24,7 @@ public class AttackingPlant extends Plant {
     /**
      * 
      */
-    private int dommage;
+    private float damages;
 
 
 
@@ -30,7 +32,7 @@ public class AttackingPlant extends Plant {
 	/**
      * 
      */
-    private int range;
+    private float range;
 
 
 }

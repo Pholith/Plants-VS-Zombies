@@ -12,10 +12,13 @@ import base.Constant;
 import base.GameObject;
 import base.LivingEntity;
 import base.Sprite;
+import base.Terrain;
 import base.Vector2;
+import plants.Peashooter;
 
 //Les resources ont une visibilités de "package"
-class Resources {
+public class Resources {
+	
 	
     private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
@@ -33,14 +36,22 @@ class Resources {
     	 ///Prechargement des textures entieres
     	loadImageAtPath(Constant.errorTexture);	     	
     	loadImageAtPath("plants/plant_idl_0.png");
-    	loadImageAtPath("plants/pea_shooter.png");
+    	loadImageAtPath("lawn.jpg");
     	
     	
+    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"));
+    
     	Sprite[] pea_shooter = cutImage("plants/pea_shooter.png", 13, 3);
-    	GameObject testAffiche = new LivingEntity(20, pea_shooter, new Vector2(5,5), 5f);
+    	
+    
+    	new Terrain(terrain, 0.75f);
+    	
+    	for(int i = 0; i < 9*5; i++) {
+    	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
+    	}
     	
         
-    	GameObject atestAffiche = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
+    	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
         
         
     	
@@ -49,12 +60,16 @@ class Resources {
 
     
     
-    public Sprite[] cutImage(String path, int cntX, int cntY) {
+    public Sprite[] cutImage(String path, int cntX, int cntY) throws IOException {
     	Sprite[] palette = new Sprite[cntX*cntY];
+    	
+    	loadImageAtPath(path);
+    	
     	Image original = getImageByPath(path);
     	float currentWidth = (original.getWidth(null)/cntX);
     	float  currenHeight  = (original.getHeight(null)/cntY);
-    
+
+    	
     	///Decoupe et creation des sprites     	    	
     	for(int i = 0; i < palette.length; i++) 
     		palette[i] = new Sprite(original, new Vector2((i%cntX)*currentWidth,currenHeight*(i/cntX)), new Vector2(((i%cntX)+1)*currentWidth,currenHeight*((i/cntX)+1)));
@@ -80,6 +95,7 @@ class Resources {
  public Image getImageByPath(String spritePath ){
 	 		if(loadedImages.containsKey(spritePath))
 	     		return loadedImages.get(spritePath);
+	 		System.out.println("error when loading sprite "+spritePath);
 	     	return loadedImages.get(Constant.errorTexture);
  }
  

@@ -24,13 +24,12 @@ public class UI_Label extends UI_Element {
 	@Override
 	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
 	
-		float rds = getRenderScale();
+
 		int screenUnit = Constant.screenPixelPerUnit;
 		
-		graphics.scale(rds, rds);
+		graphics.scale(getRenderScale(), getRenderScale());
 		graphics.setColor(getRenderColor());
 		graphics.drawString(objectText, getPosition().getX() * screenUnit ,getPosition().getY() *  screenUnit);
-		
 	}
 	
 	

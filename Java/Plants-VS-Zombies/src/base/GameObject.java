@@ -13,7 +13,9 @@ import main.GameManager;
 public abstract class GameObject {
 
 	  private Vector2 position;
-	
+	  private final float renderScale;
+	  
+	  
     /**
      * Default constructor
      */
@@ -22,13 +24,24 @@ public abstract class GameObject {
     }
 
     
+    public float getRenderScale() {
+		return renderScale;
+	}
+    
+    
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
-    public GameObject(Vector2 pos) {
+    public GameObject(Vector2 pos, float scale) {
     	position = pos;
     	GameManager.getInstance().addGameObjectToScene(this);
+    	renderScale = scale;
+    }   
+    
+    public GameObject(Vector2 pos) {
+    	this(pos, 1.0f);
     }
       
+    
     
     final public Vector2 getPosition() {
 		return position;
@@ -37,7 +50,7 @@ public abstract class GameObject {
     public void translation(Vector2 v) {
     	position = v.add(position);
     }
-    public void translation(int x, int y) {
+    public void translation(float x, float y) {
     	translation(new Vector2(x, y));
     }
 
