@@ -15,7 +15,7 @@ public class Camera extends GameObject {
 
 	
 	public Camera(Vector2 pos,  float renderSize) {
-		super(pos);
+		super(pos, "neutral");
 		this.renderSize = renderSize;
 	}	
 	public Camera(Vector2 pos) {

@@ -14,7 +14,8 @@ import base.LivingEntity;
 import base.Sprite;
 import base.Terrain;
 import base.Vector2;
-import plants.Peashooter;
+import plants.*;
+import zombies.*;
 
 //Les resources ont une visibilités de "package"
 public class Resources {
@@ -42,6 +43,7 @@ public class Resources {
     	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"));
     
     	Sprite[] pea_shooter = cutImage("plants/pea_shooter.png", 13, 3);
+    	Sprite[] simple_zombie = cutImage("zombies/normal.png", 1, 1);
     	
     
     	new Terrain(terrain, 0.75f);
@@ -49,6 +51,7 @@ public class Resources {
     	for(int i = 0; i < 9*5; i++) {
     	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
     	}
+    	new SimpleZombie(new Vector2(13f, 3f));
     	
         
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);

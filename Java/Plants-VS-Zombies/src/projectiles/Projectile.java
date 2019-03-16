@@ -13,10 +13,12 @@ public class Projectile extends GameObject {
     /**
      * Default constructor
      */
-    public Projectile() {
-    }
+    public Projectile(String tag, float speed) {
+		super(tag);
+		this.speed = speed;
+	}
 
-    /**
+	/**
      * 
      */
     private float speed;

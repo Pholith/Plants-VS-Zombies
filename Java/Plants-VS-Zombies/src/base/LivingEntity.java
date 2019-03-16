@@ -7,7 +7,7 @@ import main.GameManager;
 /**
  * 
  */
-public class LivingEntity extends GameObject {
+public abstract class LivingEntity extends GameObject {
 
   
 	private final Sprite[] animationSprite;
@@ -15,11 +15,9 @@ public class LivingEntity extends GameObject {
 	private final long timeLoopAnimation;
     private long lastFrameUpdate;
     
-	
 
-
-	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed) {
-		super(position);
+	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed, String tag) {
+		super(position, tag);
 		this.health = health;
 		this.animationSprite = animationSprite;
 		
@@ -32,13 +30,11 @@ public class LivingEntity extends GameObject {
 		lastFrameUpdate =  GameManager.getInstance().getClockMillis();
 	}
 	
-	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed ) {
-		this(health, position, GameManager.getResources().getAnimationByPath(animationPath), animSpeed);
+	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed, String tag) {
+		this(health, position, GameManager.getResources().getAnimationByPath(animationPath), animSpeed, tag);
 	}
-	
-	
-	
-	//ordre des elements modifié pour eviter les ambiguités
+		
+	/*//ordre des elements modifié pour eviter les ambiguités
 	public LivingEntity(int health, Vector2 position, Sprite defaultSprite) {
 		this(health, position, new Sprite[] {defaultSprite}, 1.0f);
 	}
@@ -76,4 +72,7 @@ public class LivingEntity extends GameObject {
     	
   	   return null;
     }
+    
+    
+    
 }

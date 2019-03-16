@@ -3,15 +3,17 @@ package zombies;
 
 import java.util.*;
 
+import base.Vector2;
+
 /**
  * 
  */
 public class ConeheadZombie extends Zombie {
 
-	public ConeheadZombie(int health, float speed) {
-		super(health, speed);
-		// TODO Auto-generated constructor stub
-	}
+	public ConeheadZombie(Vector2 position) {
+		super(100, position, "zombies/normal.png", 1f, 1f);
+		
+		}
 
 
 }

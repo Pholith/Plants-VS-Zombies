@@ -103,8 +103,15 @@ import fr.umlv.zen5.KeyboardKey;
 		    	  graphics.setColor(Color.WHITE);
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
 		    	
-		    	  //affichage des  
+		    	  //affichage des sprites
 		    	  mainCamera.render(sceneContent, graphics);		
+		    	  
+		    	  //donne de la vie aux objets
+		    	  for (GameObject gameObject : sceneContent) {
+					gameObject.update();
+		    	  }
+		    	  
+		    	  
 		    	  
 		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
 
@@ -146,6 +153,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    public void addGameObjectToScene(GameObject obj) {	
 	    	if(!sceneContent.contains(obj))
 	    		sceneContent.add(obj);
+	    		obj.start();
 	    }
 	    
 	    
@@ -167,7 +175,31 @@ import fr.umlv.zen5.KeyboardKey;
 		}
 	    
 	    
-	    
+		/* TODO
+		 * Renvoir le premier zombie si l'objet est une plante et renvoie la première plante si
+		 * l'objet est un zombie. Renvoie null sinon
+		 */ 
+		public GameObject getFirstEnemy(GameObject o) {
+			
+			GameObject firstEnemy = null;
+			
+			for (GameObject gameObject : sceneContent) {
+				if(gameObject.isEnemy(o)) {
+					if (firstEnemy == null) firstEnemy = gameObject;
+					
+					// si firstEnemy n'est pas null on compare les distances
+					else  {
+						if (o.getTag() == "zombie") {
+							// TODO 
+						} else if (o.getTag() == "plant") {
+							// TODO
+						}
+					}
+				}
+			}
+			
+			return firstEnemy;
+		}
 	}
 	    
 	    

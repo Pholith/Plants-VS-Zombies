@@ -30,7 +30,7 @@ public class Terrain extends GameObject {
 	
 	
 	public Terrain(Sprite terrainSprite , float renderSize) {
-		super(Vector2.zero(), renderSize);
+		super(Vector2.zero(), renderSize, "neutral");
 		this.terrainSprite = terrainSprite;
 		
 		
