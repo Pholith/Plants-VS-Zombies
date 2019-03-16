@@ -44,7 +44,7 @@ public class Resources {
     
     	Sprite[] pea_shooter = cutImage("plants/pea_shooter.png", 13, 3);
     	Sprite[] simple_zombie = cutImage("zombies/normal.png", 1, 1);
-    	Sprite[] peash = cutImage("plants/peash.png", 1, 1);
+    	//Sprite[] peash = cutImage("plants/peash.png", 1, 1);
 
     
     	
@@ -53,8 +53,8 @@ public class Resources {
     	for(int i = 0; i < 9*5; i++) {
     	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
     	}
-    	SimpleZombie z1 = new SimpleZombie(new Vector2(13f, 3f));
-    	SimpleZombie z2 = new SimpleZombie(new Vector2(11f, 3.25f));
+    	new SimpleZombie(new Vector2(13f, 3f));
+    	new SimpleZombie(new Vector2(11f, 3.25f));
 
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
         
