@@ -1,17 +1,23 @@
 package zombies;
 
 
-import java.util.*;
+import base.Vector2;
 
 /**
  * 
  */
 public class SimpleZombie extends Zombie {
 
-	public SimpleZombie(int health, float speed) {
-		super(health, speed);
-		// TODO Auto-generated constructor stub
-	}
+
+	public SimpleZombie(Vector2 position) {
+		super(100, position, "zombies/normal.png", 1f, 1f);
+		
+		}
+
+
+
+
+
 
     
 }

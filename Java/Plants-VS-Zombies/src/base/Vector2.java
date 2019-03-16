@@ -11,7 +11,7 @@ public class Vector2 {
 			super();
 			this.x = x;
 			this.y = y;
-		}		
+		}	
 		public Vector2() {
 			this.x = 0;
 			this.y = 0;		
@@ -19,6 +19,11 @@ public class Vector2 {
 		
 		
 		
+		
+		@Override
+		public String toString() {
+			return "Vector2 ( " + x + " , " + y+" )";
+		}
 		
 		public static Vector2 zero() {
 			return new Vector2();

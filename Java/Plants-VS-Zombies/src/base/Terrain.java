@@ -6,12 +6,14 @@ import java.util.*;
 /**
  * 
  */
-public class Terrain {
-
+public class Terrain extends GameObject {
+   
+	private final Sprite terrainSprite;
 
 	/*
 	 * 
 	 */
+	/*
 	public Terrain(int numberOfRows, int squaresByRows, String type, ArrayList<Square> listOfSquares) {
 		super();
 		if (numberOfRows < 2|| squaresByRows < 2) {
@@ -24,8 +26,17 @@ public class Terrain {
 		if (squaresByRows*numberOfRows != listOfSquares.size()) {
 			throw new IllegalArgumentException("Le nombre de cases ne correspond pas avec les dimensions de la carte");
 		}
+	}*/
+	
+	
+	public Terrain(Sprite terrainSprite , float renderSize) {
+		super(Vector2.zero(), renderSize, "neutral");
+		this.terrainSprite = terrainSprite;
+		
+		
 	}
-
+	
+	
     private ArrayList<Square> listOfSquares;
 	/**
      * 
@@ -42,5 +53,14 @@ public class Terrain {
      */
     private String type;
 
+    
+
+    
+    @Override
+    public Sprite display() {  
+  return terrainSprite;
+    	
+    }
+    
 
 }

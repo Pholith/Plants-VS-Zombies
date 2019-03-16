@@ -3,16 +3,20 @@ package plants;
 
 import java.util.*;
 
+import base.Vector2;
+
 /**
  * 
  */
 public class Peashooter extends AttackingPlant {
 
-	public Peashooter(int health, int cost, float reloadTime, int dommage, int range) {
-		super(health, cost, reloadTime, dommage, range);
-		// TODO Auto-generated constructor stub
+	public Peashooter(Vector2 position) {
+		super(100, position, 100, 3f, 25, 10f, "plants/pea_shooter.png", 4f + (float)Math.random()*1f);
+
+		
 	}
 
+	
     /**
      * Default constructor
      */

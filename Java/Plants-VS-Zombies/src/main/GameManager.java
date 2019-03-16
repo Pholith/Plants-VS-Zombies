@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,11 +15,14 @@ import javax.imageio.ImageIO;
 import base.Camera;
 import base.GameObject;
 import base.LivingEntity;
+import base.UI_Label;
+import base.Vector2;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
 import fr.umlv.zen5.Event.Action;
+import fr.umlv.zen5.KeyboardKey;
 
 
 	///Cette classe est un singleton. Le jeu démare à sa creation , à l'appel de la fonction StartManger();
@@ -29,31 +33,42 @@ import fr.umlv.zen5.Event.Action;
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
 	    	sceneContent = new ArrayList<GameObject>(); 
-	    	loadedSprites = new HashMap<String, Image>();
+	    	clock = Clock.systemDefaultZone(); 		    
 	    }
+	    private static final Resources RESOURCES = new Resources();
+	    public static Resources getResources() { return RESOURCES;  }
 	    
 	
 	    
-	    private Camera mainCamera;
-	    
 	    private float resolutionX;
-	    private float resolutionY; 
-	    
-	    ArrayList<GameObject> sceneContent;
-	    Map<String,Image> loadedSprites;
-	       
+	    private float resolutionY;    
 	    
 	    
-	    void StartManager() throws IOException {
+	    
+	    private final Clock clock; 
+	    private int currentFps;
+	    private int savedFps;	    
+	    private long lastSecTime;
+	    
+	   	    
+	    private final ArrayList<GameObject> sceneContent;
+	    private Camera mainCamera;	 
+	    private UI_Label fpsBox;
+	    
+	    	    
+	    
+	    
+	    
+	    void startManager() throws IOException {
 	    	
 	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
-	    	mainCamera = new Camera();
-	    	GameObject testAffiche = new LivingEntity(20);
+	   
+
+	    	RESOURCES.startGame();
 	    	
-	    	loadSpriteAtPath("resources/textures/error.png");
-	    	
-	    	loadSpriteAtPath("resources/textures/plants/plant_idl_0.png");
+	     	mainCamera = new Camera();	    
+	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
 	    	
 	    	
 	    	////////////////////////////////////////Démarage de la boucle principale
@@ -67,27 +82,42 @@ import fr.umlv.zen5.Event.Action;
 			      
 			      System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
 			      
-			      while (true) {
-			    	  
+			      
+			      while (true) {		    	  
 			    	  
 			      inputCheck(context);
 			      render(context);
-		
+			      fpsCount();
+			      
 			      }
 			 });
 	    }   
 	    
 	    
-	
+
 	    
 	    private void render(ApplicationContext context) {			
 	    	  
 		      context.renderFrame(graphics -> {  
+		    	  //clear les graphics
 		    	  graphics.setColor(Color.WHITE);
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
-		    	  mainCamera.Render(sceneContent,graphics);		
+		    	
+		    	  //affichage des sprites
+		    	  mainCamera.render(sceneContent, graphics);		
+		    	  
+		    	  //donne de la vie aux objets
+		    	  for (GameObject gameObject : sceneContent) {
+					gameObject.update();
+		    	  }
+		    	  
+		    	  
+		    	  
+		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
+
 		      });
 	    }
+	    
 	    
 	    
 	    
@@ -98,11 +128,24 @@ import fr.umlv.zen5.Event.Action;
 	          return;
 	        }
 		  Action action = event.getAction();
-	        if (action == Action.KEY_PRESSED || action == Action.KEY_RELEASED) {
+
+		  KeyboardKey key =  event.getKey();
+		  
+		  
+	        if (key == KeyboardKey.UNDEFINED) {//action == Action.KEY_PRESSED || action == Action.KEY_RELEASED) {
 	          System.out.println("abort abort !");
 	          context.exit(0);
 	          return;
 	        }
+		  		  
+	        
+	        if (key == KeyboardKey.LEFT)
+	        	mainCamera.translation(-0.1f, 0);
+	        	
+	        if (key == KeyboardKey.RIGHT)
+	        	mainCamera.translation(0.1f, 0);
+	        		
+		  
 		  }
 	  
 	    
@@ -110,27 +153,53 @@ import fr.umlv.zen5.Event.Action;
 	    public void addGameObjectToScene(GameObject obj) {	
 	    	if(!sceneContent.contains(obj))
 	    		sceneContent.add(obj);
+	    		obj.start();
 	    }
 	    
 	    
-	    
-	    public void loadSpriteAtPath(String spriteLink ) throws IOException {
-	     	
-	    	   File pathToFile = new File(spriteLink);
-	    	   Image image = ImageIO.read(pathToFile);    	
-	    	   loadedSprites.put(spriteLink, image);
-	    	   
+
+	    private void fpsCount() {
+	    	
+	    	currentFps++;
+	    	
+	    	if(clock.millis() - lastSecTime >= 1000) {
+	    		savedFps = currentFps;
+	    		currentFps = 0;
+	    		lastSecTime = clock.millis();
+	    	}
 	    }
+	  
 	    
-	    public Image getImageByPath(String spriteLink ){
-		     	if(loadedSprites.containsKey(spriteLink))
-		     		return loadedSprites.get(spriteLink);
-		     	return null;
-	    }
-	    
+		public long getClockMillis() {
+			return clock.millis();
+		}
 	    
 	    
-	    
+		/* TODO
+		 * Renvoir le premier zombie si l'objet est une plante et renvoie la première plante si
+		 * l'objet est un zombie. Renvoie null sinon
+		 */ 
+		public GameObject getFirstEnemy(GameObject o) {
+			
+			GameObject firstEnemy = null;
+			
+			for (GameObject gameObject : sceneContent) {
+				if(gameObject.isEnemy(o)) {
+					if (firstEnemy == null) firstEnemy = gameObject;
+					
+					// si firstEnemy n'est pas null on compare les distances
+					else  {
+						if (o.getTag() == "zombie") {
+							// TODO 
+						} else if (o.getTag() == "plant") {
+							// TODO
+						}
+					}
+				}
+			}
+			
+			return firstEnemy;
+		}
 	}
 	    
 	    
