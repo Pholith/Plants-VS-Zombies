@@ -42,7 +42,7 @@ public class Vector2 {
 		public float getY() {
 			return y;
 		}
-			
+		
 		/* Les méthodes d'additions */
 		public Vector2 add(Vector2 v) {
 			return new Vector2(x+v.x , y+v.y );
@@ -53,6 +53,12 @@ public class Vector2 {
 		
 	    public double length() {
 	        return (double) Math.sqrt(this.x*this.x + this.y*this.y);
+	    }
+	    
+	    // Possibilité de le changer quand on aura un getRow
+	    public boolean isOnSameRow(Vector2 v) {
+	    	float distanceBen = 0.3f;
+	    	return (y < v.y+distanceBen && y > v.y- distanceBen);
 	    }
 	    
 	    

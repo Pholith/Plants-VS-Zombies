@@ -6,6 +6,7 @@ import java.util.*;
 import base.LivingEntity;
 import base.Sprite;
 import base.Vector2;
+import main.GameManager;
 
 /**
  * 
@@ -31,9 +32,14 @@ public class Zombie extends LivingEntity {
     @Override
     public void update() {
     	
-    	//if (getPosition())
-    	this.translation(new Vector2(speed, 0f));
-    	System.out.println(5);
+    	//System.out.println(GameManager.getInstance().getFirstEnemy(this));
+
+    	// si le zombie rencontre une plante devant lui et assez proche, il s'arrête pour la manger
+    	if (GameManager.getInstance().getFirstEnemy(this).getPosition().getX() > this.getPosition().getX() - 0.5f) {
+    		// TODO
+    	}
+    	else
+    		this.translation(new Vector2(speed, 0f));
     	
     }
 }

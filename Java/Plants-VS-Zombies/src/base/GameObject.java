@@ -19,10 +19,7 @@ public abstract class GameObject {
     /**
      * Default constructor
      */
-    public GameObject(String tag) {
-    	this(new Vector2(0, 0), tag);
-    }
-
+	 
     
     public float getRenderScale() {
 		return renderScale;
@@ -41,7 +38,12 @@ public abstract class GameObject {
     public GameObject(Vector2 pos, String tag) {
     	this(pos, 1.0f, tag);
     }
-      
+    // gameobject sans position n'étant pas dans le jeu (paradoxe ?)
+    public GameObject() {
+    	this(new Vector2(0, 0), "neutral");
+    }
+
+
     
     
     final public Vector2 getPosition() {
@@ -77,14 +79,18 @@ public abstract class GameObject {
     	return null;
     }
     
+    public boolean isOnSameRow(GameObject o) {
+    	return position.isOnSameRow(o.position);
+    }
+    
 	private final String tag; // "zombie" / "plant" / "neutral"
 	public String getTag() {return tag;}
 	
 	public boolean isEnemy(GameObject o) {
     	if (tag == "plant" && o.tag == "zombie") return true;
     	if (tag == "zombie" && o.tag == "plant") return true;
-
-    	// dans le cas plant et zombie OU si l'un des objects est neutre
+    	
+    	// dans le cas avec les mêmes tag OU si l'un des objects est neutre
     	return false;
     }
 	

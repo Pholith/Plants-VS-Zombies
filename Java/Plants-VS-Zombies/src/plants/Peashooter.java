@@ -4,6 +4,7 @@ package plants;
 import java.util.*;
 
 import base.Vector2;
+import projectiles.Peash;
 
 /**
  * 
@@ -21,7 +22,10 @@ public class Peashooter extends AttackingPlant {
      * Default constructor
      */
 	
-
+	@Override
+	public void attack(Vector2 position) {
+		new Peash(position);
+	}
 
 
 }

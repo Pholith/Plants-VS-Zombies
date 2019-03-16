@@ -4,6 +4,7 @@ package plants;
 import java.util.*;
 
 import base.Vector2;
+import main.GameManager;
 
 /**
  * 
@@ -27,12 +28,20 @@ public class AttackingPlant extends Plant {
     private float damages;
 
 
-
-
 	/**
      * 
      */
     private float range;
-
-
+    @Override
+    public void update() {
+    	// lance des projectiles si la ligne n'est pas vide
+    	if (GameManager.getInstance().getFirstEnemy(this) != null) {
+    		attack(this.getPosition());
+    	}
+    }
+    
+    public void attack(Vector2 position) {
+    	
+    }
+    
 }

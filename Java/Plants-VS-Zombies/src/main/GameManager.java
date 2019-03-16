@@ -176,28 +176,27 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    
 		/* TODO
-		 * Renvoir le premier zombie si l'objet est une plante et renvoie la première plante si
-		 * l'objet est un zombie. Renvoie null sinon
+		 * Renvoie le premier objet ennemi à l'objet
+		 * Renvoie null sinon
 		 */ 
 		public GameObject getFirstEnemy(GameObject o) {
 			
 			GameObject firstEnemy = null;
 			
 			for (GameObject gameObject : sceneContent) {
-				if(gameObject.isEnemy(o)) {
-					if (firstEnemy == null) firstEnemy = gameObject;
+				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o)) {
 					
+					if (firstEnemy == null) firstEnemy = gameObject;
+
 					// si firstEnemy n'est pas null on compare les distances
 					else  {
-						if (o.getTag() == "zombie") {
-							// TODO 
-						} else if (o.getTag() == "plant") {
-							// TODO
-						}
+						// si l'objet de la boucle est plus proche de o, on le prend
+						if (o.getPosition().getX() - gameObject.getPosition().getX() < 
+								 o.getPosition().getX() - firstEnemy.getPosition().getX())
+							firstEnemy = gameObject;
 					}
 				}
 			}
-			
 			return firstEnemy;
 		}
 	}
