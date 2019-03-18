@@ -12,7 +12,7 @@ import projectiles.Peash;
 public class Peashooter extends AttackingPlant {
 
 	public Peashooter(Vector2 position) {
-		super(100, position, 100, 3f, 25, 10f, "plants/pea_shooter.png", 4f + (float)Math.random()*1f);
+		super(100, position, 100, 3f, 25, 10f, "plants/pea_shooter.png", 4f);
 
 		
 	}
@@ -24,8 +24,7 @@ public class Peashooter extends AttackingPlant {
 	
 	@Override
 	public void attack(Vector2 position) {
-		//new Peash(position); // fait planter le truc pour le moment : A FIX
+		new Peash(position); // fait planter le truc pour le moment : A FIX
 	}
-
 
 }

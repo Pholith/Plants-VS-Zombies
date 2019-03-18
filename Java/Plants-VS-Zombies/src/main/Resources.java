@@ -23,36 +23,46 @@ public class Resources {
 	
     private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
+
+    private  Sprite[] errorAnim;    
     
     
-    
-    Resources() {
+    Resources()  {
     	loadedImages = new HashMap<String, Image>(); 
     	loadedAnimation = new HashMap<String, Sprite[]>(); 
+
     }
 
 
+    
     void startGame() throws IOException {
     	
     	 ///Prechargement des textures entieres
-    	loadImageAtPath(Constant.errorTexture);	     	
+    	   
+    
+    	errorAnim = cutImage(Constant.errorTexture, 1, 1, 64);
+    	
     	loadImageAtPath("plants/plant_idl_0.png");
     	loadImageAtPath("lawn.jpg");
+
     	
     	// Chargement des textures
-    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"));
+    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"), 80);
     
-    	Sprite[] pea_shooter = cutImage("plants/pea_shooter.png", 13, 3);
-    	Sprite[] simple_zombie = cutImage("zombies/normal.png", 1, 1);
-    	//Sprite[] peash = cutImage("plants/peash.png", 1, 1);
+    	cutImage("plants/pea_shooter.png", 13, 3, 64);
+    	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
+    	cutImage("plants/peash.png", 1, 1, 100);
+    	
 
     
     	
-    	new Terrain(terrain, 0.75f);
+    	new Terrain(terrain);
     	
-    	for(int i = 0; i < 9*5; i++) {
+    	for(int i = 0; i < 1/*9*5*/; i++) {
     	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
     	}
+    	
+    	
     	new SimpleZombie(new Vector2(13f, 3f));
     	new SimpleZombie(new Vector2(11f, 3.25f));
 
@@ -65,7 +75,7 @@ public class Resources {
 
     
     
-    public Sprite[] cutImage(String path, int cntX, int cntY) throws IOException {
+    public Sprite[] cutImage(String path, int cntX, int cntY, int pixelPerUnit) throws IOException {
     	Sprite[] palette = new Sprite[cntX*cntY];
     	
     	loadImageAtPath(path);
@@ -77,7 +87,7 @@ public class Resources {
     	
     	///Decoupe et creation des sprites     	    	
     	for(int i = 0; i < palette.length; i++) 
-    		palette[i] = new Sprite(original, new Vector2((i%cntX)*currentWidth,currenHeight*(i/cntX)), new Vector2(((i%cntX)+1)*currentWidth,currenHeight*((i/cntX)+1)));
+    		palette[i] = new Sprite(original, new Vector2((i%cntX)*currentWidth,currenHeight*(i/cntX)), new Vector2(((i%cntX)+1)*currentWidth,currenHeight*((i/cntX)+1)), pixelPerUnit);
     	
     	loadedAnimation.put(path, palette);
     	
@@ -109,7 +119,8 @@ public class Resources {
 	 		if(loadedAnimation.containsKey(spritePath))
 	     		return loadedAnimation.get(spritePath);
 	 		
-	     	return null;
+	 		
+	     	return errorAnim;
  }
  
  

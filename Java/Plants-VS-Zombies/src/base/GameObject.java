@@ -13,31 +13,23 @@ import main.GameManager;
 public abstract class GameObject {
 
 	  private Vector2 position;
-	  private final float renderScale;
-	  
+
 	  
     /**
      * Default constructor
      */
 	 
-    
-    public float getRenderScale() {
-		return renderScale;
-	}
-    
+	
     
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
-    public GameObject(Vector2 pos, float scale, String tag) {
+    public GameObject(Vector2 pos , String tag) {
     	position = pos;
     	this.tag = tag;
     	GameManager.getInstance().addGameObjectToScene(this);
-    	renderScale = scale;
     }   
     
-    public GameObject(Vector2 pos, String tag) {
-    	this(pos, 1.0f, tag);
-    }
+
     // gameobject sans position n'étant pas dans le jeu (paradoxe ?)
     public GameObject() {
     	this(new Vector2(0, 0), "neutral");

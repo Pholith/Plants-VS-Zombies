@@ -17,7 +17,7 @@ public abstract class Plant extends LivingEntity {
      */
 
 	public Plant( int health, Vector2 position, int cost, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, animationPath, animationSpeed, "plant");
+		super(health, position, animationPath, animationSpeed + (float)Math.random(), "plant");
 		this.cost = cost;
 		this.reloadTime = reloadTime;
 	}

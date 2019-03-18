@@ -30,6 +30,7 @@ public class UI_Label extends UI_Element {
 		graphics.scale(getRenderScale(), getRenderScale());
 		graphics.setColor(getRenderColor());
 		graphics.drawString(objectText, getPosition().getX() * screenUnit ,getPosition().getY() *  screenUnit);
+		graphics.scale(1f/getRenderScale(), 1f/getRenderScale());
 	}
 	
 	

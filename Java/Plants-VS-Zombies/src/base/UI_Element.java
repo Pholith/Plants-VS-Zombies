@@ -8,7 +8,12 @@ public abstract class UI_Element extends GameObject {
 
 	private final Color renderColor;
 	
-	
+	  private final float renderScale;
+	  
+	    public float getRenderScale() {
+			return renderScale;
+		}
+	    
 
 		
 	protected Color getRenderColor() {
@@ -16,8 +21,9 @@ public abstract class UI_Element extends GameObject {
 	}
 
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor) {
-		super(pos,  renderScale, "neutral");
+		super(pos, "neutral");
 		this.renderColor = renderColor;
+		this.renderScale = renderScale;
 	}
 	
 	

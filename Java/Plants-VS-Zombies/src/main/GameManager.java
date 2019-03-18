@@ -33,6 +33,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
 	    	sceneContent = new ArrayList<GameObject>(); 
+	    	gameOjbectsInQueue = new ArrayList<GameObject>(); 
 	    	clock = Clock.systemDefaultZone(); 		    
 	    }
 	    private static final Resources RESOURCES = new Resources();
@@ -50,8 +51,10 @@ import fr.umlv.zen5.KeyboardKey;
 	    private int savedFps;	    
 	    private long lastSecTime;
 	    
-	   	    
+	    
+	  
 	    private final ArrayList<GameObject> sceneContent;
+	    private final ArrayList<GameObject> gameOjbectsInQueue;  
 	    private Camera mainCamera;	 
 	    private UI_Label fpsBox;
 	    
@@ -84,7 +87,7 @@ import fr.umlv.zen5.KeyboardKey;
 			      
 			      
 			      while (true) {		    	  
-			    	  
+			      updateGameObjects();
 			      inputCheck(context);
 			      render(context);
 			      fpsCount();
@@ -94,7 +97,23 @@ import fr.umlv.zen5.KeyboardKey;
 	    }   
 	    
 	    
-
+	    
+	    private void updateGameObjects() {			
+	    	  
+	    	
+	    	
+	    	  for (GameObject gameObject : gameOjbectsInQueue) {
+	    		  sceneContent.add(gameObject);
+		    	  }
+	    	
+	    	  gameOjbectsInQueue.clear();
+	    	  
+	    	//update tout les objets
+	    	  for (GameObject gameObject : sceneContent) {
+				gameObject.update();
+	    	  }
+	    	
+	    }
 	    
 	    private void render(ApplicationContext context) {			
 	    	  
@@ -106,10 +125,7 @@ import fr.umlv.zen5.KeyboardKey;
 		    	  //affichage des sprites
 		    	  mainCamera.render(sceneContent, graphics);		
 		    	  
-		    	  //donne de la vie aux objets
-		    	  for (GameObject gameObject : sceneContent) {
-					gameObject.update();
-		    	  }
+	
 		    	  
 		    	  
 		    	  
@@ -151,8 +167,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    
 	    public void addGameObjectToScene(GameObject obj) {	
-	    	if(!sceneContent.contains(obj))
-	    		sceneContent.add(obj);
+	    	if(!sceneContent.contains(obj) && !gameOjbectsInQueue.contains(obj))
+	    		gameOjbectsInQueue.add(obj);
 	    		obj.start();
 	    }
 	    
