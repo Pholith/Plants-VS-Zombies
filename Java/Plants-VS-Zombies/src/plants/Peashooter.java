@@ -24,7 +24,7 @@ public class Peashooter extends AttackingPlant {
 	
 	@Override
 	public void attack(Vector2 position) {
-		new Peash(position); // fait planter le truc pour le moment : A FIX
+		new Peash(position.add(0.6f, 0.1f)); // fait planter le truc pour le moment : A FIX
 	}
 
 }

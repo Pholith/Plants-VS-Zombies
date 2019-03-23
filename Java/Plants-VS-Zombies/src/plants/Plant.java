@@ -17,9 +17,10 @@ public abstract class Plant extends LivingEntity {
      */
 
 	public Plant( int health, Vector2 position, int cost, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, animationPath, animationSpeed + (float)Math.random(), "plant");
+		super(health, position, animationPath, animationSpeed + (float)Math.random());
 		this.cost = cost;
 		this.reloadTime = reloadTime;
+		System.out.println("Plant Created");
 	}
 
 
@@ -29,7 +30,10 @@ public abstract class Plant extends LivingEntity {
     private int cost;
 
 
-
+	@Override
+	public boolean isPlant() {
+		return true;
+	}
 	/**
      * 
      */

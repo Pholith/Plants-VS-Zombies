@@ -16,8 +16,8 @@ public abstract class LivingEntity extends GameObject {
     private long lastFrameUpdate;
     
 
-	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed, String tag) {
-		super(position, tag);
+	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed) {
+		super(position);
 		this.health = health;
 		this.animationSprite = animationSprite;
 		
@@ -30,8 +30,8 @@ public abstract class LivingEntity extends GameObject {
 		lastFrameUpdate =  GameManager.getInstance().getClockMillis();
 	}
 	
-	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed, String tag) {
-		this(health, position, GameManager.getResources().getAnimationByPath(animationPath), animSpeed, tag);
+	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed) {
+		this(health, position, GameManager.getResources().getAnimationByPath(animationPath), animSpeed);
 	}
 		
 	/*//ordre des elements modifié pour eviter les ambiguités
@@ -48,7 +48,17 @@ public abstract class LivingEntity extends GameObject {
      * 
      */
     private int health;
-
+    /*	Fait baisser la vie de l'entité
+     * Renvoie vrai si les dégats ont tué l'entité vivante
+     */
+    public boolean takeDammage(int dammage) {
+    	health -= dammage;
+    	if (health <= 0) {
+    		destroy();
+    		return true;
+    	}
+    	return false;
+    }
     
     @Override
     public Sprite display() {  

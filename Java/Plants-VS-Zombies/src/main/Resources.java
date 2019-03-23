@@ -58,12 +58,12 @@ public class Resources {
     	
     	new Terrain(terrain);
     	
-    	for(int i = 0; i < 1/*9*5*/; i++) {
-    	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
+    	for(int i = 0; i < 10/*9*5*/; i++) {
+	    	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
     	}
     	
     	
-    	new SimpleZombie(new Vector2(13f, 3f));
+    	new SimpleZombie(new Vector2(13f, 1.6f));
     	new SimpleZombie(new Vector2(11f, 3.25f));
 
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
@@ -72,7 +72,6 @@ public class Resources {
     	
     }
     
-
     
     
     public Sprite[] cutImage(String path, int cntX, int cntY, int pixelPerUnit) throws IOException {

@@ -21,6 +21,10 @@ import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
+import projectiles.Peash;
+import projectiles.Projectile;
+import zombies.SimpleZombie;
+import zombies.Zombie;
 import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
 
@@ -43,7 +47,6 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    private float resolutionX;
 	    private float resolutionY;    
-	    
 	    
 	    
 	    private final Clock clock; 
@@ -139,7 +142,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    private void inputCheck(ApplicationContext context) {
 		  	
-		  Event event = context.pollOrWaitEvent(10);
+		  Event event = context.pollOrWaitEvent(20); 
 	        if (event == null) {  // no event
 	          return;
 	        }
@@ -172,6 +175,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    		obj.start();
 	    }
 	    
+	    public void removeGameObjectToScene(GameObject obj) {	
+	    	// sceneContent.remove(obj);
+	    	// TODO
+	    }
+	    
 	    
 
 	    private void fpsCount() {
@@ -198,10 +206,9 @@ import fr.umlv.zen5.KeyboardKey;
 		public GameObject getFirstEnemy(GameObject o) {
 			
 			GameObject firstEnemy = null;
-			
 			for (GameObject gameObject : sceneContent) {
+								
 				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o)) {
-					
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances

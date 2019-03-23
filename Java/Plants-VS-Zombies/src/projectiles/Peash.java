@@ -20,9 +20,8 @@ public class Peash extends Projectile {
     /**
      * Default constructor
      */
-
-	
-	
-	
-	
+	@Override
+	public void update() {
+		super.update();
+	}	
 }

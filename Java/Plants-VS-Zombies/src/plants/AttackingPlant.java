@@ -34,17 +34,18 @@ public class AttackingPlant extends Plant {
     private float range;
        
     
-    int test = 0;
-    
+    int attackSpeedCount = 0;
     
     @Override
     public void update() {
     	// lance des projectiles si la ligne n'est pas vide
-    	test++;
-    	//if (GameManager.getInstance().getFirstEnemy(this) != null) {
-    	if(test % 10 == 0)
-    		attack(getPosition());
-    	//}
+    	if (GameManager.getInstance().getFirstEnemy(this) != null) {
+        	attackSpeedCount++;
+
+  
+	    	if(attackSpeedCount % 70 == 0)
+	    		attack(getPosition());
+    	}
     }
     
     

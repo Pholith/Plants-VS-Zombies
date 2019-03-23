@@ -21,7 +21,7 @@ public abstract class UI_Element extends GameObject {
 	}
 
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor) {
-		super(pos, "neutral");
+		super(pos);
 		this.renderColor = renderColor;
 		this.renderScale = renderScale;
 	}

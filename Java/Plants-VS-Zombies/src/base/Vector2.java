@@ -57,7 +57,7 @@ public class Vector2 {
 	    
 	    // Possibilité de le changer quand on aura un getRow
 	    public boolean isOnSameRow(Vector2 v) {
-	    	float distanceBen = 0.3f;
+	    	float distanceBen = 0.55f;
 	    	return (y < v.y+distanceBen && y > v.y- distanceBen);
 	    }
 	    
