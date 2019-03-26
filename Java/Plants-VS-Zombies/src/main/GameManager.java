@@ -37,7 +37,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
 	    	sceneContent = new ArrayList<GameObject>(); 
-	    	gameOjbectsInQueue = new ArrayList<GameObject>(); 
+	    	ojbectsInQueue = new ArrayList<GameObject>(); 
+	    	ojbectsToRemoveQueue = new ArrayList<GameObject>(); 
 	    	clock = Clock.systemDefaultZone(); 		    
 	    }
 	    private static final Resources RESOURCES = new Resources();
@@ -57,7 +58,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	  
 	    private final ArrayList<GameObject> sceneContent;
-	    private final ArrayList<GameObject> gameOjbectsInQueue;  
+	    private final ArrayList<GameObject> ojbectsInQueue;  
+	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
 	    private Camera mainCamera;	 
 	    private UI_Label fpsBox;
 	    
@@ -105,11 +107,15 @@ import fr.umlv.zen5.KeyboardKey;
 	    	  
 	    	
 	    	
-	    	  for (GameObject gameObject : gameOjbectsInQueue) {
+	    	  for (GameObject gameObject : ojbectsInQueue) {
 	    		  sceneContent.add(gameObject);
 		    	  }
-	    	
-	    	  gameOjbectsInQueue.clear();
+	    	  for (GameObject gameObject : ojbectsToRemoveQueue) {
+	    		  sceneContent.remove(gameObject);
+		    	  }
+	    	  
+	    	  ojbectsInQueue.clear();
+	    	  ojbectsToRemoveQueue.clear();
 	    	  
 	    	//update tout les objets
 	    	  for (GameObject gameObject : sceneContent) {
@@ -170,14 +176,14 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    
 	    public void addGameObjectToScene(GameObject obj) {	
-	    	if(!sceneContent.contains(obj) && !gameOjbectsInQueue.contains(obj))
-	    		gameOjbectsInQueue.add(obj);
+	    	if(!sceneContent.contains(obj) && !ojbectsInQueue.contains(obj))
+	    		ojbectsInQueue.add(obj);
 	    		obj.start();
 	    }
 	    
-	    public void removeGameObjectToScene(GameObject obj) {	
-	    	// sceneContent.remove(obj);
-	    	// TODO
+	    public void removeGameObjectFromScene(GameObject obj) {
+	    	if(obj != null && !ojbectsToRemoveQueue.contains(obj))
+	    		ojbectsToRemoveQueue.add(obj);
 	    }
 	    
 	    

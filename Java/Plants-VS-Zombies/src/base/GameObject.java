@@ -35,7 +35,7 @@ public abstract class GameObject {
     }
     /* Détruit un gameObject */
     public void destroy() {
-    	GameManager.getInstance().removeGameObjectToScene(this);
+    	GameManager.getInstance().removeGameObjectFromScene(this);
     	System.out.println("Objet "+toString()+" détruit!");
     }
     
