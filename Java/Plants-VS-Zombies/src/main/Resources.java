@@ -45,15 +45,13 @@ public class Resources {
     	loadImageAtPath("plants/plant_idl_0.png");
     	loadImageAtPath("lawn.jpg");
 
-    	
     	// Chargement des textures
-    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"), 80);
+    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"), 85);
     
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
     	cutImage("plants/peash.png", 1, 1, 100);
     	
-
     
     	
     	new Terrain(terrain);

@@ -28,16 +28,27 @@ public class Terrain extends GameObject {
 		}
 	}*/
 	
-	
 	public Terrain(Sprite terrainSprite  ) {
+		this(terrainSprite, 6);
+	}
+	
+	
+	public Terrain(Sprite terrainSprite, int nbColumns ) {
 		super(Vector2.zero());
 		this.terrainSprite = terrainSprite;
+		this.listOfSquares = new Square[nbColumns][9];
+		int i, j;
 		
+		for(i = 0; i < nbColumns; i++) {
+			for(j = 0; j < 9; j++) {
+				listOfSquares[i][j] = new Square();
+			}	
+		}
 		
 	}
 	
 	
-    private ArrayList<Square> listOfSquares;
+    private final Square[][] listOfSquares;
 	/**
      * 
      */
