@@ -106,7 +106,7 @@ public class Resources {
     }
     
     public void spawnPlantOfType(int value) {
-    System.out.println("heay heay "+value);	    	
+    	// TODO 
     }
     
     
