@@ -12,6 +12,7 @@ import base.Constant;
 import base.GameObject;
 import base.LivingEntity;
 import base.Sprite;
+import base.Square;
 import base.Terrain;
 import base.Vector2;
 import plants.*;
@@ -23,7 +24,15 @@ public class Resources {
 	
     private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
-
+    private Terrain actTerrain;
+  
+    /*Terrain getActTerrain() {
+		return actTerrain;
+	}*/
+    
+   
+    
+    
     private  Sprite[] errorAnim;    
     
     
@@ -34,35 +43,45 @@ public class Resources {
     }
 
 
+    public Square addEntityToTerrain(int x, int y, LivingEntity ent) {
+    	return actTerrain.addEntity(x, y, ent);    	
+    }
     
     void startGame() throws IOException {
     	
     	 ///Prechargement des textures entieres
-    	   
-    
+    	
     	errorAnim = cutImage(Constant.errorTexture, 1, 1, 64);
     	
+    	loadImageAtPath("lawn.jpg");    
     	loadImageAtPath("plants/plant_idl_0.png");
-    	loadImageAtPath("lawn.jpg");
+    	
 
-    	// Chargement des textures
-    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"), 85);
-    
+    	
+    	// Chargement des sprites et animations
+  
+    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
+    	actTerrain = new Terrain(terrain);
+    	
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
+    	cutImage("plants/sunflower.png", 6, 9, 80);
+    	
     	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
     	cutImage("plants/peash.png", 1, 1, 100);
+
     	
     
     	
-    	new Terrain(terrain);
+    
+    	
     	
     	for(int i = 0; i < 10/*9*5*/; i++) {
-	    	new Peashooter(new Vector2(3 + (i%9) * 0.935f,  0.8f+(i/9)*1.1f));
+	    	new Sunflower(new Vector2(i%9, i/9));
     	}
     	
     	
-    	new SimpleZombie(new Vector2(13f, 1.6f));
-    	new SimpleZombie(new Vector2(11f, 3.25f));
+    	//new SimpleZombie(new Vector2(13f, 1.6f));
+    	//new SimpleZombie(new Vector2(11f, 3.25f));
 
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
         

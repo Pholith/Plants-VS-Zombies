@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.*;
 
 import main.GameManager;
+import main.RenderMode;
 import projectiles.Projectile;
 
 /**
@@ -14,7 +15,7 @@ import projectiles.Projectile;
 public abstract class GameObject {
 
 	  private Vector2 position;
-
+	  private final RenderMode renderMode;
 	  
     /**
      * Default constructor
@@ -24,20 +25,30 @@ public abstract class GameObject {
     
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
-    public GameObject(Vector2 pos) {
+    public GameObject(Vector2 pos, RenderMode renderMode) {
     	position = Objects.requireNonNull(pos);
+    	this.renderMode = renderMode;
     	GameManager.getInstance().addGameObjectToScene(this);
     }   
     
+    
+
+    
+    
     // gameobject sans position n'étant pas dans le jeu (paradoxe ?)
-    public GameObject() {
-    	this(new Vector2(0, 0));
+    public GameObject(Vector2 pos) {
+    	this(pos, RenderMode.Sprite);
     }
     /* Détruit un gameObject */
     public void destroy() {
+    	onDestroy();
     	GameManager.getInstance().removeGameObjectFromScene(this);
     	System.out.println("Objet "+toString()+" détruit!");
     }
+    public void onDestroy() {
+    	
+    }
+    
     
     
     final public Vector2 getPosition() {
@@ -72,12 +83,19 @@ public abstract class GameObject {
     public Sprite display() {
     	return null;
     }
+	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
+	
+	}
+	
         
     public boolean isOnSameRow(GameObject o) {
     	return position.isOnSameRow(o.position);
     }
+    public RenderMode getRenderMode() {
+    	return renderMode;
+    }
     
-	public boolean isEnemy(GameObject o) {
+	public boolean isEnemy(GameObject o) {///Une catastrophe. faire une énumeration à la place ca prend 2 sec
     	if (isPlant() && o.isZombie()) return true;
     	if (isZombie() && o.isPlant()) return true;
     	if (isProjectile() && o.isZombie()) return true;

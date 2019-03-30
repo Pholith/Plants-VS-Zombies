@@ -15,11 +15,18 @@ public class Sunflower extends Plant {
 
     private int production;
 
+    /*
 	public Sunflower(int health, Vector2 position, int cost, float reloadTime, String animationPath,
 			float animationSpeed) {
 		super(health, position, cost, reloadTime, animationPath, animationSpeed);
-		// TODO Auto-generated constructor stub
 	}
+    */
+    
+    public Sunflower(Vector2 position) {
+		super(100, position, 50, 15f, "plants/sunflower.png", 2f);
+	}
+
+	
     
     /**
      * Default constructor

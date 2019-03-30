@@ -14,10 +14,12 @@ public abstract class LivingEntity extends GameObject {
 	private int actFrame;
 	private final long timeLoopAnimation;
     private long lastFrameUpdate;
+   
+    private Square associatedSquare;
     
 
 	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed) {
-		super(position);
+		super(Terrain.caseToPosition(position));
 		this.health = health;
 		this.animationSprite = animationSprite;
 		
@@ -28,6 +30,8 @@ public abstract class LivingEntity extends GameObject {
 		
 		actFrame = 0;
 		lastFrameUpdate =  GameManager.getInstance().getClockMillis();
+		
+		associatedSquare = GameManager.getResources().addEntityToTerrain((int)position.getX(), (int)position.getY(), this);
 	}
 	
 	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed) {
@@ -59,6 +63,15 @@ public abstract class LivingEntity extends GameObject {
     	}
     	return false;
     }
+    
+    
+   @Override
+   public void onDestroy() {
+    if(associatedSquare != null)
+    	associatedSquare.setContain(null);
+   }
+   
+    
     
     @Override
     public Sprite display() {  

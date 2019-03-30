@@ -13,18 +13,31 @@ public class Square {
 	int posX;
 	int posY;
 	
-	float realX;
-	float realY;
+	private final Vector2 pos;
+	
+	
+	
+	private LivingEntity contain;
+	
 	
 	
     public Square(int x, int y) {
     posX = x;
-    posY = y;
-    
-    realX = 3 + (x) * 0.935f;
-    realY = 0.8f+(y)*1.1f;
-    
+    posY = y;    
+    pos = Terrain.caseToPosition(x,y);    
     }
-
+    
+    
+    public void setContain(LivingEntity ent) {
+    	contain = ent;    	
+    }
+	public LivingEntity getContain() {
+		return contain;
+	}
+    
+    public Vector2 getPos() {
+		return pos;
+	}
+    
 
 }

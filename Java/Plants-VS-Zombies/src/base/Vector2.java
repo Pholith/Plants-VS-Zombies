@@ -55,6 +55,11 @@ public class Vector2 {
 	        return (double) Math.sqrt(this.x*this.x + this.y*this.y);
 	    }
 	    
+		/* Les méthodes de multiplication */
+		public Vector2 multiply(float f) {
+			return new Vector2(x*f , y*f );
+		}
+	    
 	    // Possibilité de le changer quand on aura un getRow
 	    public boolean isOnSameRow(Vector2 v) {
 	    	float distanceBen = 0.55f;

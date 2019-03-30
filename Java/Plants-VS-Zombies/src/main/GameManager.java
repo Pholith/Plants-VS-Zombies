@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import base.Camera;
 import base.GameObject;
 import base.LivingEntity;
+import base.Terrain;
 import base.UI_Label;
 import base.Vector2;
 import fr.umlv.zen5.Application;
@@ -43,7 +44,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    private static final Resources RESOURCES = new Resources();
 	    public static Resources getResources() { return RESOURCES;  }
-	    
+
 	
 	    
 	    private float resolutionX;
@@ -60,6 +61,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private final ArrayList<GameObject> sceneContent;
 	    private final ArrayList<GameObject> ojbectsInQueue;  
 	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
+	    //private final ArrayList<<Vector2,Vector2>> linesToDraw;  
 	    private Camera mainCamera;	 
 	    private UI_Label fpsBox;
 	    
@@ -71,8 +73,6 @@ import fr.umlv.zen5.KeyboardKey;
 	    	
 	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
-	   
-
 	    	RESOURCES.startGame();
 	    	
 	     	mainCamera = new Camera();	    
@@ -104,9 +104,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    
 	    private void updateGameObjects() {			
-	    	  
-	    	
-	    	
+	    	  	    		    	
 	    	  for (GameObject gameObject : ojbectsInQueue) {
 	    		  sceneContent.add(gameObject);
 		    	  }
@@ -120,8 +118,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    	//update tout les objets
 	    	  for (GameObject gameObject : sceneContent) {
 				gameObject.update();
-	    	  }
-	    	
+	    	  }	    	
 	    }
 	    
 	    private void render(ApplicationContext context) {			

@@ -9,7 +9,9 @@ Attention, cette classe sert essentiellement a stocker des valeures.
 */
 
 final public class Sprite {
-			
+		
+	
+	
 	//Texture du sprite
 	private final Image baseImg;
 	
@@ -24,8 +26,7 @@ final public class Sprite {
 	private final float height;
 	private final int pixelPerUnit;
 	
-	
-	
+		
 	
 	
 	
@@ -43,7 +44,7 @@ final public class Sprite {
 	
 	
 	public Sprite(Image baseImg, Vector2 bottomLeftCorner, Vector2 topRightCorner, int pixelPerUnit) {
-	this(baseImg, bottomLeftCorner, topRightCorner, new Vector2(0.5f,0.5f), pixelPerUnit);
+	this(baseImg, bottomLeftCorner, topRightCorner, new Vector2(0.5f,1f), pixelPerUnit);
 	}
 	
 	public Sprite(Image baseImg, Vector2 anchor, int pixelPerUnit) {
@@ -55,9 +56,7 @@ final public class Sprite {
 	}
 	
 	
-	
-	
-	
+		
 	
 	@Override
 	public String toString() {
