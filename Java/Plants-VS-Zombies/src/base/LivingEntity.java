@@ -37,7 +37,9 @@ public abstract class LivingEntity extends GameObject {
 	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed) {
 		this(health, position, GameManager.getResources().getAnimationByPath(animationPath), animSpeed);
 	}
-		
+	@Override
+    public String name() {return "LivingEntity";}
+
 	/*//ordre des elements modifié pour eviter les ambiguités
 	public LivingEntity(int health, Vector2 position, Sprite defaultSprite) {
 		this(health, position, new Sprite[] {defaultSprite}, 1.0f);

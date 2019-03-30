@@ -138,8 +138,10 @@ public class Camera extends GameObject {
 				
 				(int)spriteCoord2.getX(),
 				(int)spriteCoord2.getY(), null);	
-	}
-		
+		}
+    	@Override
+    	public String name() {return "Camera";}
+
 	}
 
 	

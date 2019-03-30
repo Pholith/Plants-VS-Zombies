@@ -21,7 +21,9 @@ public class Peashooter extends AttackingPlant {
     /**
      * Default constructor
      */
-	
+    @Override
+    public String name() {return "Peashooter";}
+
 	@Override
 	public void attack(Vector2 position) {
 		new Peash(position.add(0.6f, 0.1f)); // fait planter le truc pour le moment : A FIX

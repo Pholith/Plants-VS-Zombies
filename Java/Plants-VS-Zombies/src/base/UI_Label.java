@@ -32,6 +32,8 @@ public class UI_Label extends UI_Element {
 		graphics.drawString(objectText, getPosition().getX() * screenUnit ,getPosition().getY() *  screenUnit);
 		graphics.scale(1f/getRenderScale(), 1f/getRenderScale());
 	}
-	
+    @Override
+    public String name() {return "UI_Label";}
+
 	
 }

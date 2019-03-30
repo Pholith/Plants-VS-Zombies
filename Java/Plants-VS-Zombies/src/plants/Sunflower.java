@@ -24,7 +24,12 @@ public class Sunflower extends Plant {
     
     public Sunflower(Vector2 position) {
 		super(100, position, 50, 15f, "plants/sunflower.png", 2f);
-	}
+	}    
+    
+    @Override
+    public String name() {return "Sunflower";}
+
+
 
 	
     

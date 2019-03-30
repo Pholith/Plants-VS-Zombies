@@ -15,5 +15,7 @@ public class FlagZombie extends Zombie {
 		super(100, position, "zombies/normal.png", 1f, 1f);
 		
 		}
+	@Override
+    public String name() {return "FlagZombie";}
 
 }

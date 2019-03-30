@@ -28,7 +28,9 @@ public abstract class UI_Element extends GameObject {
 		this.renderColor = renderColor;
 		this.renderScale = renderScale;
 	}
-	
+    @Override
+    public String name() {return "UI_Element";}
+
 	
 
 }

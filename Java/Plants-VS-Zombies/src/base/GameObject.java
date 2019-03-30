@@ -29,10 +29,8 @@ public abstract class GameObject {
     	position = Objects.requireNonNull(pos);
     	this.renderMode = renderMode;
     	GameManager.getInstance().addGameObjectToScene(this);
+    	System.out.println(name()+" created");
     }   
-    
-    
-
     
     
     // gameobject sans position n'étant pas dans le jeu (paradoxe ?)
@@ -87,7 +85,8 @@ public abstract class GameObject {
 	
 	}
 	
-        
+    public String name() {return "GameObject";}
+
     public boolean isOnSameRow(GameObject o) {
     	return position.isOnSameRow(o.position);
     }

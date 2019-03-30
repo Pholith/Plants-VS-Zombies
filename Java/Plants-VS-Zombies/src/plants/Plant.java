@@ -20,7 +20,6 @@ public abstract class Plant extends LivingEntity {
 		super(health, position, animationPath, animationSpeed + (float)Math.random());
 		this.cost = cost;
 		this.reloadTime = reloadTime;
-		System.out.println("Plant Created");
 	}
 
 
@@ -28,6 +27,9 @@ public abstract class Plant extends LivingEntity {
      * 
      */
     private int cost;
+
+    @Override
+    public String name() {return "Plant";}
 
 
 	@Override

@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 
 import base.Camera;
 import base.GameObject;
+import base.LevelManager;
 import base.LivingEntity;
 import base.Terrain;
 import base.UI_Label;
@@ -62,7 +63,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    private final ArrayList<GameObject> ojbectsInQueue;  
 	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
 	    //private final ArrayList<<Vector2,Vector2>> linesToDraw;  
-	    private Camera mainCamera;	 
+	    private Camera mainCamera;
+	    private LevelManager levelManager;
 	    private UI_Label fpsBox;
 	    
 	    	    
@@ -75,6 +77,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    	
 	    	RESOURCES.startGame();
 	    	
+	    	levelManager = new LevelManager();
 	     	mainCamera = new Camera();	    
 	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
 	    	
@@ -91,12 +94,12 @@ import fr.umlv.zen5.KeyboardKey;
 			      System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
 			      
 			      
-			      while (true) {		    	  
-			      updateGameObjects();
-			      inputCheck(context);
-			      render(context);
-			      fpsCount();
-			      
+			      while (true) {
+			    	  levelManager.levelEvent();
+				      updateGameObjects();
+				      inputCheck(context);
+				      render(context);
+				      fpsCount();
 			      }
 			 });
 	    }   
@@ -131,9 +134,7 @@ import fr.umlv.zen5.KeyboardKey;
 		    	  //affichage des sprites
 		    	  mainCamera.render(sceneContent, graphics);		
 		    	  
-	
-		    	  
-		    	  
+
 		    	  
 		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
 
@@ -141,11 +142,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    
 	    
-	    
+	    private int gameSpeed = 20;
 	    
 	    private void inputCheck(ApplicationContext context) {
 		  	
-		  Event event = context.pollOrWaitEvent(20); 
+		  Event event = context.pollOrWaitEvent(gameSpeed); 
 	        if (event == null) {  // no event
 	          return;
 	        }
@@ -162,12 +163,21 @@ import fr.umlv.zen5.KeyboardKey;
 		  		  
 	        
 	        if (key == KeyboardKey.LEFT)
-	        	mainCamera.translation(-0.1f, 0);
+	        	mainCamera.translation(-0.2f, 0);
 	        	
 	        if (key == KeyboardKey.RIGHT)
-	        	mainCamera.translation(0.1f, 0);
-	        		
-		  
+	        	mainCamera.translation(0.2f, 0);
+	        
+	        if (key == KeyboardKey.P)
+	        	System.out.println("Speed changed to slow");
+	        	gameSpeed = 50;
+	        if (key == KeyboardKey.O)
+	        	System.out.println("Speed changed to normal");
+	        	gameSpeed = 20;
+	        if (key == KeyboardKey.I)
+	        	System.out.println("Speed changed to fast");
+	        	gameSpeed = 5;
+		 
 		  }
 	  
 	    

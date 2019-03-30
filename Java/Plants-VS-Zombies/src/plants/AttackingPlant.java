@@ -35,7 +35,10 @@ public class AttackingPlant extends Plant {
        
     
     int attackSpeedCount = 0;
-    
+
+    @Override
+    public String name() {return "AttackingPlant";}
+
     @Override
     public void update() {
     	// lance des projectiles si la ligne n'est pas vide

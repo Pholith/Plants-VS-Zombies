@@ -108,7 +108,9 @@ public class Terrain extends GameObject {
     public Sprite display() {  
   return terrainSprite;    	
     }
-    
+    @Override
+    public String name() {return "Terrain";}
+
     
     
     
