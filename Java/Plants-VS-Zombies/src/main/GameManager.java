@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -67,8 +68,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    private LevelManager levelManager;
 	    private UI_Label fpsBox;
 	    
-	    	    
+	    private Point2D.Float clickLocation;    
 	    
+	    public Point2D.Float getClickLocation() {
+			return clickLocation;
+		}
 	    
 	    
 	    void startManager() throws IOException {
@@ -76,7 +80,6 @@ import fr.umlv.zen5.KeyboardKey;
 	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
 	    	RESOURCES.startGame();
-	    	
 	    	levelManager = new LevelManager();
 	     	mainCamera = new Camera();	    
 	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
@@ -147,6 +150,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private void inputCheck(ApplicationContext context) {
 		  	
 		  Event event = context.pollOrWaitEvent(gameSpeed); 
+
 	        if (event == null) {  // no event
 	          return;
 	        }
@@ -178,6 +182,13 @@ import fr.umlv.zen5.KeyboardKey;
 	        	System.out.println("Speed changed to fast");
 	        	gameSpeed = 5;
 		 
+        		
+			if (action != Action.POINTER_DOWN) {
+				clickLocation = null;
+				return;
+			}
+			
+			clickLocation = event.getLocation(); 
 		  }
 	  
 	    

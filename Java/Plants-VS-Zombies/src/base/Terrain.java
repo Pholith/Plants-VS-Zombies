@@ -6,8 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.*;
 
-import main.RenderMode;
-
 /**
  * 
  */
@@ -44,7 +42,7 @@ public class Terrain extends GameObject {
 		return caseToPosition((int)gridCase.getX(),(int)gridCase.getY());
 	}
 	public static Vector2 caseToPosition(int x, int y) {
-		return new Vector2(3.156f + (x) * 0.935f, 1.35f+(y)*1.1f);
+		return new Vector2(3.456f + (x) * 0.94f, 1.5f+(y)*1.15f);
 	}
 	
 	public static Vector2 positionToCase(Vector2 pos) {
@@ -106,7 +104,7 @@ public class Terrain extends GameObject {
     
     @Override
     public Sprite display() {  
-  return terrainSprite;    	
+    	return terrainSprite;    	
     }
     @Override
     public String name() {return "Terrain";}
@@ -120,7 +118,9 @@ public class Terrain extends GameObject {
     
     	//debug de la position des cases
     	
-    	int sizeCase = 70;//a mettre dans constantes plus tard
+    	int sizeCase = Constant.sizeTerrainCase;
+    	
+    	
     	
     	graphics.setStroke(new BasicStroke(5.0f,
                         BasicStroke.CAP_BUTT,
@@ -142,7 +142,7 @@ public class Terrain extends GameObject {
     	   		else
     	   			graphics.setColor(Color.white);
     	   		
-    	   		graphics.drawRect((int)(realPos.getX())  , (int)(realPos.getY()) , sizeCase, sizeCase );    	    	        		
+    	   		graphics.drawRect((int)(realPos.getX() - sizeCase/2f) , (int)(realPos.getY() - sizeCase/2f) , sizeCase, sizeCase );    	    	        		
         	}    		
     	} 
 	}

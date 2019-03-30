@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.*;
 
 import main.GameManager;
-import main.RenderMode;
 import projectiles.Projectile;
 
 /**

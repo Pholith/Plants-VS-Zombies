@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import base.LivingEntity;
 import base.Sprite;
 import base.Square;
 import base.Terrain;
+import base.UI_Button;
 import base.Vector2;
 import plants.*;
 import zombies.*;
@@ -39,7 +41,6 @@ public class Resources {
     Resources()  {
     	loadedImages = new HashMap<String, Image>(); 
     	loadedAnimation = new HashMap<String, Sprite[]>(); 
-
     }
 
 
@@ -56,7 +57,15 @@ public class Resources {
     	loadImageAtPath("lawn.jpg");    
     	loadImageAtPath("plants/plant_idl_0.png");
     	
-
+    	loadImageAtPath("cards/wallnuticon.png");
+    	loadImageAtPath("cards/cherrybombicon.png");
+    	loadImageAtPath("cards/potatomineicon.png");
+    	loadImageAtPath("cards/peashootericon.png");
+    	loadImageAtPath("cards/repeatericon.png");
+    	loadImageAtPath("cards/snowpeaicon.png");
+    	loadImageAtPath("cards/sunflowericon.png");
+    	
+    	
     	
     	// Chargement des sprites et animations
   
@@ -64,8 +73,8 @@ public class Resources {
     	actTerrain = new Terrain(terrain);
     	
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
-    	cutImage("plants/sunflower.png", 6, 9, 80);
-    	
+    	cutImage("plants/sunflower.png", 6, 9, 70);
+
     	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
     	cutImage("plants/peash.png", 1, 1, 100);
 
@@ -75,20 +84,30 @@ public class Resources {
     
     	
     	
-    	for(int i = 0; i < 10/*9*5*/; i++) {
+    	for(int i = 0; i < 5; i++) {
 	    	new Sunflower(new Vector2(i%9, i/9));
     	}
-    	
+    	for(int i = 5; i < 10; i++) {
+	    	new Peashooter(new Vector2(i%9, i/9));
+    	}
     	
     	//new SimpleZombie(new Vector2(13f, 1.6f));
     	//new SimpleZombie(new Vector2(11f, 3.25f));
 
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
         
+    	
+    	
+    	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {spawnPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75), func -> {spawnPlantOfType(2);});
         
+    	
     	
     }
     
+    public void spawnPlantOfType(int value) {
+    System.out.println("heay heay "+value);	    	
+    }
     
     
     public Sprite[] cutImage(String path, int cntX, int cntY, int pixelPerUnit) throws IOException {

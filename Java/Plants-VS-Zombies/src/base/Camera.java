@@ -1,13 +1,15 @@
 package base;
 
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.text.StyledEditorKit.BoldAction;
 
 import main.GameManager;
-import main.RenderMode;
 
 
 public class Camera extends GameObject {
@@ -31,7 +33,7 @@ public class Camera extends GameObject {
 		
 		Sprite spr;
 		
-	
+		     
 		//float renderSize;
 		
 		
@@ -74,6 +76,8 @@ public class Camera extends GameObject {
 		int screenPixelPerUnit = Constant.screenPixelPerUnit;
 		float texturePixelPerUnit;
 
+		  
+		
 		Sprite spr;
 	
 		Vector2 objPos;
@@ -87,7 +91,7 @@ public class Camera extends GameObject {
 		float posX = getPosition().getX();
 		float posY = getPosition().getY();
 		
-		int spriteWidth, spriteHeight;
+		float spriteWidth, spriteHeight;
 
 		
 		spr = obj.display();
@@ -95,6 +99,7 @@ public class Camera extends GameObject {
 		
 		if(spr == null) 
 			return;				
+		
 		
 
 
@@ -104,32 +109,34 @@ public class Camera extends GameObject {
 		
 		//mouvement de la camera
 		
-					
+		
 		
 		//	if(img == null)//En cas d'erreur de chargement du sprite, on charge un sprite "error"
 		//		img = GameManager.getInstance().getImageByPath(Constant.errorTexture);
+
 		
-					
 		
-		spriteWidth = (int)(spr.getWidth());
-		spriteHeight = (int)(spr.getHeight());
 		
-		offset = new Vector2(spriteWidth*offset.getX(),spriteHeight*offset.getY());
+		spriteWidth = (int)(screenPixelPerUnit * spr.getWidth()/texturePixelPerUnit);
+		spriteHeight = (int)(screenPixelPerUnit * spr.getHeight()/texturePixelPerUnit);
+		
+		offset = new Vector2( spriteWidth*offset.getX() ,spriteHeight*offset.getY());
 		
 		
 		spriteCoord1 = spr.getBottomLeftCorner();
 		spriteCoord2 = spr.getTopRightCorner();
 		
 		finalPos = new Vector2(
-				(objPos.getX() - posX) * (int)(screenPixelPerUnit) - offset.getX(),
-				(objPos.getY() - posY)  * (int)(screenPixelPerUnit)- offset.getY());
+				(objPos.getX() - posX) * screenPixelPerUnit  - offset.getX(),
+				(objPos.getY() - posY)  * screenPixelPerUnit  - offset.getY());
+		
 		
 		graphics.drawImage(spr.getBaseImg(),
 				(int)finalPos.getX() ,
 				(int)finalPos.getY() ,
 				
-				((int)finalPos.getX() + (int)(screenPixelPerUnit * ( spriteWidth/  texturePixelPerUnit))),
-				(int)finalPos.getY() + (int)(screenPixelPerUnit * ( spriteHeight/ texturePixelPerUnit)),
+				(int)finalPos.getX() + (int)spriteWidth,
+				(int)finalPos.getY() + (int)spriteHeight,
 				
 				
 				
@@ -138,11 +145,22 @@ public class Camera extends GameObject {
 				
 				(int)spriteCoord2.getX(),
 				(int)spriteCoord2.getY(), null);	
-		}
+	
+	
+	if(Constant.debug_spriteRect) {
+		graphics.setColor(Color.red);
+		graphics.setStroke(new BasicStroke(2.0f));
+        
+		graphics.drawRect((int)finalPos.getX(), (int)finalPos.getY(), (int)spriteWidth, (int)spriteHeight);
+		graphics.setColor(Color.blue);
+		graphics.drawOval((int)(finalPos.getX()+offset.getX())-10,  (int)(finalPos.getY()+offset.getY())-10, 20, 20);
+	}
+}
     	@Override
     	public String name() {return "Camera";}
 
-	}
+	
+		}
 
 	
 

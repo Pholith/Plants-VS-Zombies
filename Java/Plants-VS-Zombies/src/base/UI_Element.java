@@ -3,8 +3,6 @@ package base;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import main.RenderMode;
-
 public abstract class UI_Element extends GameObject {
 
 
@@ -22,9 +20,12 @@ public abstract class UI_Element extends GameObject {
 	protected Color getRenderColor() {
 		return renderColor;
 	}
-
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor) {
-		super(pos, RenderMode.Self);
+		this( pos,  renderScale,  renderColor, RenderMode.Self );
+	}
+	
+	public UI_Element(Vector2 pos, float renderScale, Color renderColor, RenderMode rendMode) {
+		super(pos, rendMode);
 		this.renderColor = renderColor;
 		this.renderScale = renderScale;
 	}
