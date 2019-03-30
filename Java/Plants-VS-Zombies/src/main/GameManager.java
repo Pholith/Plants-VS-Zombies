@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -65,8 +66,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    private Camera mainCamera;	 
 	    private UI_Label fpsBox;
 	    
-	    	    
+	    private Point2D.Float clickLocation;    
 	    
+	    public Point2D.Float getClickLocation() {
+			return clickLocation;
+		}
 	    
 	    
 	    void startManager() throws IOException {
@@ -74,7 +78,6 @@ import fr.umlv.zen5.KeyboardKey;
 	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
 	    	RESOURCES.startGame();
-	    	
 	     	mainCamera = new Camera();	    
 	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
 	    	
@@ -144,8 +147,9 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    
 	    private void inputCheck(ApplicationContext context) {
-		  	
-		  Event event = context.pollOrWaitEvent(20); 
+	   
+	    	
+		  Event event = context.pollOrWaitEvent(5); 
 	        if (event == null) {  // no event
 	          return;
 	        }
@@ -167,7 +171,12 @@ import fr.umlv.zen5.KeyboardKey;
 	        if (key == KeyboardKey.RIGHT)
 	        	mainCamera.translation(0.1f, 0);
 	        		
-		  
+			if (action != Action.POINTER_DOWN) {
+				clickLocation = null;
+				return;
+			}
+			
+			clickLocation = event.getLocation(); 
 		  }
 	  
 	    
