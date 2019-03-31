@@ -23,5 +23,10 @@ public class Peash extends Projectile {
 	@Override
 	public void update() {
 		super.update();
-	}	
+	}
+    @Override
+    public String name() {
+    	return "Peash";
+    }
+
 }

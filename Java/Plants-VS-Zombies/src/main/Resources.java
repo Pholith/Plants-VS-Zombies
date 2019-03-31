@@ -97,12 +97,12 @@ public class Resources {
     	
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
+    	cutImage("plants/wallNut.png", 1, 1, 150);
 
     	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
     	cutImage("plants/peash.png", 1, 1, 100);
 
     	
-    
     	
     
     	
@@ -120,9 +120,9 @@ public class Resources {
     	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
         
     	
-    	
     	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
-    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75), func -> {selectPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
     }
     
     
@@ -144,15 +144,14 @@ public class Resources {
     
     	System.out.println(value);
  
-    	if(value == -1 || selectedPlant == value) {
+    	if (value == -1 || selectedPlant == value) {
     		selectedPlant = -1;
     		removeTerrainButtons();
     	}
     	else {
-    	selectedPlant = value;   
-    	drawTerrainButtons();
+	    	selectedPlant = value;   
+	    	drawTerrainButtons();
     	}
-    	
     }
     
       
@@ -179,6 +178,9 @@ public class Resources {
 
 		case 1:
 			new Sunflower(new Vector2(coords[0], coords[1]));
+			break;
+		case 2:
+			new WallNut(new Vector2(coords[0], coords[1]));
 			break;
 		}
     	

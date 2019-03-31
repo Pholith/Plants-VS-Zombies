@@ -19,7 +19,7 @@ public abstract class GameObject {
     /**
      * Default constructor
      */
-	 
+	
 	
     
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene

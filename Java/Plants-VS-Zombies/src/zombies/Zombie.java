@@ -39,9 +39,9 @@ public abstract class Zombie extends LivingEntity {
     @Override
     public void update() {
     	
-    	var firstEnemy = GameManager.getInstance().getFirstEnemy(this);
+    	var firstEnemy = GameManager.getInstance().getFirstPlant(this);
     	// si le zombie rencontre une plante devant lui et assez proche, il s'arrête pour la manger
-    	if (firstEnemy != null && firstEnemy.isPlant() && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.6f) {
+    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.6f) {
     		// TODO
     	}
     	else {

@@ -228,12 +228,30 @@ import fr.umlv.zen5.KeyboardKey;
 		 * Renvoie le premier objet ennemi à l'objet
 		 * Renvoie null sinon
 		 */ 
-		public GameObject getFirstEnemy(GameObject o) {
+		public GameObject getFirstZombie(GameObject o) {
+			GameObject firstEnemy = null;
+			for (GameObject gameObject : sceneContent) {
+								
+				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
+					if (firstEnemy == null) firstEnemy = gameObject;
+
+					// si firstEnemy n'est pas null on compare les distances
+					else  {
+						// si l'objet de la boucle est plus proche de o, on le prend
+						if (o.getPosition().getX() - gameObject.getPosition().getX() < 
+								 o.getPosition().getX() - firstEnemy.getPosition().getX())
+							firstEnemy = gameObject;
+					}
+				}
+			}
+			return firstEnemy;
+		}
+		public GameObject getFirstPlant(GameObject o) {
 			
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
 								
-				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o)) {
+				if(gameObject.isEnemy(o) && !gameObject.isProjectile() &&gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances
