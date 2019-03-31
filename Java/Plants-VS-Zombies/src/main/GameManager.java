@@ -103,7 +103,7 @@ import fr.umlv.zen5.KeyboardKey;
 			      
 			      }
 			 });
-	    }   
+	    }
 	    
 	    
 	    
@@ -150,7 +150,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private void inputCheck(ApplicationContext context) {
 	   
 	    	
-		  Event event = context.pollOrWaitEvent(5); 
+		  Event event = context.pollOrWaitEvent(20); 
 	        if (event == null) {  // no event
 	          return;
 	        }
@@ -164,7 +164,7 @@ import fr.umlv.zen5.KeyboardKey;
 	          context.exit(0);
 	          return;
 	        }
-		  		  
+	  
 	        
 	        if (key == KeyboardKey.LEFT)
 	        	mainCamera.translation(-0.1f, 0);

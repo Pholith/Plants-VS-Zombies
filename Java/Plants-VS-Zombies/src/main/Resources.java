@@ -136,7 +136,6 @@ public class Resources {
     	//Effet joli sur la couleur des bouttons du terrain
     	for(UI_Button but : terrainButtonList)
     		but.setRenderColor(new Color(255,165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
-    	
     }
     
     
