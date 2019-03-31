@@ -11,7 +11,7 @@ import base.Vector2;
 public class ConeheadZombie extends Zombie {
 
 	public ConeheadZombie(Vector2 position) {
-		super(150, position, "zombies/normal.png", 1f, 1f);
+		super(100, position, "zombies/zombie_conehead.png", 5f, 1f);
 		
 		}
 	@Override

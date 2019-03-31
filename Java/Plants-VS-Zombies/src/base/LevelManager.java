@@ -51,7 +51,7 @@ public class LevelManager {
 			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay)+" secondes");
 			try {
 				// Prend un type de Zombie aléatoire du tableau
-				Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, 2);
+				Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, 3);
 				//Class c1 = Class.forName(zombieClass.getName());
 				// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
 				Constructor constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
