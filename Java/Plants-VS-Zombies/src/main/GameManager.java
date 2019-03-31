@@ -96,6 +96,7 @@ import fr.umlv.zen5.KeyboardKey;
 			      
 			      while (true) {		    	  
 			      updateGameObjects();
+			      RESOURCES.updateResources();
 			      inputCheck(context);
 			      render(context);
 			      fpsCount();
@@ -175,7 +176,7 @@ import fr.umlv.zen5.KeyboardKey;
 				clickLocation = null;
 				return;
 			}
-			
+			RESOURCES.setSelectedUi(null);
 			clickLocation = event.getLocation(); 
 		  }
 	  

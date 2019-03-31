@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * 
@@ -14,6 +15,7 @@ public class Terrain extends GameObject {
 	private final Sprite terrainSprite;
 	private final int sizeX;
 	private final int sizeY;
+	private final Square[][] listOfSquares;
 	
 	/*
 	 * 
@@ -71,21 +73,20 @@ public class Terrain extends GameObject {
 	}
 	
 	
-    private final Square[][] listOfSquares;
-	/**
-     * 
-     */
-    private int numberOfRows;
-
-    /**
-     * 
-     */
-    private int squaresByRows;
-
-    /**
-     * 
-     */
-    private String type;
+ 
+	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function) {
+    	int x,y;
+  
+    	for(y = 0; y < sizeY; y++) {
+    	   	for(x = 0; x < sizeX; x++) {
+    	   		if(listOfSquares[y][x].getContain() != null)
+    	   			continue;
+    	   		Integer[] params = new Integer[] {x,y};
+    	   		lst.add(new UI_Button( caseToPosition(x,y)  ,1f,Color.orange, Constant.sizeTerrainCase , Constant.sizeTerrainCase , new Vector2(0.5f,0.5f), func -> {function.accept(params ); } ));
+    	   		
+    	   	}
+    	}
+	}
 
     
 
@@ -114,8 +115,11 @@ public class Terrain extends GameObject {
     @Override
 	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
     
-    	//debug de la position des cases
+    	if(!Constant.debug_spriteRect)
+    		return;
     	
+    	
+    	//debug de la position des cases    	
     	int sizeCase = Constant.sizeTerrainCase;
     	
     	
