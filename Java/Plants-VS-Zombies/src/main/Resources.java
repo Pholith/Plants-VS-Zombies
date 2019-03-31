@@ -75,7 +75,7 @@ public class Resources {
     	
     	 ///Prechargement des textures entieres
     	
-    	errorAnim = cutImage(Constant.errorTexture, 1, 1, 64);
+    	errorAnim = cutImage(Constant.errorTexture, 1, 1, 50);
     	
     	loadImageAtPath("lawn.jpg");    
     	loadImageAtPath("plants/plant_idl_0.png");
@@ -98,8 +98,9 @@ public class Resources {
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
 
-    	cutImage("zombies/zombie_flying.png", 6, 1, 150);    	 
-    	cutImage("plants/peash.png", 1, 1, 100);
+    	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
+      	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
+    	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f),100);
 
     	
     
@@ -188,9 +189,12 @@ public class Resources {
     
 
     
-    
-    
+
     public Sprite[] cutImage(String path, int cntX, int cntY, int pixelPerUnit) throws IOException {
+    	return cutImage( path,  cntX,  cntY, new Vector2(0.5f,0.8f) ,  pixelPerUnit);
+    }
+    
+    public Sprite[] cutImage(String path, int cntX, int cntY, Vector2 anchor, int pixelPerUnit) throws IOException {
     	Sprite[] palette = new Sprite[cntX*cntY];
     	
     	loadImageAtPath(path);
@@ -202,7 +206,7 @@ public class Resources {
     	
     	///Decoupe et creation des sprites     	    	
     	for(int i = 0; i < palette.length; i++) 
-    		palette[i] = new Sprite(original, new Vector2((i%cntX)*currentWidth,currenHeight*(i/cntX)), new Vector2(((i%cntX)+1)*currentWidth,currenHeight*((i/cntX)+1)), pixelPerUnit);
+    		palette[i] = new Sprite(original, new Vector2((i%cntX)*currentWidth,currenHeight*(i/cntX)), new Vector2(((i%cntX)+1)*currentWidth,currenHeight*((i/cntX)+1)),anchor, pixelPerUnit);
     	
     	loadedAnimation.put(path, palette);
     	

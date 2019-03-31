@@ -44,7 +44,7 @@ final public class Sprite {
 	
 	
 	public Sprite(Image baseImg, Vector2 bottomLeftCorner, Vector2 topRightCorner, int pixelPerUnit) {
-	this(baseImg, bottomLeftCorner, topRightCorner, new Vector2(0.5f,0.8f), pixelPerUnit);
+	this(baseImg, bottomLeftCorner, topRightCorner, new Vector2(0.5f,0.5f), pixelPerUnit);
 	}
 	
 	public Sprite(Image baseImg, Vector2 anchor, int pixelPerUnit) {

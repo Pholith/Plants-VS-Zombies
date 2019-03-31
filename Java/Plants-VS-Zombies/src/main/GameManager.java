@@ -136,10 +136,7 @@ import fr.umlv.zen5.KeyboardKey;
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
 		    	
 		    	  //affichage des sprites
-		    	  mainCamera.render(sceneContent, graphics);		
-		    	  
-
-		    	  
+		    	  mainCamera.render(sceneContent, graphics);		    	  
 		    	  fpsBox.setText(String.valueOf(savedFps) + " FPS");
 
 		      });
