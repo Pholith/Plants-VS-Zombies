@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +18,8 @@ import base.Sprite;
 import base.Square;
 import base.Terrain;
 import base.UI_Button;
+import base.UI_Element;
+import base.UI_Label;
 import base.Vector2;
 import plants.*;
 import zombies.*;
@@ -27,20 +31,38 @@ public class Resources {
     private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
     private Terrain actTerrain;
-  
+    private int selectedPlant;
+    private ArrayList<UI_Button> terrainButtonList;
+    private UI_Element selectedUi;
+    
+    public void setSelectedUi(UI_Element selectedUi) {
+		this.selectedUi = selectedUi;
+	}
+    
+    
+    public boolean isSelectedUi(UI_Element elem) {
+		return selectedUi == elem;
+	}
+    
+    
     /*Terrain getActTerrain() {
 		return actTerrain;
 	}*/
     
    
     
-    
+ 
     private  Sprite[] errorAnim;    
     
+    public Sprite getErrorSprite() {
+		return errorAnim[0];
+	}
     
     Resources()  {
     	loadedImages = new HashMap<String, Image>(); 
-    	loadedAnimation = new HashMap<String, Sprite[]>(); 
+    	loadedAnimation = new HashMap<String, Sprite[]>();
+    	terrainButtonList = new ArrayList<UI_Button>();
+    	selectedPlant = -1;
     }
 
 
@@ -48,6 +70,7 @@ public class Resources {
     	return actTerrain.addEntity(x, y, ent);    	
     }
     
+ 
     void startGame() throws IOException {
     	
     	 ///Prechargement des textures entieres
@@ -98,16 +121,73 @@ public class Resources {
         
     	
     	
-    	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {spawnPlantOfType(1);});
-    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75), func -> {spawnPlantOfType(2);});
-        
+    	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
+    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75), func -> {selectPlantOfType(1);});
+    }
+    
+    
+    void updateResources() {
     	
+    	/*
+    	if(selectedUi == null && selectedPlant != -1) {
+    		selectPlantOfType(-1);
+    	}*/
+    	
+    	//Effet joli sur la couleur des bouttons du terrain
+    	for(UI_Button but : terrainButtonList)
+    		but.setRenderColor(new Color(255,165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
     	
     }
     
-    public void spawnPlantOfType(int value) {
-    	// TODO 
+    
+    private void selectPlantOfType(int value) {
+    
+    	System.out.println(value);
+ 
+    	if(value == -1 || selectedPlant == value) {
+    		selectedPlant = -1;
+    		removeTerrainButtons();
+    	}
+    	else {
+    	selectedPlant = value;   
+    	drawTerrainButtons();
+    	}
+    	
     }
+    
+      
+    
+    private void removeTerrainButtons() {
+    	   for(int i = 0; i < terrainButtonList.size(); i++)
+    		   terrainButtonList.get(i).destroy();
+    	   terrainButtonList = new ArrayList<UI_Button>();
+    }
+    
+    private void drawTerrainButtons() {
+    	removeTerrainButtons();
+    	 Consumer<Integer[]> buttonFunc =  (x) -> onSelectTerrainButton(x);
+    	actTerrain.generateButtons(terrainButtonList, buttonFunc);    	  	
+    }
+    
+    
+    private void onSelectTerrainButton(Integer[] coords) {
+    
+    	switch (selectedPlant) {
+		case 0:
+			new Peashooter(new Vector2(coords[0], coords[1]));
+			break;
+
+		case 1:
+			new Sunflower(new Vector2(coords[0], coords[1]));
+			break;
+		}
+    	
+    	selectPlantOfType(-1);
+    	
+    }
+    
+
+    
     
     
     public Sprite[] cutImage(String path, int cntX, int cntY, int pixelPerUnit) throws IOException {
@@ -117,7 +197,7 @@ public class Resources {
     	
     	Image original = getImageByPath(path);
     	float currentWidth = (original.getWidth(null)/cntX);
-    	float  currenHeight  = (original.getHeight(null)/cntY);
+    	float currenHeight = (original.getHeight(null)/cntY);
 
     	
     	///Decoupe et creation des sprites     	    	
