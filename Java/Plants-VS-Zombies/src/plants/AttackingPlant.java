@@ -46,7 +46,7 @@ public class AttackingPlant extends Plant {
         	attackSpeedCount++;
 
   
-	    	if(attackSpeedCount % 70 == 0)
+	    	if(attackSpeedCount % 300 == 0)
 	    		attack(getPosition());
     	}
     }
