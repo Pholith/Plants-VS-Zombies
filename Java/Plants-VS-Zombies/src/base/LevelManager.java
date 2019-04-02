@@ -15,8 +15,9 @@ public class LevelManager {
 	private int levelDifficulty = 1; 
 	private int levelAdvancement = 0; // avancement dans le niveau
 	private int counterOfLastZombie = 0; // temps depuis la dernière attaque en sec
+	private int counterOfLastWave = 0; // temps depuis la dernière attaque en sec
 	private double spawnDelay = 10; // temps de spawn en sec
-	
+	private double waveDelay = 60; // temps entre chaque vague
 	
 	public LevelManager() {
 		super();
@@ -26,7 +27,7 @@ public class LevelManager {
 
 	// liste qui contient les classes de zombie 
 	Class[] listOfZombies = new Class[] {
-			SimpleZombie.class, FlagZombie.class, ConeheadZombie.class
+			SimpleZombie.class, ConeheadZombie.class
 	};
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
 	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
@@ -34,34 +35,53 @@ public class LevelManager {
 	    return listOfZombies[rnd];
 	}
 
+	// créé un zombie aléatoirement en utilisant la liste des classes
+	private void createZombie(int coeffDifficulty) {
+		try {
+			// Prend un type de Zombie aléatoire du tableau
+			Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, coeffDifficulty);
+			//Class c1 = Class.forName(zombieClass.getName());
+			// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
+			Constructor constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
+			constructor.newInstance(new Object[] {Vector2.randomStartVector()}); // TODO rendre random le vecteur
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println(e.getCause());
+		}
+	}
+	// créé un zombie de vague
+	private void createFlagZombie() {
+		new FlagZombie(Vector2.randomStartVector());
+	}
+	
+	// gère les attaques de zombies et les niveaux
 	public void levelEvent() {
-		
 		long timeStamp = GameManager.getInstance().getClockMillis()/1000;
 		// compteur de seconde 
 		if (timeStamp > lastTimeStamp) {
 			counterOfLastZombie ++;
+			counterOfLastWave ++;
 			lastTimeStamp = timeStamp;
 		}
-		
-		
+		// une wave par minute
+		if (counterOfLastWave >= waveDelay) {
+			counterOfLastWave = 0;
+			System.out.println("Prochaine vague dans: "+Math.round(waveDelay)+" secondes");
+			
+			for (int i = 0; i < 10; i++) {
+				createZombie(2);
+			}
+			createFlagZombie();
+			createFlagZombie();
+			
+		}
 		if (counterOfLastZombie >= spawnDelay) {
 			counterOfLastZombie = 0;
 			//fonction qui baisse au fur et à mesure la valeur  (non linéaire) 
 			spawnDelay = Math.pow(spawnDelay, 2)/15 +2;
 			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay)+" secondes");
-			
-			try {
-				// Prend un type de Zombie aléatoire du tableau
-				Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, 3);
-				//Class c1 = Class.forName(zombieClass.getName());
-				// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
-				Constructor constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
-				constructor.newInstance(new Object[] {new Vector2(8, 4)}); // TODO rendre random le vecteur
-	
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println(e.getCause());
-			}
+			createZombie(2);
 		}		
 		
 		

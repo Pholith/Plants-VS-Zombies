@@ -252,7 +252,7 @@ import fr.umlv.zen5.KeyboardKey;
 					// si firstEnemy n'est pas null on compare les distances
 					else  {
 						// si l'objet de la boucle est plus proche de o, on le prend
-						if (o.getPosition().getX() - gameObject.getPosition().getX() < 
+						if (o.getPosition().getX() - gameObject.getPosition().getX() >
 								 o.getPosition().getX() - firstEnemy.getPosition().getX())
 							firstEnemy = gameObject;
 					}

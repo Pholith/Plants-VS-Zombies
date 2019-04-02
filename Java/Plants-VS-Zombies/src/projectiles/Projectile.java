@@ -52,8 +52,7 @@ public class Projectile extends GameObject {
     	
     	Zombie firstEnemy =  (Zombie) GameManager.getInstance().getFirstZombie(this);
     	// si le projectile rencontre un zombie
-    	System.out.println(firstEnemy);
-    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.5) {
+    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.6) {
     		firstEnemy.takeDammage(dammage);
     		destroy();
     	}
