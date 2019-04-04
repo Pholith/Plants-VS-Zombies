@@ -87,6 +87,7 @@ public class Resources {
     	loadImageAtPath("cards/repeatericon.png");
     	loadImageAtPath("cards/snowpeaicon.png");
     	loadImageAtPath("cards/sunflowericon.png");
+    	loadImageAtPath("cards/cherryBombIcon.png");
     	
     	
     	
@@ -97,7 +98,8 @@ public class Resources {
     	
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
-    	cutImage("plants/wallNut.png", 1, 1, 150);
+    	cutImage("plants/wallNut.png", 1, 1, new Vector2(0.5f, 0.6f), 150);
+    	cutImage("plants/cherryBomb.png", 1, 1, new Vector2(0.5f, 0.5f), 260);
 
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
@@ -105,9 +107,7 @@ public class Resources {
 
     	
     	
-    
-    	
-    	
+       	   	
     	for(int i = 0; i < 5; i++) {
 	    	new Sunflower(new Vector2(i%9, i/9));
     	}
@@ -124,6 +124,7 @@ public class Resources {
     	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
     	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
     	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
+    	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
     }
     
     
@@ -183,7 +184,10 @@ public class Resources {
 		case 2:
 			new WallNut(new Vector2(coords[0], coords[1]));
 			break;
-		}
+	   	case 3:
+    		new CherryBomb(new Vector2(coords[0], coords[1]));
+    		break;
+    	}
     	
     	selectPlantOfType(-1);
     	

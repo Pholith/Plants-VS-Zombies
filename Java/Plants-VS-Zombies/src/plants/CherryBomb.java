@@ -3,29 +3,43 @@ package plants;
 
 import java.util.*;
 
+import base.GameObject;
 import base.Vector2;
+import main.GameManager;
+import zombies.Zombie;
 
 /**
  * 
  */
 public class CherryBomb extends Plant {
 
-	public CherryBomb(int health, Vector2 position, int cost, float reloadTime, String animationPath,
-			float animationSpeed) {
-		super(health, position, cost, reloadTime, animationPath, animationSpeed);
-		// TODO Auto-generated constructor stub
+	public CherryBomb(Vector2 position) {
+		super(100, position, 150, 3f, "plants/cherryBomb.png", 4f);
 	}
 	
 
-	/**
-     * Default constructor
-     */
 
+	private int timeExplode = 0;
+	public void start() {
+		
+	}
+	
+	public void update() {
+
+		if (timeExplode > 100) {
+			for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this)) {
+				gameObject.takeDammage(300);
+			}
+			destroy();
+		}
+		timeExplode ++;
+	}
+	
 	/*
-	public CherryBomb(int health, int cost, float reloadTime) {
-		super(health, cost, reloadTime);
-		// TODO Auto-generated constructor stub
-	}*/
+	*/
+	@Override
+    public String name() {return "Peashooter";}
+
 
 
 

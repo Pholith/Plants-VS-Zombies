@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -242,6 +243,26 @@ import fr.umlv.zen5.KeyboardKey;
 		 * Renvoie le premier objet ennemi à l'objet
 		 * Renvoie null sinon
 		 */ 
+		
+		public ArrayList<Zombie> getZombieArround(GameObject o) {
+			ArrayList<Zombie> listOfZombies = new ArrayList<>();
+			
+			for (GameObject gameObject : sceneContent) {
+				
+				double distance = 2f;
+				
+				if (gameObject.isEnemy(o) &&
+						gameObject.getPosition().getX()    	< o.getPosition().getX() + distance &&
+						gameObject.getPosition().getX()	    > o.getPosition().getX() - distance &&
+						gameObject.getPosition().getY() 	< o.getPosition().getY() + distance &&
+						gameObject.getPosition().getY()  	> o.getPosition().getY() - distance ){
+					listOfZombies.add((Zombie) gameObject);
+				}				
+			}
+			
+			return listOfZombies;
+		}
+		
 		public GameObject getFirstZombie(GameObject o) {
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
