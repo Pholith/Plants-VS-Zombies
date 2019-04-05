@@ -38,7 +38,7 @@ public class CherryBomb extends Plant {
 	/*
 	*/
 	@Override
-    public String name() {return "Peashooter";}
+    public String name() {return "CherryBomb";}
 
 
 }

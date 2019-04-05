@@ -39,6 +39,7 @@ public abstract class Zombie extends LivingEntity {
     }
     private int eatCouldown = 0;
     private int eatTime = 100;
+    
     @Override
     public void update() {
     	
@@ -53,5 +54,8 @@ public abstract class Zombie extends LivingEntity {
     	else {
     		this.translation(new Vector2(speed, 0f));
     	}
+    	if (this.getPosition().getX() < 2f) {
+			// TODO GameManager.getInstanec().end
+		}
     }
 }

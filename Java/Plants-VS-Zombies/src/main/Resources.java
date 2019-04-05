@@ -88,7 +88,9 @@ public class Resources {
     	loadImageAtPath("cards/snowpeaicon.png");
     	loadImageAtPath("cards/sunflowericon.png");
     	loadImageAtPath("cards/cherryBombIcon.png");
-    	
+
+    	loadImageAtPath("zombies/flag_zombie.png");
+
     	
     	
     	// Chargement des sprites et animations
@@ -108,12 +110,12 @@ public class Resources {
     	
     	
        	   	
-    	for(int i = 0; i < 5; i++) {
+    	/*for(int i = 0; i < 5; i++) {
 	    	new Sunflower(new Vector2(i%9, i/9));
     	}
     	for(int i = 5; i < 10; i++) {
 	    	new Peashooter(new Vector2(i%9, i/9));
-    	}
+    	}*/
     	
     	//new SimpleZombie(new Vector2(13f, 1.6f));
     	//new SimpleZombie(new Vector2(11f, 3.25f));
