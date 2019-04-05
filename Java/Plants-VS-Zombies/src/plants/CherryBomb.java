@@ -41,6 +41,4 @@ public class CherryBomb extends Plant {
     public String name() {return "Peashooter";}
 
 
-
-
 }
