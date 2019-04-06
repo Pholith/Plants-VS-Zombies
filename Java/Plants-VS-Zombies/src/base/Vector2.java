@@ -62,9 +62,12 @@ public class Vector2 {
 	    
 	    // Possibilité de le changer quand on aura un getRow
 	    public boolean isOnSameRow(Vector2 v) {
-	    	float distanceBen = 0.55f;
+	    	float distanceBen = 0.45f;
 	    	return (y < v.y+distanceBen && y > v.y- distanceBen);
 	    }
-	    
+	    // renvoie un vecteur random pour la création des zombies
+	    public static Vector2 randomStartVector() {
+	    	return new Vector2((float) (10 + Math.random()*2), (float) Math.random()*5);
+	    }
 	    
 }

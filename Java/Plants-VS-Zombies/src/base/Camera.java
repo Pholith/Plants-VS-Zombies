@@ -154,13 +154,13 @@ public class Camera extends GameObject {
 		graphics.drawRect((int)finalPos.getX(), (int)finalPos.getY(), (int)spriteWidth, (int)spriteHeight);
 		graphics.setColor(Color.blue);
 		graphics.drawOval((int)(finalPos.getX()+offset.getX())-10,  (int)(finalPos.getY()+offset.getY())-10, 20, 20);
+		}
 	}
-}
     	@Override
     	public String name() {return "Camera";}
 
 	
-		}
+}
 
 	
 

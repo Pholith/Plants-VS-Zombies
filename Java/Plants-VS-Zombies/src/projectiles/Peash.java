@@ -14,7 +14,7 @@ public class Peash extends Projectile {
 
 	public Peash(Vector2 position) {
 		
-		super(position, new Vector2(0.1f, 0), 25, "plants/peash.png");
+		super(position, new Vector2(0.08f, 0), 25, "plants/peash.png");
 	}
 
     /**
@@ -23,5 +23,10 @@ public class Peash extends Projectile {
 	@Override
 	public void update() {
 		super.update();
-	}	
+	}
+    @Override
+    public String name() {
+    	return "Peash";
+    }
+
 }

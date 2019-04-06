@@ -42,11 +42,11 @@ public class AttackingPlant extends Plant {
     @Override
     public void update() {
     	// lance des projectiles si la ligne n'est pas vide
-    	if (GameManager.getInstance().getFirstEnemy(this) != null) {
+    	if (GameManager.getInstance().getFirstZombie(this) != null) {
         	attackSpeedCount++;
 
   
-	    	if(attackSpeedCount % 70 == 0)
+	    	if(attackSpeedCount % 180 == 0)
 	    		attack(getPosition());
     	}
     }

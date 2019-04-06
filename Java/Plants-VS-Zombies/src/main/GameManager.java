@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -42,9 +43,9 @@ import fr.umlv.zen5.KeyboardKey;
 	    	sceneContent = new ArrayList<GameObject>(); 
 	    	ojbectsInQueue = new ArrayList<GameObject>(); 
 	    	ojbectsToRemoveQueue = new ArrayList<GameObject>(); 
-	    	clock = Clock.systemDefaultZone(); 	
 	    	timeMultiplier = 1f;
-	    	savedFps = 30;
+	    	savedFps = 60;
+	    	clock = Clock.systemDefaultZone(); 		    
 	    }
 	    private static final Resources RESOURCES = new Resources();
 	    public static Resources getResources() { return RESOURCES;  }
@@ -146,15 +147,31 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    
 	    
-	    private int gameSpeed = 20;
+	    private int gameWait = 30;
+	    private int maxFps = 90;
 	    
 	    private void inputCheck(ApplicationContext context) {
-		  	
-		  Event event = context.pollOrWaitEvent(gameSpeed); 
+	    
+	    	gameWait = (int)((((float)savedFps/(float)maxFps)-1f)*(1000f/(float)savedFps));
+	    	
+	    	if(gameWait < 500/maxFps)
+	    		gameWait = 500/maxFps;
+
+	    	
+		  Event event = context.pollOrWaitEvent(gameWait); 
 
 	        if (event == null) {  // no event
 	          return;
 	        }
+	        
+	
+	        try {
+				Thread.sleep(gameWait);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}  
+	        
 		  Action action = event.getAction();
 
 		  KeyboardKey key =  event.getKey();
@@ -175,13 +192,13 @@ import fr.umlv.zen5.KeyboardKey;
 	        
 	        if (key == KeyboardKey.P)
 	        	System.out.println("Speed changed to slow");
-	        	gameSpeed = 50;
+	        gameWait = 50;
 	        if (key == KeyboardKey.O)
 	        	System.out.println("Speed changed to normal");
-	        	gameSpeed = 20;
+	        gameWait = 20;
 	        if (key == KeyboardKey.I)
 	        	System.out.println("Speed changed to fast");
-	        	gameSpeed = 5;
+	        gameWait = 5;
 		 
         		
 			if (action != Action.POINTER_DOWN) {
@@ -234,12 +251,50 @@ import fr.umlv.zen5.KeyboardKey;
 		 * Renvoie le premier objet ennemi à l'objet
 		 * Renvoie null sinon
 		 */ 
-		public GameObject getFirstEnemy(GameObject o) {
+		
+		public ArrayList<Zombie> getZombieArround(GameObject o) {
+			ArrayList<Zombie> listOfZombies = new ArrayList<>();
+			
+			for (GameObject gameObject : sceneContent) {
+				
+				double distance = 2f;
+				
+				if (gameObject.isEnemy(o) &&
+						gameObject.getPosition().getX()    	< o.getPosition().getX() + distance &&
+						gameObject.getPosition().getX()	    > o.getPosition().getX() - distance &&
+						gameObject.getPosition().getY() 	< o.getPosition().getY() + distance &&
+						gameObject.getPosition().getY()  	> o.getPosition().getY() - distance ){
+					listOfZombies.add((Zombie) gameObject);
+				}				
+			}
+			
+			return listOfZombies;
+		}
+		
+		public GameObject getFirstZombie(GameObject o) {
+			GameObject firstEnemy = null;
+			for (GameObject gameObject : sceneContent) {
+								
+				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
+					if (firstEnemy == null) firstEnemy = gameObject;
+
+					// si firstEnemy n'est pas null on compare les distances
+					else  {
+						// si l'objet de la boucle est plus proche de o, on le prend
+						if (o.getPosition().getX() - gameObject.getPosition().getX() >
+								 o.getPosition().getX() - firstEnemy.getPosition().getX())
+							firstEnemy = gameObject;
+					}
+				}
+			}
+			return firstEnemy;
+		}
+		public GameObject getFirstPlant(GameObject o) {
 			
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
 								
-				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o)) {
+				if(gameObject.isEnemy(o) && !gameObject.isProjectile() &&gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances
