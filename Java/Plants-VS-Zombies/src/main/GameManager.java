@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import base.Camera;
+import base.Constant;
 import base.GameObject;
 import base.LevelManager;
 import base.LivingEntity;
@@ -205,15 +206,15 @@ import fr.umlv.zen5.KeyboardKey;
 	        
 	        if (key == KeyboardKey.P) {
 	        	System.out.println("Speed changed to slow");
-	        timeScale = 0.3f;
+	        	timeScale = 0.3f;
 	        }
 	        if (key == KeyboardKey.O) {
 	        	System.out.println("Speed changed to normal");
-	        timeScale = 1f;
+	        	timeScale = 1f;
 	        }
 	        if (key == KeyboardKey.I) {
 	        	System.out.println("Speed changed to fast");
-	        timeScale = 5f;
+	        	timeScale = 5f;
 	        }
 		 
         		
@@ -222,7 +223,7 @@ import fr.umlv.zen5.KeyboardKey;
 				return;
 			}
 			RESOURCES.setSelectedUi(null);
-			clickLocation = event.getLocation(); 
+			clickLocation = event.getLocation();
 		  }
 	  
 	    
@@ -338,6 +339,8 @@ import fr.umlv.zen5.KeyboardKey;
 			endGame = true;
 			
 		}
+		
+		
 	}
 	    
 	    

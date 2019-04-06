@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Random;
 
 import main.GameManager;
+import plants.Peashooter;
 import zombies.*;
+import base.Terrain;
 
 public class LevelManager {
 
@@ -23,6 +25,9 @@ public class LevelManager {
 	private double waveDelay = 60; // temps entre chaque vague
 	private double levelTimeDelay = 200; // temps d'une partie  
 	
+	private int plantSpawnDelay = 5;
+	private int plantSpawn = 0;
+
 	public LevelManager() {
 		super();
 	}
@@ -76,6 +81,7 @@ public class LevelManager {
 			counterOfLastZombie ++;
 			counterOfLastWave ++;
 			counterBeforeEnd ++;
+			plantSpawn ++;
 			lastTimeStamp = timeStamp;
 		}		
 		
@@ -104,6 +110,18 @@ public class LevelManager {
 			  GameManager.getInstance().endGame(true);
 		}
 		
+		
+		if (Constant.debugMode) {
+			if (plantSpawn >= plantSpawnDelay) {
+				int randomX = (int) (Math.random()*8);
+				int randomY = (int) (Math.random()*6);
+
+				System.out.println(" random: "+randomX+" "+randomY);
+
+				GameManager.getResources().addEntityToTerrain(randomX, randomY, new Peashooter(Terrain.caseToPosition(randomX, randomY)));
+				plantSpawn = 0;
+			}
+		}
 		
 	}
 }

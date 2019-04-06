@@ -106,7 +106,7 @@ public class Terrain extends GameObject {
     	return terrainSprite;    	
     }
     @Override
-    public String name() {return "Terrain";}
+    public String name() { return "Terrain";}
 
     
     
@@ -147,6 +147,11 @@ public class Terrain extends GameObject {
     	   		graphics.drawRect((int)(realPos.getX() - sizeCase/2f) , (int)(realPos.getY() - sizeCase/2f) , sizeCase, sizeCase );    	    	        		
         	}    		
     	} 
+	}
+
+
+	public void addRandomPlant() {
+	
 	}
 	
 
