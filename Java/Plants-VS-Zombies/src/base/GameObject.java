@@ -52,8 +52,10 @@ public abstract class GameObject {
 		return position;
 	}
     
+    //Pour faire la translation d'un gameobject dans la scene, on lui ajoute le vecteur translation divisé par la vitesse du jeu.
+    //Cela permet aux GameObject de se deplacer à la même vitesse, peut importe la vitesse de fonctionnement du jeu en terme de FPS.
     public void translation(Vector2 v) {
-    	position = v.add(position);
+    	position = position.add(v.multiply(GameManager.getInstance().getTimeMultiplier()));
     }
     public void translation(float x, float y) {
     	translation(new Vector2(x, y));

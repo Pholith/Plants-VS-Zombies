@@ -57,7 +57,7 @@ public class Projectile extends GameObject {
     		firstEnemy.takeDammage(dammage);
     		destroy();
     	}
-    	translation(speed);
+    	 translation(speed);
     }
     @Override
     public Sprite display() {  

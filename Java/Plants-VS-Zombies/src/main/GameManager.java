@@ -33,7 +33,7 @@ import fr.umlv.zen5.KeyboardKey;
 
 
 	///Cette classe est un singleton. Le jeu démare à sa creation , à l'appel de la fonction StartManger();
-	public class GameManager {
+	public final class GameManager {
 		
 	    private static final GameManager SINGLE_INSTANCE = new GameManager();
 	    public static GameManager getInstance() { return SINGLE_INSTANCE;  }
@@ -42,7 +42,9 @@ import fr.umlv.zen5.KeyboardKey;
 	    	sceneContent = new ArrayList<GameObject>(); 
 	    	ojbectsInQueue = new ArrayList<GameObject>(); 
 	    	ojbectsToRemoveQueue = new ArrayList<GameObject>(); 
-	    	clock = Clock.systemDefaultZone(); 		    
+	    	clock = Clock.systemDefaultZone(); 	
+	    	timeMultiplier = 1f;
+	    	savedFps = 30;
 	    }
 	    private static final Resources RESOURCES = new Resources();
 	    public static Resources getResources() { return RESOURCES;  }
@@ -57,7 +59,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private int currentFps;
 	    private int savedFps;	    
 	    private long lastSecTime;
-	    
+	    private float timeMultiplier;
 	    
 	  
 	    private final ArrayList<GameObject> sceneContent;
@@ -69,6 +71,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private UI_Label fpsBox;
 	    
 	    private Point2D.Float clickLocation;    
+	    
 	    
 	    public Point2D.Float getClickLocation() {
 			return clickLocation;
@@ -209,15 +212,21 @@ import fr.umlv.zen5.KeyboardKey;
 	    	currentFps++;
 	    	
 	    	if(clock.millis() - lastSecTime >= 1000) {
+	    		
 	    		savedFps = currentFps;
 	    		currentFps = 0;
 	    		lastSecTime = clock.millis();
+	    		timeMultiplier = 60f/(float)savedFps;
+	    		
 	    	}
 	    }
 	  
 	    
 		public long getClockMillis() {
 			return clock.millis();
+		}
+		public float getTimeMultiplier() {
+			return timeMultiplier;
 		}
 	    
 	    
