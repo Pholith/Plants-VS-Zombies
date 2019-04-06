@@ -10,7 +10,7 @@ import main.GameManager;
 public abstract class LivingEntity extends GameObject {
 
   
-	private final Sprite[] animationSprite;
+	private Sprite[] animationSprite;
 	private int actFrame;
 	private final long timeLoopAnimation;
     private long lastFrameUpdate;
@@ -73,7 +73,11 @@ public abstract class LivingEntity extends GameObject {
     	associatedSquare.setContain(null);
    }
    
-    
+    protected void setAnimationSprite(Sprite[] newAnim) {
+    	animationSprite = newAnim;
+    	lastFrameUpdate = GameManager.getInstance().getClockMillis();
+    	
+    }
     
     @Override
     public Sprite display() {  
@@ -84,13 +88,14 @@ public abstract class LivingEntity extends GameObject {
     	}else if(animationSprite.length > 1) {
     		long delta = GameManager.getInstance().getClockMillis() - lastFrameUpdate;
     		    		
+    		float realTimeLoop =  timeLoopAnimation /GameManager.getInstance().getTimeScale();
     		
-    		if(delta >=  timeLoopAnimation) {
+    		if(delta >=  realTimeLoop) {
     			lastFrameUpdate = GameManager.getInstance().getClockMillis();
     		}
     		
  
-    		return animationSprite [ (int)(((float)delta/(float)timeLoopAnimation)*animationSprite.length)%animationSprite.length];
+    		return animationSprite [ (int)(((float)delta/realTimeLoop)*animationSprite.length)%animationSprite.length];
     	}
     	
     	

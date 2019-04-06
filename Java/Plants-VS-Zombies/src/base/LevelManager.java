@@ -33,11 +33,14 @@ public class LevelManager {
 	Class[] listOfZombies = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class
 	};
+	
+	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
 	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
 	    int rnd = new Random().nextInt(coeffDifficulty);
 	    return listOfZombies[rnd];
 	}
+	
 
 	// créé un zombie aléatoirement en utilisant la liste des classes
 	private void createZombie(int coeffDifficulty) {
@@ -54,28 +57,33 @@ public class LevelManager {
 			System.out.println(e.getCause());
 		}
 	}
+	
+	
 	// créé un zombie de vague
 	private void createFlagZombie() {
 		new FlagZombie(Vector2.randomStartVector());
 	}
 	
+	
 	// gère les attaques de zombies et les niveaux
 	public void levelEvent() {
+		double timeMultiplier = 1d/(double)GameManager.getInstance().getTimeScale();
 
 		// compteur de seconde 
-		long timeStamp = GameManager.getInstance().getClockMillis()/1000;
-		if (timeStamp > lastTimeStamp) {
+		long timeStamp = GameManager.getInstance().getClockMillis();	
+		if (timeStamp - lastTimeStamp >= 1000d*timeMultiplier) {
 			// incrémentation de tous les compteurs
 			counterOfLastZombie ++;
 			counterOfLastWave ++;
 			counterBeforeEnd ++;
 			lastTimeStamp = timeStamp;
-		}
+		}		
+		
 		
 		// création d'une vague d'attaque
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;
-			System.out.println("Prochaine vague dans: "+Math.round(waveDelay)+" secondes");
+			System.out.println("Prochaine vague dans: "+Math.round(waveDelay*timeMultiplier)+" secondes");
 			
 			for (int i = 0; i < 10; i++) {
 				createZombie(2);
@@ -88,12 +96,12 @@ public class LevelManager {
 			counterOfLastZombie = 0;
 			//fonction qui baisse au fur et à mesure la valeur  (non linéaire) 
 			spawnDelay = Math.pow(spawnDelay, 2)/15 +2;
-			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay)+" secondes");
+			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay*timeMultiplier)+" secondes");
 			createZombie(2);
 		}
 		// fin du niveau
 		if (counterBeforeEnd >= levelTimeDelay) {
-			// TODO GameManager.getInstance().end
+			  GameManager.getInstance().endGame(true);
 		}
 		
 		

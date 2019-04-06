@@ -36,12 +36,14 @@ public abstract class GameObject {
     public GameObject(Vector2 pos) {
     	this(pos, RenderMode.Sprite);
     }
+    
     /* Détruit un gameObject */
     public void destroy() {
     	onDestroy();
     	GameManager.getInstance().removeGameObjectFromScene(this);
     	System.out.println("Objet "+toString()+" détruit!");
     }
+    
     public void onDestroy() {
     	
     }
@@ -55,7 +57,7 @@ public abstract class GameObject {
     //Pour faire la translation d'un gameobject dans la scene, on lui ajoute le vecteur translation divisé par la vitesse du jeu.
     //Cela permet aux GameObject de se deplacer à la même vitesse, peut importe la vitesse de fonctionnement du jeu en terme de FPS.
     public void translation(Vector2 v) {
-    	position = position.add(v.multiply(GameManager.getInstance().getTimeMultiplier()));
+    	position = position.add(v.multiply(GameManager.getInstance().getDeltatime()*100f));
     }
     public void translation(float x, float y) {
     	translation(new Vector2(x, y));

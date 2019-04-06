@@ -37,8 +37,8 @@ public abstract class Zombie extends LivingEntity {
     public boolean isZombie() {
     	return true;
     }
-    private int eatCouldown = 0;
-    private int eatTime = 100;
+    private float eatCouldown = 0;
+
     
     @Override
     public void update() {
@@ -46,16 +46,21 @@ public abstract class Zombie extends LivingEntity {
     	Plant firstEnemy = (Plant) GameManager.getInstance().getFirstPlant(this);
     	// si le zombie rencontre une plante devant lui et assez proche, il s'arrête pour la manger
     	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() -1) {
-    		if (eatCouldown%100 == 0) {
+    	
+    		eatCouldown += GameManager.getInstance().getDeltatime();
+    		
+    		if (eatCouldown >= 2f) {
         		firstEnemy.takeDammage(dammage);
+        		eatCouldown = 0;
 			}
-    		eatCouldown ++;
+    		
+    		
     	}
     	else {
     		this.translation(new Vector2(speed, 0f));
     	}
     	if (this.getPosition().getX() < 2f) {
-			// TODO GameManager.getInstanec().end
+			GameManager.getInstance().endGame(false);
 		}
     }
 }

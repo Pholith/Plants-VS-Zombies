@@ -34,7 +34,7 @@ public class AttackingPlant extends Plant {
     private float range;
        
     
-    int attackSpeedCount = 0;
+    private float attackSpeedCount = 0;
 
     @Override
     public String name() {return "AttackingPlant";}
@@ -43,11 +43,13 @@ public class AttackingPlant extends Plant {
     public void update() {
     	// lance des projectiles si la ligne n'est pas vide
     	if (GameManager.getInstance().getFirstZombie(this) != null) {
-        	attackSpeedCount++;
+        	attackSpeedCount += GameManager.getInstance().getDeltatime();
 
   
-	    	if(attackSpeedCount % 180 == 0)
+	    	if(attackSpeedCount >= 2f) {
 	    		attack(getPosition());
+	    		attackSpeedCount = 0;
+	    	}
     	}
     }
     

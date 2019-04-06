@@ -35,6 +35,10 @@ public class Resources {
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     
+    //si la pelle est selectionnée
+    private boolean shovelMode;
+    
+    
     public void setSelectedUi(UI_Element selectedUi) {
 		this.selectedUi = selectedUi;
 	}
@@ -88,10 +92,9 @@ public class Resources {
     	loadImageAtPath("cards/snowpeaicon.png");
     	loadImageAtPath("cards/sunflowericon.png");
     	loadImageAtPath("cards/cherryBombIcon.png");
+    	loadImageAtPath("cards/shovelicon.png");
 
-    	loadImageAtPath("zombies/flag_zombie.png");
 
-    	
     	
     	// Chargement des sprites et animations
   
@@ -102,11 +105,13 @@ public class Resources {
     	cutImage("plants/sunflower.png", 6, 9, 70);
     	cutImage("plants/wallNut.png", 1, 1, new Vector2(0.5f, 0.6f), 150);
     	cutImage("plants/cherryBomb.png", 1, 1, new Vector2(0.5f, 0.5f), 260);
-
+    	   	
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
+    	cutImage("zombies/flag_zombie.png", 1, 1,135);
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f),100);
 
+    	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	
     	
        	   	
@@ -127,6 +132,9 @@ public class Resources {
     	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
     	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
     	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
+ 
+       	new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+
     }
     
     
@@ -138,14 +146,28 @@ public class Resources {
     	}*/
     	
     	//Effet joli sur la couleur des bouttons du terrain
+    	if(!shovelMode) {
     	for(UI_Button but : terrainButtonList)
     		but.setRenderColor(new Color(255,165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
-    	
+    	}else {
+    		for(UI_Button but : terrainButtonList)
+        		but.setRenderColor(new Color(0,165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+    	}
+    		
+    }
+    
+    
+    
+    
+    private void selectShovel() {        
+    	shovelMode = true; 
+	    drawTerrainButtons();
+
     }
     
     
     private void selectPlantOfType(int value) {
-    
+    shovelMode = false;
     	System.out.println(value);
  
     	if (value == -1 || selectedPlant == value) {
@@ -155,6 +177,7 @@ public class Resources {
     	else {
 	    	selectedPlant = value;   
 	    	drawTerrainButtons();
+
     	}
     }
     
@@ -169,12 +192,20 @@ public class Resources {
     private void drawTerrainButtons() {
     	removeTerrainButtons();
     	 Consumer<Integer[]> buttonFunc =  (x) -> onSelectTerrainButton(x);
-    	actTerrain.generateButtons(terrainButtonList, buttonFunc);    	  	
+    	actTerrain.generateButtons(terrainButtonList, buttonFunc, shovelMode);    	 
+	    if(terrainButtonList.size() == 0)
+    		selectedPlant = -1;
     }
     
     
     private void onSelectTerrainButton(Integer[] coords) {
     
+    	if(shovelMode) {
+    		  actTerrain.removeEntity(coords[0], coords[1]);
+    		  	selectPlantOfType(-1);
+    		return;
+    	}
+    	
     	switch (selectedPlant) {
 		case 0:
 			new Peashooter(new Vector2(coords[0], coords[1]));

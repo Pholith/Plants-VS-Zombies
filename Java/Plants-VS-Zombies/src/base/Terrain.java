@@ -60,12 +60,12 @@ public class Terrain extends GameObject {
 	
 	
  
-	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function) {
+	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function, boolean FilledSlotOnly) {
     	int x,y;
   
     	for(y = 0; y < sizeY; y++) {
     	   	for(x = 0; x < sizeX; x++) {
-    	   		if(listOfSquares[y][x].getContain() != null)
+    	   		if( (listOfSquares[y][x].getContain() == null) == FilledSlotOnly)
     	   			continue;
     	   		Integer[] params = new Integer[] {x,y};
     	   		lst.add(new UI_Button( caseToPosition(x,y)  ,1f,Color.orange, Constant.sizeTerrainCase , Constant.sizeTerrainCase , new Vector2(0.5f,0.5f), func -> {function.accept(params ); } ));
@@ -74,12 +74,24 @@ public class Terrain extends GameObject {
     	}
 	}
 
-    
+	
+	private boolean isInside(int x, int y) {
+		  return !(x < 0 || x >  sizeX || y < 0 || y > sizeY);	    		
+	}
+	
+	   public void removeEntity(int x, int y) {
+		  	if(!isInside(x,y) || listOfSquares[y][x].getContain() == null) {
+	    		System.err.println("Impossible de suprimer l'entité position("+x+" ,"+y+" ) dans la matrice de jeu.");
+	    		return;
+	    	}
+		  	
+		  	listOfSquares[y][x].getContain().destroy();
+	   }
 
     
     public Square addEntity(int x, int y, LivingEntity ent) {
     	
-    	if(x < 0 || x >  sizeX || y < 0 || y > sizeY) {
+    	if(!isInside(x,y)) {
     		System.err.println("Impossible d'ajouter l'entité "+ent.toString()+" dans la matrice de jeu.");
     		return null;
     	}

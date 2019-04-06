@@ -14,25 +14,33 @@ import zombies.Zombie;
 public class CherryBomb extends Plant {
 
 	public CherryBomb(Vector2 position) {
-		super(100, position, 150, 3f, "plants/cherryBomb.png", 4f);
+		super(100, position, 150, 3f, "plants/cherryBomb.png", 6f);
 	}
 	
 
 
-	private int timeExplode = 0;
+	private float timeExplode = 0;
 	public void start() {
 		
 	}
 	
+	private boolean exploded;
+	
 	public void update() {
 
-		if (timeExplode > 100) {
+		if (timeExplode > 1f && !exploded) {
 			for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this)) {
-				gameObject.takeDammage(300);
+				gameObject.takeDammage(300);				
 			}
-			destroy();
+			setAnimationSprite(GameManager.getResources().getAnimationByPath("particles/explosion.png"));
+			
+			exploded = true;
 		}
-		timeExplode ++;
+		if (timeExplode > 1.7f) 
+			destroy();				
+		
+		
+		timeExplode += GameManager.getInstance().getDeltatime();
 	}
 	
 	/*

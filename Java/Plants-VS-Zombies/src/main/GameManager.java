@@ -43,9 +43,14 @@ import fr.umlv.zen5.KeyboardKey;
 	    	sceneContent = new ArrayList<GameObject>(); 
 	    	ojbectsInQueue = new ArrayList<GameObject>(); 
 	    	ojbectsToRemoveQueue = new ArrayList<GameObject>(); 
-	    	timeMultiplier = 1f;
+	    	deltaTime = 1f;
+	    	timeScale = 1f;
 	    	savedFps = 60;
-	    	clock = Clock.systemDefaultZone(); 		    
+	    	gameWait = 30;
+	    	
+	    	clock = Clock.systemDefaultZone(); 		
+	    	lastSecTime = clock.millis();
+	    	lastFrameTime = lastSecTime;
 	    }
 	    private static final Resources RESOURCES = new Resources();
 	    public static Resources getResources() { return RESOURCES;  }
@@ -56,12 +61,17 @@ import fr.umlv.zen5.KeyboardKey;
 	    private float resolutionY;    
 	    
 	    
-	    private final Clock clock; 
-	    private int currentFps;
-	    private int savedFps;	    
-	    private long lastSecTime;
-	    private float timeMultiplier;
+	    private final Clock clock;	//Horloge temps reel 
+	    private int currentFps;		//Compteur de fps
+	    private int savedFps;		//Sauvegarde du nombre de fps de la derniere seconde  
+	    private long lastSecTime;	//Sauvegarde du temps de démarage pour du comptage des fps
+	    private long lastFrameTime;	//Sauvegarde du temps de la derniere frame
 	    
+	    private float deltaTime;	//Temps écoulé entre la frame actuelle et celle d'avant
+	    private float timeScale;	//Vitesse génerale du jeu
+	    
+	    private int gameWait;
+	    private final int maxFps = 90;
 	  
 	    private final ArrayList<GameObject> sceneContent;
 	    private final ArrayList<GameObject> ojbectsInQueue;  
@@ -72,6 +82,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    private UI_Label fpsBox;
 	    
 	    private Point2D.Float clickLocation;    
+	    
+	    private boolean endGame;
 	    
 	    
 	    public Point2D.Float getClickLocation() {
@@ -102,6 +114,8 @@ import fr.umlv.zen5.KeyboardKey;
 			      
 			      
 			      while (true) {
+			    	  
+			    	  if(!endGame)
 			    	  levelManager.levelEvent();
 				      updateGameObjects();
 				      RESOURCES.updateResources();
@@ -147,8 +161,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    
 	    
-	    private int gameWait = 30;
-	    private int maxFps = 90;
+
 	    
 	    private void inputCheck(ApplicationContext context) {
 	    
@@ -190,15 +203,18 @@ import fr.umlv.zen5.KeyboardKey;
 	        if (key == KeyboardKey.RIGHT)
 	        	mainCamera.translation(0.2f, 0);
 	        
-	        if (key == KeyboardKey.P)
+	        if (key == KeyboardKey.P) {
 	        	System.out.println("Speed changed to slow");
-	        gameWait = 50;
-	        if (key == KeyboardKey.O)
+	        timeScale = 0.3f;
+	        }
+	        if (key == KeyboardKey.O) {
 	        	System.out.println("Speed changed to normal");
-	        gameWait = 20;
-	        if (key == KeyboardKey.I)
+	        timeScale = 1f;
+	        }
+	        if (key == KeyboardKey.I) {
 	        	System.out.println("Speed changed to fast");
-	        gameWait = 5;
+	        timeScale = 5f;
+	        }
 		 
         		
 			if (action != Action.POINTER_DOWN) {
@@ -227,13 +243,14 @@ import fr.umlv.zen5.KeyboardKey;
 	    private void fpsCount() {
 	    	
 	    	currentFps++;
-	    	
-	    	if(clock.millis() - lastSecTime >= 1000) {
+	    	deltaTime = (clock.millis() - lastFrameTime)/1000f;
+	    	lastFrameTime = clock.millis();
+	    	if(lastFrameTime-lastSecTime >= 1000) {
 	    		
 	    		savedFps = currentFps;
 	    		currentFps = 0;
 	    		lastSecTime = clock.millis();
-	    		timeMultiplier = 60f/(float)savedFps;
+	    		
 	    		
 	    	}
 	    }
@@ -242,10 +259,12 @@ import fr.umlv.zen5.KeyboardKey;
 		public long getClockMillis() {
 			return clock.millis();
 		}
-		public float getTimeMultiplier() {
-			return timeMultiplier;
+		public float getDeltatime() {
+			return deltaTime*timeScale;
 		}
-	    
+	    public float getTimeScale() {
+			return timeScale;
+		}
 	    
 		/* TODO
 		 * Renvoie le premier objet ennemi à l'objet
@@ -307,6 +326,17 @@ import fr.umlv.zen5.KeyboardKey;
 				}
 			}
 			return firstEnemy;
+		}
+		
+		public void endGame(boolean win) {
+			for(GameObject obj : sceneContent) {
+				obj.destroy();				
+			}
+			
+			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnée !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
+			
+			endGame = true;
+			
 		}
 	}
 	    
