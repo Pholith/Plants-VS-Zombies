@@ -16,7 +16,7 @@ Ce qui a été implémenté:
 
 Avant propos:
 
- Quand on parle de la "scene" de notre jeu, on entend une combinaison d'entité, d'objets et autres élément affichables qui peuvent
+ Quand on parle de la "scene" de notre jeu, on entend une combinaison d'entité, d'objets et autres éléments affichables qui peuvent
  interagir entre eux. Bien que cela ne soit au final qu'une liste d'un type générique, cette organisation nous a permis de nous
  simplifier la vie sur le plan technique. On a donc pu développer le gameplay et la partie graphique notre jeu, qui est actuellement
  assez représentatif de l'original.
