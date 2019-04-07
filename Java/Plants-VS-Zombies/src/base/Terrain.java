@@ -91,8 +91,9 @@ public class Terrain extends GameObject {
     
     public Square addEntity(int x, int y, LivingEntity ent) {
     	
-    	if(!isInside(x,y)) {
+    	if(!isInside(x,y) || listOfSquares[y][x].getContain() != null) {
     		System.err.println("Impossible d'ajouter l'entité "+ent.toString()+" dans la matrice de jeu.");
+    		ent.destroy();
     		return null;
     	}
     	
@@ -150,8 +151,8 @@ public class Terrain extends GameObject {
 	}
 
 
-	public void addRandomPlant() {
-	
+	public Vector2 getTerrainSize() {
+	return new Vector2(sizeX, sizeY);
 	}
 	
 

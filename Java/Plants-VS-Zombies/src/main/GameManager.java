@@ -57,6 +57,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    public static Resources getResources() { return RESOURCES;  }
 
 	
+	    private boolean inDebugMode;
 	    
 	    private float resolutionX;
 	    private float resolutionY;    
@@ -128,7 +129,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    }   
 	    
 	    
-	    
+	    	    
 	    private void updateGameObjects() {			
 	    	  	    		    	
 	    	  for (GameObject gameObject : ojbectsInQueue) {
@@ -196,14 +197,31 @@ import fr.umlv.zen5.KeyboardKey;
 	          context.exit(0);
 	          return;
 	        }
-		  		  
+		  	
 	        
+	        
+	        
+	        if(!endGame) {
 	        if (key == KeyboardKey.LEFT)
 	        	mainCamera.translation(-0.2f, 0);
 	        	
 	        if (key == KeyboardKey.RIGHT)
 	        	mainCamera.translation(0.2f, 0);
 	        
+	
+	      
+	        if (key == KeyboardKey.D && action == Action.KEY_PRESSED ) {
+	        	
+	        	if(!inDebugMode) {
+	        	System.out.println("Debug mode activated");
+	        	timeScale = 5f;	            
+	        	}else {	        		
+	        		System.out.println("Debug mode stopped");
+		        	timeScale = 1f;	            
+	        	}
+		        inDebugMode = !inDebugMode;
+		        
+	        }
 	        if (key == KeyboardKey.P) {
 	        	System.out.println("Speed changed to slow");
 	        	timeScale = 0.3f;
@@ -215,6 +233,7 @@ import fr.umlv.zen5.KeyboardKey;
 	        if (key == KeyboardKey.I) {
 	        	System.out.println("Speed changed to fast");
 	        	timeScale = 5f;
+	        }
 	        }
 		 
         		
@@ -337,9 +356,15 @@ import fr.umlv.zen5.KeyboardKey;
 			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnée !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
 			
 			endGame = true;
+			inDebugMode = false;
 			
 		}
 		
+		
+		
+		public boolean isDebugMode() {
+			return inDebugMode;
+		}
 		
 	}
 	    

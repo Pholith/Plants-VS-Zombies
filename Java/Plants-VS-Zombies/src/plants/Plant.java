@@ -4,28 +4,24 @@ import java.util.*;
 
 import base.LivingEntity;
 import base.Sprite;
+import base.Square;
 import base.Vector2;
 import main.GameManager;
 
-/**
- * 
- */
+
 public abstract class Plant extends LivingEntity {
 
-    /**
-     * Default constructor
-     */
-
+    private Square associatedSquare;
+	
 	public Plant( int health, Vector2 position, int cost, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, animationPath, animationSpeed + (float)Math.random());
 		this.cost = cost;
 		this.reloadTime = reloadTime;
+		associatedSquare = GameManager.getResources().addEntityToTerrain((int)position.getX(), (int)position.getY(), this);
 	}
 
 
-    /**
-     * 
-     */
+ 
     private int cost;
 
     @Override
@@ -36,10 +32,13 @@ public abstract class Plant extends LivingEntity {
 	public boolean isPlant() {
 		return true;
 	}
-	/**
-     * 
-     */
+	
     private float reloadTime;
-
-
+	
+    
+    @Override
+	   public void onDestroy() {
+	    if(associatedSquare != null)
+	    	associatedSquare.setContain(null);
+	   }
 }

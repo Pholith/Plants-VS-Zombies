@@ -34,7 +34,7 @@ public class Resources {
     private int selectedPlant;
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
-    
+    private float plantSpawnCounter;
     //si la pelle est selectionnée
     private boolean shovelMode;
     
@@ -56,7 +56,8 @@ public class Resources {
    
     
  
-    private  Sprite[] errorAnim;    
+    private  Sprite[] errorAnim;   
+    
     
     public Sprite getErrorSprite() {
 		return errorAnim[0];
@@ -73,7 +74,7 @@ public class Resources {
     public Square addEntityToTerrain(int x, int y, LivingEntity ent) {
     	return actTerrain.addEntity(x, y, ent);    	
     }
-    
+
  
     void startGame() throws IOException {
     	
@@ -140,11 +141,7 @@ public class Resources {
     
     void updateResources() {
     	
-    	/*
-    	if(selectedUi == null && selectedPlant != -1) {
-    		selectPlantOfType(-1);
-    	}*/
-    	
+  
     	//Effet joli sur la couleur des bouttons du terrain
     	if(!shovelMode) {
     	for(UI_Button but : terrainButtonList)
@@ -154,6 +151,26 @@ public class Resources {
         		but.setRenderColor(new Color(0,165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
     	}
     		
+    	
+    	//Gestion du mode debug
+		if (GameManager.getInstance().isDebugMode()) {
+		
+			
+			if (plantSpawnCounter >= 2f) {
+				Vector2 terrainSize = actTerrain.getTerrainSize();
+				int randomX = (int) (Math.random()*terrainSize.getX());
+				int randomY = (int) (Math.random()*terrainSize.getY());
+
+				shovelMode = false;
+				System.out.println(" random: "+randomX+" "+randomY);
+
+				selectedPlant =  (int)(Math.random()*10);
+				onSelectTerrainButton(new Integer[] {randomX, randomY});
+				plantSpawnCounter = 0;
+			}
+			plantSpawnCounter += GameManager.getInstance().getDeltatime();
+		}
+    	
     }
     
     
@@ -162,7 +179,6 @@ public class Resources {
     private void selectShovel() {        
     	shovelMode = true; 
 	    drawTerrainButtons();
-
     }
     
     
@@ -198,15 +214,19 @@ public class Resources {
     }
     
     
-    private void onSelectTerrainButton(Integer[] coords) {
-    
+   private void onSelectTerrainButton(Integer[] coords) {
+    	
+    	if(coords == null || coords.length != 2) 
+    		return;
+    	
+    	
     	if(shovelMode) {
     		  actTerrain.removeEntity(coords[0], coords[1]);
     		  	selectPlantOfType(-1);
     		return;
     	}
     	
-    	switch (selectedPlant) {
+    	switch (selectedPlant%4) {
 		case 0:
 			new Peashooter(new Vector2(coords[0], coords[1]));
 			break;
