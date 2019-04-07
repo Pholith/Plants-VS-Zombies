@@ -201,7 +201,9 @@ import fr.umlv.zen5.KeyboardKey;
 	        
 	        
 	        
-	        if(!endGame) {
+	        if(endGame)
+	        	return;
+	        	
 	        if (key == KeyboardKey.LEFT)
 	        	mainCamera.translation(-0.2f, 0);
 	        	
@@ -219,8 +221,7 @@ import fr.umlv.zen5.KeyboardKey;
 	        		System.out.println("Debug mode stopped");
 		        	timeScale = 1f;	            
 	        	}
-		        inDebugMode = !inDebugMode;
-		        
+		        inDebugMode = !inDebugMode;		        
 	        }
 	        if (key == KeyboardKey.P) {
 	        	System.out.println("Speed changed to slow");
@@ -233,8 +234,8 @@ import fr.umlv.zen5.KeyboardKey;
 	        if (key == KeyboardKey.I) {
 	        	System.out.println("Speed changed to fast");
 	        	timeScale = 5f;
-	        }
-	        }
+	        	}
+	        
 		 
         		
 			if (action != Action.POINTER_DOWN) {
