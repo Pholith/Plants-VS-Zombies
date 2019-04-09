@@ -20,6 +20,8 @@ import base.Terrain;
 import base.UI_Button;
 import base.UI_Element;
 import base.UI_Label;
+import base.UI_Sprite;
+import base.UI_Sun;
 import base.Vector2;
 import plants.*;
 import zombies.*;
@@ -37,6 +39,11 @@ public class Resources {
     private float plantSpawnCounter;
     //si la pelle est selectionnée
     private boolean shovelMode;
+    
+    private int money;
+    
+    private UI_Label moneyRender;
+    
     
     
     public void setSelectedUi(UI_Element selectedUi) {
@@ -68,6 +75,7 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
+    	money = 0;
     }
 
 
@@ -94,7 +102,12 @@ public class Resources {
     	loadImageAtPath("cards/sunflowericon.png");
     	loadImageAtPath("cards/cherryBombIcon.png");
     	loadImageAtPath("cards/shovelicon.png");
+    	loadImageAtPath("cards/emptyfield.png");
 
+    	
+
+    	
+    	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
 
     	
     	// Chargement des sprites et animations
@@ -113,7 +126,8 @@ public class Resources {
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f),100);
 
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
-    	
+    	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
+     
     	
        	   	
     	/*for(int i = 0; i < 5; i++) {
@@ -133,10 +147,34 @@ public class Resources {
     	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
     	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
     	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
- 
-       	new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+       	new UI_Button(new Vector2(1.5f, 6.25f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
 
+       	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
+     	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
+       	moneyRender = new UI_Label(new Vector2(1f, 0.4f), "0", Color.black, 3f);
+
+
+   
+     	
+    
+       	
+     
+       	
+       	
     }
+    
+    
+    
+    public void spawnSun(Vector2 pos) {    	
+    	new UI_Sun(pos, func -> {getASun();});     	
+     	 	
+        }
+    
+    private void getASun() {    	
+    money += 50;
+    
+    }
+    
     
     
     void updateResources() {
@@ -170,6 +208,14 @@ public class Resources {
 			}
 			plantSpawnCounter += GameManager.getInstance().getDeltatime();
 		}
+		
+		
+		
+		
+		//money actualisation
+		moneyRender.setText(Integer.toString( money));
+		
+		
     	
     }
     

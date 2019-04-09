@@ -100,7 +100,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    	RESOURCES.startGame();
 	    	levelManager = new LevelManager();
 	     	mainCamera = new Camera();	    
-	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
+	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
 	    	
 	    	
 	    	////////////////////////////////////////Démarage de la boucle principale
