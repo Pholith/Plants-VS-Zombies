@@ -103,9 +103,7 @@ public class Resources {
     	loadImageAtPath("cards/shovelicon.png");
     	loadImageAtPath("cards/emptyfield.png");
     	loadImageAtPath("cards/chompericon.png");
-    	loadImageAtPath("cards/snowpeaicon.png");
     	
-
     	
     	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
 
@@ -147,11 +145,16 @@ public class Resources {
         
     	
     	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
-    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
-    	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
+    	new UI_Button(new Vector2(1.5f, 1.9f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 2.8f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
 
-    	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
-       	new UI_Button(new Vector2(1.5f, 6.25f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+    	new UI_Button(new Vector2(1.5f, 3.7f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
+    	new UI_Button(new Vector2(1.5f, 4.6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);});
+    	new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);});
+    	
+    	
+    	
+       	new UI_Button(new Vector2(1.5f, 6.4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
 
        	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
      	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
