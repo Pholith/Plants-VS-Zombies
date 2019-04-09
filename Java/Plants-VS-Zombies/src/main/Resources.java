@@ -1,4 +1,4 @@
-package main;
+﻿package main;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -20,11 +20,13 @@ import base.Terrain;
 import base.UI_Button;
 import base.UI_Element;
 import base.UI_Label;
+import base.UI_Sprite;
+import base.UI_Sun;
 import base.Vector2;
 import plants.*;
 import zombies.*;
 
-//Les resources ont une visibilit�s de "package"
+//Les resources ont une visibilités de "package"
 public class Resources {
 	
 	
@@ -35,9 +37,15 @@ public class Resources {
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     private float plantSpawnCounter;
-  
-    //si la pelle est selectionn�e
+ 
+    //si la pelle est selectionn?
+
     private boolean shovelMode;
+    
+    private int money;
+    
+    private UI_Label moneyRender;
+    
     
     
     public void setSelectedUi(UI_Element selectedUi) {
@@ -66,6 +74,7 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
+    	money = 0;
     }
 
 
@@ -90,9 +99,12 @@ public class Resources {
     	loadImageAtPath("cards/repeatericon.png");
     	loadImageAtPath("cards/snowpeaicon.png");
     	loadImageAtPath("cards/sunflowericon.png");
-    	loadImageAtPath("cards/cherryBombIcon.png");
     	loadImageAtPath("cards/shovelicon.png");
-
+    	loadImageAtPath("cards/emptyfield.png");
+    	loadImageAtPath("cards/chompericon.png");
+    	
+    	
+    	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
 
     	
     	// Chargement des sprites et animations
@@ -102,26 +114,66 @@ public class Resources {
     	
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
-    	cutImage("plants/wallNut.png", 1, 1, new Vector2(0.5f, 0.6f), 150);
+    	cutImage("plants/wallNut.png", 9, 3, new Vector2(0.5f, 0.6f), 60);
     	cutImage("plants/cherryBomb.png", 1, 1, new Vector2(0.5f, 0.5f), 260);
+    	cutImage("plants/chomper.png", 31, 1, new Vector2(0.4f, 0.70f), 90);
     	   	
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
     	cutImage("zombies/flag_zombie.png", 1, 1,135);
-    	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f),100);
+    	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
+    	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
+    	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
 
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
-    	
+    	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
+     
     	
                
     	
     	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
-    	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
-    	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
-    	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
-       	new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
 
+    	new UI_Button(new Vector2(1.5f, 1.9f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 2.8f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
+
+    	new UI_Button(new Vector2(1.5f, 3.7f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
+    	new UI_Button(new Vector2(1.5f, 4.6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);});
+    	new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);});
+    	
+    	
+    	
+       	new UI_Button(new Vector2(1.5f, 6.4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+
+       	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
+     	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
+       	moneyRender = new UI_Label(new Vector2(1f, 0.4f), "0", Color.black, 3f);
+
+
+    	//new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
+    	//new UI_Button(new Vector2(1.5f, 5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75),    func -> {selectPlantOfType(4);});
+    	//new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75),    func -> {selectPlantOfType(5);});
+ 
+       //	new UI_Button(new Vector2(1.5f, 6.25f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75),     func -> {selectShovel();});
+
+    
+       	
+     
+       	
+       	
     }
+    
+    
+    
+    public void spawnSun(Vector2 pos) {    	
+    	new UI_Sun(pos, func -> {getASun();});     	
+     	 	
+        }
+    
+    private void getASun() {    	
+    money += 50;
+    
+    }
+    
     
     
     void updateResources() {
@@ -155,6 +207,14 @@ public class Resources {
 			}
 			plantSpawnCounter += GameManager.getInstance().getDeltatime();
 		}
+		
+		
+		
+		
+		//money actualisation
+		moneyRender.setText(Integer.toString( money));
+		
+		
     	
     }
     
@@ -211,7 +271,7 @@ public class Resources {
     		return;
     	}
     	
-    	switch (selectedPlant%4) {
+    	switch (selectedPlant%6) { // variable à incrémenter à l'implémentation de nouvelles plantes
 		case 0:
 			new Peashooter(new Vector2(coords[0], coords[1]));
 			break;
@@ -225,8 +285,14 @@ public class Resources {
 	   	case 3:
     		new CherryBomb(new Vector2(coords[0], coords[1]));
     		break;
+    	case 4:
+    		new Chomper(new Vector2(coords[0], coords[1]));
+    		break;
+    	case 5:
+    		new FreezePeaShooter(new Vector2(coords[0], coords[1]));
+    		break;
     	}
-    	
+    		
     	selectPlantOfType(-1);
     	
     }

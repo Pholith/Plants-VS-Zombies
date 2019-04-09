@@ -21,11 +21,13 @@ public class UI_Button extends UI_Element {
 	private final Consumer simpleFunction;
 	
 	private boolean pressed; 
-	private boolean slected; 
+	private boolean selected; 
 	private Vector2 screenPosition;
+	private Vector2 lastPosition;
     private RoundRectangle2D drawRect;
+	private Vector2 offset;
 	
-	
+    
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, float rectWidth, float rectHeight, Vector2 offset, Consumer simpleFunction) {
 		super(pos, renderScale, renderColor, RenderMode.Both );
 	
@@ -34,8 +36,13 @@ public class UI_Button extends UI_Element {
 		this.rectHeight = rectWidth;
 		this.rectWidth = rectWidth;
 		this.sprite = null;
+		
+		this.offset = offset = new Vector2( rectWidth*offset.getX() ,rectHeight*offset.getY());
+		
+		
+		
 		///Calcul de positions :
-		CalcPosition(offset);
+		CalcPosition();
 		}
 		
 		
@@ -43,7 +50,7 @@ public class UI_Button extends UI_Element {
 		
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, Sprite sprite, Consumer simpleFunction) {
 			super(pos, renderScale, renderColor, RenderMode.Both );
-			
+
 			this.simpleFunction = simpleFunction;
 			
 			
@@ -53,25 +60,30 @@ public class UI_Button extends UI_Element {
 			this.rectWidth = Constant.screenPixelPerUnit * sprite.getWidth()/sprite.getPixelPerUnit();
 			this.rectHeight =  Constant.screenPixelPerUnit * sprite.getHeight()/sprite.getPixelPerUnit();
 	 		
+			offset = new Vector2( rectWidth*sprite.getAnchor().getX() ,rectHeight*sprite.getAnchor().getY());
+						
 			///Calcul de positions :
-	 		CalcPosition(sprite.getAnchor());
+	 		CalcPosition();
 		}
 		
-		void CalcPosition(Vector2 offset) {			
+		
+		void CalcPosition() {			
+			lastPosition = getPosition();
+	  
 
-	    	Vector2 objPos = getPosition();   	
-
-	    	offset = new Vector2( rectWidth*offset.getX() ,rectHeight*offset.getY());
-			
+	    
 	    	 screenPosition = new Vector2(
-					objPos.getX()  * Constant.screenPixelPerUnit  - offset.getX(),
-					objPos.getY()   * Constant.screenPixelPerUnit  - offset.getY());
+	    			 lastPosition.getX()  * Constant.screenPixelPerUnit  - offset.getX(),
+	    			 lastPosition.getY()   * Constant.screenPixelPerUnit  - offset.getY());
 
 	    	 drawRect = new RoundRectangle2D.Float((int)screenPosition.getX(), (int)screenPosition.getY(),
 	                    rectWidth,
 	                    rectHeight,
 	                    10, 10);
 		}
+		
+		
+		
 
 	    @Override
 	    public Sprite display() {  
@@ -80,19 +92,30 @@ public class UI_Button extends UI_Element {
 		
 	    @Override
 	    public void update() {
+	    	
+	    	
+	    	
 	    	Point2D.Float mousePos = GameManager.getInstance().getClickLocation();
+	    	
+	    	
+	    	if(!lastPosition.equals(getPosition()))
+	    		CalcPosition();
 	    	
 	    	if(mousePos != null && checkInside(mousePos.x, mousePos.y)) {
 	    		if(!pressed) {    	
 	    			simpleFunction.accept(null);	
 	    			pressed = true;
+	    			onClick();
 	    			GameManager.getResources().setSelectedUi(this);
 	    		}
 	    	}else
 	    		pressed = false;
 	    	
 	    	
-	    	slected = GameManager.getResources().isSelectedUi(this);
+	    	selected = GameManager.getResources().isSelectedUi(this);
+	    	
+	    	
+	    	
 	    }
 	    	
 	   
@@ -103,7 +126,7 @@ public class UI_Button extends UI_Element {
 	    }
 	    
 	    
-
+	    protected void onClick() {}
 		
 		@Override
 		public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
@@ -116,10 +139,11 @@ public class UI_Button extends UI_Element {
 			}
 			
 			
-		if(slected) {
+		if(selected) {
 			graphics.setColor(new Color(127, 127, 127, 127));
 			graphics.draw(drawRect);
 			graphics.fill(drawRect);
+			
 		}
 		}
 		

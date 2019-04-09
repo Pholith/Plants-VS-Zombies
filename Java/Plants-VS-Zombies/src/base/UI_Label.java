@@ -26,11 +26,12 @@ public class UI_Label extends UI_Element {
 	
 
 		int screenUnit = Constant.screenPixelPerUnit;
+		float sc = getRenderScale();
 		
-		graphics.scale(getRenderScale(), getRenderScale());
+		graphics.scale(sc, sc);
 		graphics.setColor(getRenderColor());
-		graphics.drawString(objectText, getPosition().getX() * screenUnit ,getPosition().getY() *  screenUnit);
-		graphics.scale(1f/getRenderScale(), 1f/getRenderScale());
+		graphics.drawString(objectText, getPosition().getX() * screenUnit/sc ,getPosition().getY() *  screenUnit/sc);
+		graphics.scale(1f/sc, 1f/sc);
 	}
     @Override
     public String name() {return "UI_Label";}

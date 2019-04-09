@@ -4,14 +4,16 @@ package plants;
 import java.util.*;
 
 import base.Vector2;
+import main.GameManager;
 
 /**
  * 
  */
 public class Sunflower extends Plant {
 
-
-
+	
+	
+	
 
     private int production;
 
@@ -29,18 +31,18 @@ public class Sunflower extends Plant {
     @Override
     public String name() {return "Sunflower";}
 
-
-
-	
+float timer = 0;
     
-    /**
-     * Default constructor
-     */
-/*
-	public Sunflower(int health, int cost, float reloadTime) {
-		super(health, cost, reloadTime);
-		// TODO Auto-generated constructor stub
-	}*/
+    @Override
+    public void update() {
+    	if(timer >= 10f) {
+    		GameManager.getResources().spawnSun(getPosition());
+    		timer = 0;
+    	}
+    	timer += GameManager.getInstance().getDeltatime();
+    	
+    }
+	
 
 
 }

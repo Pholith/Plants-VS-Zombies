@@ -34,7 +34,7 @@ import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
 
 
-	///Cette classe est un singleton. Le jeu démare à sa creation , à l'appel de la fonction StartManger();
+	///Cette classe est un singleton. Le jeu dï¿½mare ï¿½ sa creation , ï¿½ l'appel de la fonction StartManger();
 	public final class GameManager {
 		
 	    private static final GameManager SINGLE_INSTANCE = new GameManager();
@@ -47,7 +47,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    	deltaTime = 1f;
 	    	timeScale = 1f;
 	    	savedFps = 60;
-	    	gameWait = 30;
+	    	gameWait = 300;
 	    	
 	    	clock = Clock.systemDefaultZone(); 		
 	    	lastSecTime = clock.millis();
@@ -66,11 +66,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    private final Clock clock;	//Horloge temps reel 
 	    private int currentFps;		//Compteur de fps
 	    private int savedFps;		//Sauvegarde du nombre de fps de la derniere seconde  
-	    private long lastSecTime;	//Sauvegarde du temps de démarage pour du comptage des fps
+	    private long lastSecTime;	//Sauvegarde du temps de dï¿½marage pour du comptage des fps
 	    private long lastFrameTime;	//Sauvegarde du temps de la derniere frame
 	    
-	    private float deltaTime;	//Temps écoulé entre la frame actuelle et celle d'avant
-	    private float timeScale;	//Vitesse génerale du jeu
+	    private float deltaTime;	//Temps ï¿½coulï¿½ entre la frame actuelle et celle d'avant
+	    private float timeScale;	//Vitesse gï¿½nerale du jeu
 	    
 	    private int gameWait;
 	    private final int maxFps = 90;
@@ -95,15 +95,15 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    void startManager() throws IOException {
 	    	
-	       	//////////////////////////////////////////Initialisations génerale des resources 
+	       	//////////////////////////////////////////Initialisations gï¿½nerale des resources 
 	    	
 	    	RESOURCES.startGame();
 	    	levelManager = new LevelManager();
 	     	mainCamera = new Camera();	    
-	    	fpsBox = new UI_Label(new Vector2(0.05f,0.1f), "FPS..", Color.black, 3f );
+	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
 	    	
 	    	
-	    	////////////////////////////////////////Démarage de la boucle principale
+	    	////////////////////////////////////////Dï¿½marage de la boucle principale
 	    	 
 			 Application.run(Color.WHITE,context -> {			      
 			      // get the size of the screen
@@ -288,7 +288,7 @@ import fr.umlv.zen5.KeyboardKey;
 		}
 	    
 		/* TODO
-		 * Renvoie le premier objet ennemi à l'objet
+		 * Renvoie le premier objet ennemi ï¿½ l'objet
 		 * Renvoie null sinon
 		 */ 
 		
@@ -354,7 +354,7 @@ import fr.umlv.zen5.KeyboardKey;
 				obj.destroy();				
 			}
 			
-			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnée !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
+			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnï¿½e !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
 			
 			endGame = true;
 			inDebugMode = false;
