@@ -35,6 +35,7 @@ public class Resources {
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     private float plantSpawnCounter;
+  
     //si la pelle est selectionnée
     private boolean shovelMode;
     
@@ -48,10 +49,7 @@ public class Resources {
 		return selectedUi == elem;
 	}
     
-    
-    /*Terrain getActTerrain() {
-		return actTerrain;
-	}*/
+
     
    
     
@@ -115,25 +113,12 @@ public class Resources {
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	
     	
-       	   	
-    	/*for(int i = 0; i < 5; i++) {
-	    	new Sunflower(new Vector2(i%9, i/9));
-    	}
-    	for(int i = 5; i < 10; i++) {
-	    	new Peashooter(new Vector2(i%9, i/9));
-    	}*/
-    	
-    	//new SimpleZombie(new Vector2(13f, 1.6f));
-    	//new SimpleZombie(new Vector2(11f, 3.25f));
-
-    	//GameObject testAffiche2 = new LivingEntity(20, getAnimationByPath("plants/pea_shooter.png"), new Vector2(2,2), 5f);
-        
+               
     	
     	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
     	new UI_Button(new Vector2(1.5f, 2f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
     	new UI_Button(new Vector2(1.5f, 3f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
     	new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherryBombIcon.png"), 75), func -> {selectPlantOfType(3);});
- 
        	new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
 
     }
