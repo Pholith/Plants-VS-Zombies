@@ -1,7 +1,5 @@
 package projectiles;
 
-
-
 import java.util.*;
 
 import base.Vector2;
@@ -14,7 +12,7 @@ public class Peash extends Projectile {
 
 	public Peash(Vector2 position) {
 		
-		super(position, new Vector2(0.08f, 0), 20, "plants/peash.png");
+		super(position, new Vector2(0.06f, 0), 10, "plants/peash.png");
 	}
 
     /**

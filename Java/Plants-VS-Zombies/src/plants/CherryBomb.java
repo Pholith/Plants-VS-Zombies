@@ -30,7 +30,7 @@ public class CherryBomb extends Plant {
 
 		if (timeExplode > 1f && !exploded) {
 			for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this)) {
-				gameObject.takeDammage(300);				
+				gameObject.takeDammage(500);				
 			}
 			setAnimationSprite(GameManager.getResources().getAnimationByPath("particles/explosion.png"));
 			

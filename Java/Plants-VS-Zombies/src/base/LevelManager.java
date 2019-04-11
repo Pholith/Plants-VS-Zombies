@@ -15,15 +15,15 @@ import base.Terrain;
 public class LevelManager {
 
 	private int levelDifficulty = 1; 
-	private int levelAdvancement = 0; // avancement dans le niveau
+	private float levelAdvancement = 1; // détermine la puissance des zombies qui vont spawn
 	
 	private int counterOfLastZombie = 0; // temps depuis la dernière attaque en sec
 	private int counterOfLastWave = 0; // temps depuis la dernière attaque en sec
 	private int counterBeforeEnd = 0; // temps depuis la dernière attaque en sec
 	
 	private double spawnDelay = 10; // temps de spawn en sec
-	private double waveDelay = 60; // temps entre chaque vague
-	private double levelTimeDelay = 200; // temps d'une partie  
+	private double waveDelay = 40; // temps entre chaque vague
+	private double levelTimeDelay = 180; // temps d'une partie  
 	
 
 	public LevelManager() {
@@ -34,13 +34,13 @@ public class LevelManager {
 
 	// liste qui contient les classes de zombie 
 	Class[] listOfZombies = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class
 	};
 	
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
 	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
-	    int rnd = new Random().nextInt(coeffDifficulty);
+	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
 	    return listOfZombies[rnd];
 	}
 	
@@ -61,8 +61,7 @@ public class LevelManager {
 		}
 	}
 	
-	
-	// créé un zombie de vague
+		// créé un zombie de vague
 	private void createFlagZombie() {
 		new FlagZombie(Vector2.randomStartVector());
 	}
@@ -74,7 +73,7 @@ public class LevelManager {
 
 		// compteur de seconde 
 		long timeStamp = GameManager.getInstance().getClockMillis();	
-		if (timeStamp - lastTimeStamp >= 1000d*timeMultiplier) {
+		if (timeStamp - lastTimeStamp >= 1000d * timeMultiplier) {
 			// incrémentation de tous les compteurs
 			counterOfLastZombie ++;
 			counterOfLastWave ++;
@@ -87,28 +86,27 @@ public class LevelManager {
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;
 			System.out.println("Prochaine vague dans: "+Math.round(waveDelay*timeMultiplier)+" secondes");
+
+			createFlagZombie();
+			createFlagZombie();
 			
 			for (int i = 0; i < 10; i++) {
-				createZombie(2);
+				createZombie((int) levelAdvancement);
 			}
-			createFlagZombie();
-			createFlagZombie();
 		} 
 		// création d'une attaque d'un zombie
 		if (counterOfLastZombie >= spawnDelay) {
 			counterOfLastZombie = 0;
+			levelAdvancement += 0.4;
 			//fonction qui baisse au fur et à mesure la valeur  (non linéaire) 
 			spawnDelay = Math.pow(spawnDelay, 2)/15 +2;
 			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay*timeMultiplier)+" secondes");
-			createZombie(2);
+			createZombie((int) levelAdvancement);
 		}
 		// fin du niveau
 		if (counterBeforeEnd >= levelTimeDelay) {
 			  GameManager.getInstance().endGame(true);
 		}
-		
-		
-
 		
 	}
 }

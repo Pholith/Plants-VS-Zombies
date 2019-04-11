@@ -59,7 +59,7 @@ public class Projectile extends GameObject {
     	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.6) {
     		hit(firstEnemy);
     	}
-    	 translation(speed);
+    	translation(speed);
     }
     @Override
     public String name() {

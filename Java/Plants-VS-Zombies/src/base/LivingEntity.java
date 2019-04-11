@@ -3,6 +3,7 @@ package base;
 import java.util.ArrayList;
 
 import main.GameManager;
+import zombies.BucketHeadZombie;
 
 /**
  * 
@@ -57,12 +58,16 @@ public abstract class LivingEntity extends GameObject {
      * Renvoie vrai si les dégats ont tué l'entité vivante
      */
     public boolean takeDammage(int dammage) {
-    	health -= dammage;
+    	health -= onTakeDammage(dammage);
     	if (health <= 0) {
     		destroy();
     		return true;
     	}
     	return false;
+    }
+    // cette méthode sert pour les zombies qui enchaissent des dégats via leurs outils
+    public int onTakeDammage(int dammage) {
+    	return dammage;
     }
     
 
@@ -73,6 +78,10 @@ public abstract class LivingEntity extends GameObject {
     	
     }
     
+    @Override
+    public void update() {
+    	super.update();
+    }
     @Override
     public Sprite display() {  
     	

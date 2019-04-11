@@ -124,6 +124,9 @@ public class Resources {
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
     	cutImage("zombies/flag_zombie.png", 1, 1,135);
+    	cutImage("zombies/polevaulter.png", 1, 1, 290);
+    	cutImage("zombies/buckethead.png", 1, 1, 450);
+
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	

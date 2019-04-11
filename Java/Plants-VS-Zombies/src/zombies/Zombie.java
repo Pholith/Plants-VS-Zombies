@@ -17,7 +17,7 @@ public abstract class Zombie extends LivingEntity {
 
 	public Zombie(int health, Vector2 position, String animationPath, float animSpeed, float speed) {
 		super(health, position, animationPath, animSpeed + (float)Math.random());
-		this.speed = -speed/300; // pour avoir une petite vitesse sans avoir des 0.00002f
+		this.speed = -speed/400; // pour avoir une petite vitesse sans avoir des 0.00002f
 	
 	}
 
@@ -30,7 +30,7 @@ public abstract class Zombie extends LivingEntity {
     
     private boolean slowed = false;
     private double timeSlow = 0;
-    private double timeSlowDelay = 6;
+    private double timeSlowDelay = 7;
     
     @Override
     public String name() {return "Zombie";}
@@ -45,12 +45,16 @@ public abstract class Zombie extends LivingEntity {
     }
     private float eatCouldown = 0;
 
+    public void addSpeed(float f) {
+    	speed += -f/400;
+    }
     public void slow() {
     	slowed = true;
     }
+    
     @Override
     public void update() {
-
+    	super.update();
     	if (slowed) {
     		timeSlow += GameManager.getInstance().getDeltatime();
     		if (timeSlow >= timeSlowDelay) {
@@ -61,7 +65,7 @@ public abstract class Zombie extends LivingEntity {
 
     	Plant firstEnemy = (Plant) GameManager.getInstance().getFirstPlant(this);
     	// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
-    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() -1) {
+    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
     	
     		eatCouldown += GameManager.getInstance().getDeltatime();
     		
@@ -74,7 +78,7 @@ public abstract class Zombie extends LivingEntity {
     	}
     	else {
     		if (slowed) {
-    			this.translation(new Vector2(speed/2, 0f));
+    			this.translation(new Vector2(speed / 3, 0f));
 			}
     		else {
     			this.translation(new Vector2(speed, 0f));
