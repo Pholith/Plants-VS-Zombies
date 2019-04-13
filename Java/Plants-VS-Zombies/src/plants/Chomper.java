@@ -13,7 +13,7 @@ public class Chomper extends AttackingPlant {
 		
 	}
 
-	private double digestTimeDelay = 10;
+	private double digestTimeDelay = 20;
 	private double digestTime = digestTimeDelay;
 
 	@Override

@@ -22,8 +22,8 @@ public class LevelManager {
 	private int counterBeforeEnd = 0; // temps depuis la dernière attaque en sec
 	
 	private double spawnDelay = 10; // temps de spawn en sec
-	private double waveDelay = 40; // temps entre chaque vague
-	private double levelTimeDelay = 180; // temps d'une partie  
+	private double waveDelay = 80; // temps entre chaque vague
+	private double levelTimeDelay = 220; // temps d'une partie  
 	
 
 	public LevelManager() {
