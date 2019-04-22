@@ -30,6 +30,5 @@ public class PoleVaulterZombie extends Zombie {
 	    		this.addSpeed(-0.5f);
 	    	}
 		}
-
 	}
 }

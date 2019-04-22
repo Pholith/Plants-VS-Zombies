@@ -3,6 +3,7 @@ package base;
 import java.util.ArrayList;
 
 import main.GameManager;
+import projectiles.Projectile;
 import zombies.BucketHeadZombie;
 
 /**
@@ -15,7 +16,7 @@ public abstract class LivingEntity extends GameObject {
 	private int actFrame;
 	private final long timeLoopAnimation;
     private long lastFrameUpdate;
-   
+    private boolean isActive; // pour stoper et remettre l'animation (chomper)
 
     
 
@@ -32,6 +33,7 @@ public abstract class LivingEntity extends GameObject {
 		actFrame = 0;
 		lastFrameUpdate =  GameManager.getInstance().getClockMillis();
 		
+		this.isActive = true;
 	}
 	
 	public LivingEntity(int health, Vector2 position, String animationPath, float animSpeed) {
@@ -47,18 +49,24 @@ public abstract class LivingEntity extends GameObject {
 	
 	public LivingEntity(int health, Sprite defaultSprite) {
 		this(health, Vector2.zero(), defaultSprite);
-	}
+	}*/
 
 
-	/**
-     * 
-     */
     private int health;
+    protected void setActive() {
+    	isActive = true;
+    }
+    protected void setInactive() {
+    	isActive = false;
+    }
     /*	Fait baisser la vie de l'entité
      * Renvoie vrai si les dégats ont tué l'entité vivante
      */
     public boolean takeDammage(int dammage) {
-    	health -= onTakeDammage(dammage);
+    	return takeDammage(dammage, null);
+    }
+    public boolean takeDammage(int dammage, Projectile p) {
+    	health -= onTakeDammage(dammage, p);
     	if (health <= 0) {
     		destroy();
     		return true;
@@ -67,6 +75,9 @@ public abstract class LivingEntity extends GameObject {
     }
     // cette méthode sert pour les zombies qui enchaissent des dégats via leurs outils
     public int onTakeDammage(int dammage) {
+    	return onTakeDammage(dammage, null);
+    }
+    public int onTakeDammage(int dammage, Projectile p) {
     	return dammage;
     }
     
@@ -85,23 +96,22 @@ public abstract class LivingEntity extends GameObject {
     @Override
     public Sprite display() {  
     	
-    	if(animationSprite.length == 1) {
+    	if(animationSprite.length == 1 || !(isActive)) {
     		return animationSprite[0];
     		
-    	}else if(animationSprite.length > 1) {
+    	} else if (animationSprite.length > 1) {
     		long delta = GameManager.getInstance().getClockMillis() - lastFrameUpdate;
-    		    		
+
     		float realTimeLoop =  timeLoopAnimation /GameManager.getInstance().getTimeScale();
     		
-    		if(delta >=  realTimeLoop) {
+    		if (delta >=  realTimeLoop) {
     			lastFrameUpdate = GameManager.getInstance().getClockMillis();
     		}
     		
  
     		return animationSprite [ (int)(((float)delta/realTimeLoop)*animationSprite.length)%animationSprite.length];
     	}
-    	
-    	
+    	 	
     	
   	   return null;
     }

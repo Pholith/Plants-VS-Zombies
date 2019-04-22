@@ -34,13 +34,18 @@ public class LevelManager {
 
 	// liste qui contient les classes de zombie 
 	Class[] listOfZombies = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+			FootballZombie.class, ScreenDoorZombie.class
 	};
 	
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
 	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
+		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
 	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
+	    if (new Random().nextBoolean()) {
+			rnd /= 2;
+		}
 	    return listOfZombies[rnd];
 	}
 	
@@ -80,7 +85,11 @@ public class LevelManager {
 			counterBeforeEnd ++;
 			lastTimeStamp = timeStamp;
 		}		
-		
+		// fin du niveau
+		if (counterBeforeEnd >= levelTimeDelay) {
+			  GameManager.getInstance().endGame(true);
+			  return;
+		}
 		
 		// création d'une vague d'attaque
 		if (counterOfLastWave >= waveDelay) {
@@ -103,10 +112,5 @@ public class LevelManager {
 			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay*timeMultiplier)+" secondes");
 			createZombie((int) levelAdvancement);
 		}
-		// fin du niveau
-		if (counterBeforeEnd >= levelTimeDelay) {
-			  GameManager.getInstance().endGame(true);
-		}
-		
 	}
 }

@@ -293,12 +293,13 @@ import fr.umlv.zen5.KeyboardKey;
 		 */ 
 		
 		public ArrayList<Zombie> getZombieArround(GameObject o) {
+			return getZombieArround(o, 2f);
+		}
+		public ArrayList<Zombie> getZombieArround(GameObject o, double distance) {
 			ArrayList<Zombie> listOfZombies = new ArrayList<>();
 			
 			for (GameObject gameObject : sceneContent) {
-				
-				double distance = 2f;
-				
+								
 				if (gameObject.isEnemy(o) &&
 						gameObject.getPosition().getX()    	< o.getPosition().getX() + distance &&
 						gameObject.getPosition().getX()	    > o.getPosition().getX() - distance &&

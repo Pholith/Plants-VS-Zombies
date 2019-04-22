@@ -8,7 +8,7 @@ public class Chomper extends AttackingPlant {
 
 	
 	public Chomper(Vector2 position) {
-		super(150, position, 100, 3f, 50, 10f, "plants/chomper.png", 3f);
+		super(100, position, 150, 3f, 50, 10f, "plants/chomper.png", 3f);
 
 		
 	}
@@ -20,11 +20,12 @@ public class Chomper extends AttackingPlant {
 	public void update() {
 
 		if (digestTime >= digestTimeDelay) {
-			
+			setActive();
 			Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
 			if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 2f) {
 				firstEnemy.takeDammage(1000);
 				digestTime = 0;
+				setInactive();
 			}
 		}
 		digestTime += GameManager.getInstance().getDeltatime();

@@ -118,15 +118,17 @@ public class Resources {
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
-    	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
-
+    	cutImage("plants/patatomine.png", 9, 6,new Vector2(0.5f,0.4f), 75);
+    	
     	
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
     	cutImage("zombies/flag_zombie.png", 1, 1,135);
     	cutImage("zombies/polevaulter.png", 1, 1, 290);
     	cutImage("zombies/buckethead.png", 1, 1, 450);
-
+    	cutImage("zombies/football.png", 1, 1, 280);
+    	cutImage("zombies/screendoor.png", 1, 1, 320);
+    	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	
@@ -136,18 +138,17 @@ public class Resources {
     	
                
     	
-    	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
-
-    	new UI_Button(new Vector2(1.5f, 1.9f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
-    	new UI_Button(new Vector2(1.5f, 2.8f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
-
-    	new UI_Button(new Vector2(1.5f, 3.7f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
-    	new UI_Button(new Vector2(1.5f, 4.6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);});
-    	new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);});
+    	new UI_Button(new Vector2(1.5f, 1f),   1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> { selectPlantOfType(0);});
+    	new UI_Button(new Vector2(1.5f, 1.9f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> { selectPlantOfType(1);});
+    	new UI_Button(new Vector2(1.5f, 2.8f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> { selectPlantOfType(2);});
+    	new UI_Button(new Vector2(1.5f, 3.7f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> { selectPlantOfType(3);});
+    	new UI_Button(new Vector2(1.5f, 4.6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75),    func -> { selectPlantOfType(4);});
+    	//new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75),    func -> { selectPlantOfType(5);});
+    	new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/potatomineicon.png"), 75), func -> { selectPlantOfType(6);});
     	
     	
     	
-       	new UI_Button(new Vector2(1.5f, 6.4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+       	new UI_Button(new Vector2(1.5f, 6.4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75),     func -> { selectShovel();});
 
        	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
      	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
@@ -275,26 +276,29 @@ public class Resources {
     		  	selectPlantOfType(-1);
     		return;
     	}
-    	
-    	switch (selectedPlant%6) { // variable à incrémenter à l'implémentation de nouvelles plantes
+    	var vector = new Vector2(coords[0], coords[1]);
+    	switch (selectedPlant % 7) { // variable à incrémenter à l'implémentation de nouvelles plantes
 		case 0:
-			new Peashooter(new Vector2(coords[0], coords[1]));
+			new Peashooter(vector);
 			break;
 
 		case 1:
-			new Sunflower(new Vector2(coords[0], coords[1]));
+			new Sunflower(vector);
 			break;
 		case 2:
-			new WallNut(new Vector2(coords[0], coords[1]));
+			new WallNut(vector);
 			break;
 	   	case 3:
-    		new CherryBomb(new Vector2(coords[0], coords[1]));
+    		new CherryBomb(vector);
     		break;
     	case 4:
-    		new Chomper(new Vector2(coords[0], coords[1]));
+    		new Chomper(vector);
     		break;
     	case 5:
-    		new FreezePeaShooter(new Vector2(coords[0], coords[1]));
+    		new FreezePeaShooter(vector);
+    		break;
+    	case 6:
+    		new PatatoMine(vector);
     		break;
     	}
     		

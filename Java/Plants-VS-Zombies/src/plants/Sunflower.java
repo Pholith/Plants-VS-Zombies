@@ -11,12 +11,7 @@ import main.GameManager;
  */
 public class Sunflower extends Plant {
 
-	
-	
-	
-
-    private int production;
-
+	private int production;
     /*
 	public Sunflower(int health, Vector2 position, int cost, float reloadTime, String animationPath,
 			float animationSpeed) {
@@ -31,8 +26,7 @@ public class Sunflower extends Plant {
     @Override
     public String name() {return "Sunflower";}
 
-float timer = 0;
-    
+    float timer = 0;
     @Override
     public void update() {
     	if(timer >= 10f) {

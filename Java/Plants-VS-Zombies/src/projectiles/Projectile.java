@@ -48,7 +48,7 @@ public class Projectile extends GameObject {
     	return true;
     }
     public void hit(Zombie z) {
-		z.takeDammage(dammage);
+		z.takeDammage(dammage, this);
 		destroy();
     }
     @Override
@@ -69,7 +69,9 @@ public class Projectile extends GameObject {
     public Sprite display() {  
     	return defaultSprite;
     }
-    
+    public boolean canByPassScreenDoor() {
+    	return false;
+    }
     
     
 }
