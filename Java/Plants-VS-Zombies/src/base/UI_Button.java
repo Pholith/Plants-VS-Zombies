@@ -46,7 +46,9 @@ public class UI_Button extends UI_Element {
 		}
 		
 		
-		
+		@Override
+	    public String name() {return "UI_Button";}
+
 		
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, Sprite sprite, Consumer simpleFunction) {
 			super(pos, renderScale, renderColor, RenderMode.Both );

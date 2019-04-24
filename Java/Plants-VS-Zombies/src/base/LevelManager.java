@@ -20,9 +20,11 @@ public class LevelManager {
 	private int counterOfLastZombie = 0; // temps depuis la dernière attaque en sec
 	private int counterOfLastWave = 0; // temps depuis la dernière attaque en sec
 	private int counterBeforeEnd = 0; // temps depuis la dernière attaque en sec
+	private int counterOfSun = 0; // temps depuis la dernière attaque en sec
 	
-	private double spawnDelay = 10; // temps de spawn en sec
+	private double spawnDelay = 12; // temps de spawn en sec
 	private double waveDelay = 80; // temps entre chaque vague
+	private double sunSpawnDelay = 5; // temps entre chaque vague
 	private double levelTimeDelay = 220; // temps d'une partie  
 	
 
@@ -55,9 +57,9 @@ public class LevelManager {
 		try {
 			// Prend un type de Zombie aléatoire du tableau
 			Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, coeffDifficulty);
-			//Class c1 = Class.forName(zombieClass.getName());
+			// Class c1 = Class.forName(zombieClass.getName());
 			// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
-			Constructor constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
+			Constructor<? extends Zombie> constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
 			constructor.newInstance(new Object[] {Vector2.randomStartVector()}); // TODO rendre random le vecteur
 
 		} catch (Exception e) {
@@ -71,7 +73,6 @@ public class LevelManager {
 		new FlagZombie(Vector2.randomStartVector());
 	}
 	
-	
 	// gère les attaques de zombies et les niveaux
 	public void levelEvent() {
 		double timeMultiplier = 1d/(double)GameManager.getInstance().getTimeScale();
@@ -83,6 +84,7 @@ public class LevelManager {
 			counterOfLastZombie ++;
 			counterOfLastWave ++;
 			counterBeforeEnd ++;
+			counterOfSun ++;
 			lastTimeStamp = timeStamp;
 		}		
 		// fin du niveau
@@ -90,7 +92,12 @@ public class LevelManager {
 			  GameManager.getInstance().endGame(true);
 			  return;
 		}
-		
+		// invocation de soleil aléatoire
+		if (counterOfSun >= sunSpawnDelay) {
+			new UI_Sun(new Vector2((float) Math.random()*5 + 3, (float) Math.random()*4 + 1), func -> { GameManager.getInstance().getResources().getASun(); });
+			counterOfSun = 0;
+			sunSpawnDelay ++;
+		}
 		// création d'une vague d'attaque
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;

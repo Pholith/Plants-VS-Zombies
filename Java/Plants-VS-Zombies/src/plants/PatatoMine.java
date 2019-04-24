@@ -14,7 +14,7 @@ import zombies.Zombie;
 public class PatatoMine extends Plant {
 
 	public PatatoMine(Vector2 position) {
-		super(100, position, 25, 3f, "plants/patatomine.png", 6f);
+		super(100, position, 3f, "plants/patatomine.png", 6f);
 	}
 	
 	private float timeBeforeReady = 10;
@@ -23,7 +23,10 @@ public class PatatoMine extends Plant {
 	}
 	
 	private boolean exploded;
-	
+	public static int getCost() {
+    	return 25;
+	}
+
 	public void update() {
 
 		if (timeBeforeReady <= 0) {

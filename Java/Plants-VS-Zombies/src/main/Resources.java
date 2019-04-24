@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ import base.UI_Element;
 import base.UI_Label;
 import base.UI_Sprite;
 import base.UI_Sun;
+import base.UI_TempLabel;
+import base.UI_TremblingLabel;
 import base.Vector2;
 import plants.*;
 import zombies.*;
@@ -175,9 +179,8 @@ public class Resources {
      	 	
         }
     
-    private void getASun() {    	
-    money += 50;
-    
+    public void getASun() {    	
+    	money += 50;
     }
     
     
@@ -187,11 +190,11 @@ public class Resources {
   
     	//Effet joli sur la couleur des bouttons du terrain
     	if(!shovelMode) {
-    	for(UI_Button but : terrainButtonList)
-    		but.setRenderColor(new Color(255,165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
-    	}else {
-    		for(UI_Button but : terrainButtonList)
-        		but.setRenderColor(new Color(0,165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	    	for (UI_Button but : terrainButtonList)
+	    		but.setRenderColor(new Color(255, 165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	    	} else {
+	    		for (UI_Button but : terrainButtonList)
+	        		but.setRenderColor(new Color(0, 165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
     	}
     		
     	
@@ -214,14 +217,9 @@ public class Resources {
 			plantSpawnCounter += GameManager.getInstance().getDeltatime();
 		}
 		
-		
-		
-		
 		//money actualisation
-		moneyRender.setText(Integer.toString( money));
-		
-		
-    	
+		moneyRender.setText(Integer.toString(money));
+		    	
     }
     
     
@@ -234,7 +232,7 @@ public class Resources {
     
     
     private void selectPlantOfType(int value) {
-    shovelMode = false;
+    	shovelMode = false;
     	System.out.println(value);
  
     	if (value == -1 || selectedPlant == value) {
@@ -267,43 +265,47 @@ public class Resources {
     
    private void onSelectTerrainButton(Integer[] coords) {
     	
-    	if(coords == null || coords.length != 2) 
+    	if (coords == null || coords.length != 2) 
     		return;
     	
     	
-    	if(shovelMode) {
+    	if (shovelMode) {
     		  actTerrain.removeEntity(coords[0], coords[1]);
     		  	selectPlantOfType(-1);
     		return;
     	}
     	var vector = new Vector2(coords[0], coords[1]);
-    	switch (selectedPlant % 7) { // variable à incrémenter à l'implémentation de nouvelles plantes
-		case 0:
-			new Peashooter(vector);
-			break;
-
-		case 1:
-			new Sunflower(vector);
-			break;
-		case 2:
-			new WallNut(vector);
-			break;
-	   	case 3:
-    		new CherryBomb(vector);
-    		break;
-    	case 4:
-    		new Chomper(vector);
-    		break;
-    	case 5:
-    		new FreezePeaShooter(vector);
-    		break;
-    	case 6:
-    		new PatatoMine(vector);
-    		break;
-    	}
-    		
-    	selectPlantOfType(-1);
     	
+    	// Liste des class de plantes
+    	Class[] listOfPlant = new Class[] {
+    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+    			Chomper.class, FreezePeaShooter.class, PatatoMine.class
+    	};
+    	// La plante choisi
+    	Class<? extends Plant> selectedPlantClass = listOfPlant[selectedPlant];
+
+    	try {
+    		// Récupère la méthode static getCost de la plante
+    		Method method = selectedPlantClass.getMethod("getCost");
+    		// récupère l'entier en résultat de la méthode
+	    	Object result = method.invoke(null, null);
+	    	System.out.println(result);
+	    	
+	    	if (money >= (int) result) {
+	    		// instancie la plante
+		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
+				constructor.newInstance(new Object[] {vector});
+				money -= (int) result;
+			} else {
+				new UI_TremblingLabel(Terrain.caseToPosition(vector), "Not enought sun", 1.5);
+				
+			}
+	   		
+    	} catch (Exception e){
+    		System.out.println(e);
+    	}
+    	selectPlantOfType(-1); // remet la sélection à null
+
     }
     
 

@@ -8,13 +8,17 @@ public class Chomper extends AttackingPlant {
 
 	
 	public Chomper(Vector2 position) {
-		super(100, position, 150, 3f, 50, 10f, "plants/chomper.png", 3f);
+		super(100, position, 3f, 50, 10f, "plants/chomper.png", 3f);
 
 		
 	}
 
 	private double digestTimeDelay = 20;
 	private double digestTime = digestTimeDelay;
+
+	public static int getCost() {
+    	return 150;
+	}
 
 	@Override
 	public void update() {

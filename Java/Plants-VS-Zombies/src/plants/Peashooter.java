@@ -12,15 +12,15 @@ import projectiles.Peash;
 public class Peashooter extends AttackingPlant {
 
 	public Peashooter(Vector2 position) {
-		super(100, position, 100, 3f, 50, 10f, "plants/pea_shooter.png", 4f);
+		super(100, position, 3f, 50, 10f, "plants/pea_shooter.png", 4f);
 
 		
 	}
 
-	
-    /**
-     * Default constructor
-     */
+	public static int getCost() {
+    	return 100;
+	}
+
     @Override
     public String name() {return "Peashooter";}
 
