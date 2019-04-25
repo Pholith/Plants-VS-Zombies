@@ -20,9 +20,6 @@ public class Projectile extends GameObject {
 	private Sprite defaultSprite;
 	
 	
-    /**
-     * Default constructor
-     */
     public Projectile(Vector2 position, Vector2 speed, int dammage, String texturePath) {
 		super(position);
 		this.speed = speed;
@@ -34,15 +31,9 @@ public class Projectile extends GameObject {
 		defaultSprite = sprts[0];
 	}
 
-	/**
-     * 
-     */
     private Vector2 speed;
     private int dammage; 
 
-    /**
-     * 
-     */
     @Override
     public boolean isProjectile() {
     	return true;

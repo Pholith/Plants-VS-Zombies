@@ -116,6 +116,7 @@ public class Resources {
     	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
     	actTerrain = new Terrain(terrain);
     	
+    	// nombre de colonne puis nombre de ligne
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
     	cutImage("plants/wallNut.png", 9, 3, 60);
@@ -130,7 +131,7 @@ public class Resources {
     	cutImage("zombies/flag_zombie.png", 1, 1,135);
     	cutImage("zombies/polevaulter.png", 1, 1, 290);
     	cutImage("zombies/buckethead.png", 1, 1, 450);
-    	cutImage("zombies/football.png", 1, 1, 280);
+    	cutImage("zombies/football.png", 2, 1, 80);
     	cutImage("zombies/screendoor.png", 1, 1, 320);
     	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
@@ -210,7 +211,7 @@ public class Resources {
 				shovelMode = false;
 				System.out.println(" random: "+randomX+" "+randomY);
 
-				selectedPlant =  (int)(Math.random()*10);
+				selectedPlant =  (int)(Math.random() * 7);
 				onSelectTerrainButton(new Integer[] {randomX, randomY});
 				plantSpawnCounter = 0;
 			}

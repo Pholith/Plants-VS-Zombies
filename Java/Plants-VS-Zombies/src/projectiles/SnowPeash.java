@@ -9,9 +9,6 @@ public class SnowPeash extends Projectile {
 		super(position, new Vector2(0.06f, 0), 10, "plants/snowpeash.png");
 	}
 
-    /**
-     * Default constructor
-     */
 	@Override
 	public void update() {
 		super.update();
