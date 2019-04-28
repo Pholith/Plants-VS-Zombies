@@ -110,8 +110,7 @@ public class Terrain extends GameObject {
     public String name() { return "Terrain";}
 
     
-    
-    
+      
     
     @Override
 	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {

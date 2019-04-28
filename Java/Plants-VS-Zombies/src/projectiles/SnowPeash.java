@@ -6,12 +6,9 @@ import zombies.Zombie;
 public class SnowPeash extends Projectile {
 	public SnowPeash(Vector2 position) {
 		
-		super(position, new Vector2(0.08f, 0), 20, "plants/snowpeash.png");
+		super(position, new Vector2(0.06f, 0), 10, "plants/snowpeash.png");
 	}
 
-    /**
-     * Default constructor
-     */
 	@Override
 	public void update() {
 		super.update();

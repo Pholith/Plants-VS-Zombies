@@ -40,9 +40,7 @@ public class Vector2 {
 			this.y = 0;		
 		}
 		
-		
-		
-		
+				
 		@Override
 		public String toString() {
 			return "Vector2 ( " + x + " , " + y+" )";
@@ -54,9 +52,6 @@ public class Vector2 {
 		public static Vector2 one() {
 			return new Vector2(1,1);
 		}
-		
-		
-		
 		
 		
 		public float getX() {
@@ -77,7 +72,7 @@ public class Vector2 {
 	    public double length() {
 	        return (double) Math.sqrt(this.x*this.x + this.y*this.y);
 	    }
-	    
+
 		/* Les méthodes de multiplication */
 		public Vector2 multiply(float f) {
 			return new Vector2(x*f , y*f );

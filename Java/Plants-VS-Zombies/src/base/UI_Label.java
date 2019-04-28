@@ -20,7 +20,7 @@ public class UI_Label extends UI_Element {
 	public void setText(String text) {
 		objectText = text;
 	}
-	
+
 	@Override
 	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
 	

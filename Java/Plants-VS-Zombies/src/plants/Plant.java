@@ -13,17 +13,19 @@ public abstract class Plant extends LivingEntity {
 
     private Square associatedSquare;
 	
-	public Plant( int health, Vector2 position, int cost, float reloadTime, String animationPath, float animationSpeed) {
+	public Plant( int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, animationPath, animationSpeed + (float)Math.random());
-		this.cost = cost;
 		this.reloadTime = reloadTime;
 		associatedSquare = GameManager.getResources().addEntityToTerrain((int)position.getX(), (int)position.getY(), this);
 	}
 
 
  
-    private int cost;
-
+	// renvoie le prix d'une plante
+    public static int getCost() {
+    	return 0;
+    }
+    
     @Override
     public String name() {return "Plant";}
 

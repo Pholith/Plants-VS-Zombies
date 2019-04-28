@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,8 @@ import base.UI_Label;
 import base.UI_PlantButton;
 import base.UI_Sprite;
 import base.UI_Sun;
+import base.UI_TempLabel;
+import base.UI_TremblingLabel;
 import base.Vector2;
 import plants.*;
 import zombies.*;
@@ -113,18 +117,24 @@ public class Resources {
     	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
     	actTerrain = new Terrain(terrain);
     	
+    	// nombre de colonne puis nombre de ligne
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
     	cutImage("plants/wallNut.png", 9, 3, 60);
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
-    	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
-
+    	cutImage("plants/patatomine.png", 9, 6,new Vector2(0.5f,0.4f), 75);
+    	
     	
     	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
       	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
     	cutImage("zombies/flag_zombie.png", 1, 1,135);
+    	cutImage("zombies/polevaulter.png", 1, 1, 290);
+    	cutImage("zombies/buckethead.png", 1, 1, 450);
+    	cutImage("zombies/football.png", 2, 1, 80);
+    	cutImage("zombies/screendoor.png", 1, 1, 320);
+    	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	
@@ -132,7 +142,7 @@ public class Resources {
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
      
     	
-               
+
     	plantButtonList = new UI_PlantButton[] {
     	new UI_PlantButton(new Vector2(1.5f, 1f), new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);}, 1f),
     	new UI_PlantButton(new Vector2(1.5f, 1.9f), new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);}, 1f),
@@ -142,6 +152,7 @@ public class Resources {
     	new UI_PlantButton(new Vector2(1.5f, 5.5f), new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);}, 1f),
        	new UI_PlantButton(new Vector2(1.5f, 6.4f), new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();}, 1f)
     	};
+
 
        	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
      	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
@@ -168,9 +179,8 @@ public class Resources {
      	 	
         }
     
-    private void getASun() {    	
-    money += 50;
-    
+    public void getASun() {    	
+    	money += 50;
     }
     
     
@@ -180,11 +190,11 @@ public class Resources {
   
     	//Effet joli sur la couleur des bouttons du terrain
     	if(!shovelMode) {
-    	for(UI_Button but : terrainButtonList)
-    		but.setRenderColor(new Color(255,165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
-    	}else {
-    		for(UI_Button but : terrainButtonList)
-        		but.setRenderColor(new Color(0,165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	    	for (UI_Button but : terrainButtonList)
+	    		but.setRenderColor(new Color(255, 165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	    	} else {
+	    		for (UI_Button but : terrainButtonList)
+	        		but.setRenderColor(new Color(0, 165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
     	}
     		
     	
@@ -200,21 +210,16 @@ public class Resources {
 				shovelMode = false;
 				System.out.println(" random: "+randomX+" "+randomY);
 
-				selectedPlant =  (int)(Math.random()*10);
+				selectedPlant =  (int)(Math.random() * 7);
 				onSelectTerrainButton(new Integer[] {randomX, randomY});
 				plantSpawnCounter = 0;
 			}
 			plantSpawnCounter += GameManager.getInstance().getDeltatime();
 		}
 		
-		
-		
-		
 		//money actualisation
-		moneyRender.setText(Integer.toString( money));
-		
-		
-    	
+		moneyRender.setText(Integer.toString(money));
+		    	
     }
     
     
@@ -227,7 +232,7 @@ public class Resources {
     
     
     private void selectPlantOfType(int value) {
-    shovelMode = false;
+    	shovelMode = false;
     	System.out.println(value);
  
     	if (value == -1 || selectedPlant == value) {
@@ -260,43 +265,52 @@ public class Resources {
     
    private void onSelectTerrainButton(Integer[] coords) {
     	
-    	if(coords == null || coords.length != 2) 
+    	if (coords == null || coords.length != 2) 
     		return;
     	
     	
-    	if(shovelMode) {
+    	if (shovelMode) {
     		  actTerrain.removeEntity(coords[0], coords[1]);
     		  	selectPlantOfType(-1);
     		return;
     	}
+    	var vector = new Vector2(coords[0], coords[1]);
     	
-    	switch (selectedPlant%6) { // variable à incrémenter à l'implémentation de nouvelles plantes
-		case 0:
-			new Peashooter(new Vector2(coords[0], coords[1]));
-			break;
+    	// Liste des class de plantes
+    	Class[] listOfPlant = new Class[] {
+    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+    			Chomper.class, FreezePeaShooter.class, PatatoMine.class
+    	};
+    	// La plante choisi
+    	Class<? extends Plant> selectedPlantClass = listOfPlant[selectedPlant];
 
-		case 1:
-			new Sunflower(new Vector2(coords[0], coords[1]));
-			break;
-		case 2:
-			new WallNut(new Vector2(coords[0], coords[1]));
-			break;
-	   	case 3:
-    		new CherryBomb(new Vector2(coords[0], coords[1]));
-    		break;
-    	case 4:
-    		new Chomper(new Vector2(coords[0], coords[1]));
-    		break;
-    	case 5:
-    		new FreezePeaShooter(new Vector2(coords[0], coords[1]));
-    		break;
+    	try {
+    		// Récupère la méthode static getCost de la plante
+    		Method method = selectedPlantClass.getMethod("getCost");
+    		// récupère l'entier en résultat de la méthode
+	    	Object result = method.invoke(null, null);
+	    	System.out.println(result);
+	    	
+	    	if (money >= (int) result) {
+	    		// instancie la plante
+		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
+				constructor.newInstance(new Object[] {vector});
+				money -= (int) result;
+			} else {
+				new UI_TremblingLabel(Terrain.caseToPosition(vector), "Not enought sun", 1.5);
+				
+			}
+	   		
+    	} catch (Exception e){
+    		System.out.println(e);
     	}
-    		
+
     	
     	plantButtonList[selectedPlant%6].selectPlant();
     	
-    	selectPlantOfType(-1);
+    	selectPlantOfType(-1); // remet la sélection à null
     	
+
     }
     
 

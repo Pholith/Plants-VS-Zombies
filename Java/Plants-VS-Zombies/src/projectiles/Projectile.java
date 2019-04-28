@@ -20,9 +20,6 @@ public class Projectile extends GameObject {
 	private Sprite defaultSprite;
 	
 	
-    /**
-     * Default constructor
-     */
     public Projectile(Vector2 position, Vector2 speed, int dammage, String texturePath) {
 		super(position);
 		this.speed = speed;
@@ -34,21 +31,15 @@ public class Projectile extends GameObject {
 		defaultSprite = sprts[0];
 	}
 
-	/**
-     * 
-     */
     private Vector2 speed;
     private int dammage; 
 
-    /**
-     * 
-     */
     @Override
     public boolean isProjectile() {
     	return true;
     }
     public void hit(Zombie z) {
-		z.takeDammage(dammage);
+		z.takeDammage(dammage, this);
 		destroy();
     }
     @Override
@@ -59,7 +50,7 @@ public class Projectile extends GameObject {
     	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.6) {
     		hit(firstEnemy);
     	}
-    	 translation(speed);
+    	translation(speed);
     }
     @Override
     public String name() {
@@ -69,7 +60,9 @@ public class Projectile extends GameObject {
     public Sprite display() {  
     	return defaultSprite;
     }
-    
+    public boolean canByPassScreenDoor() {
+    	return false;
+    }
     
     
 }

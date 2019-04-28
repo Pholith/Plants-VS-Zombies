@@ -19,17 +19,22 @@ public class UI_Sun extends UI_Button {
 		super(pos, 1f, Color.white, GameManager.getResources().getAnimationByPath("particles/sun.png")[0], simpleFunction);
 	}
 
+//	public UI_Sun(Vector2 pos) {
+//		this(pos, _useless -> {});
+//	}
 
 	@Override
 	public void start() {
 		startVel =  new Vector2((float)Math.random()*0.5f - 0.25f, 1f + (float)Math.random()/2f);	
-		velocity =startVel;
+		velocity = startVel;
 		
 		yPositionMin = getPosition().getY() + (float)Math.random();
 	}
 	
 
-	
+	@Override
+    public String name() {return "UI_Sun";}
+
 	
 	@Override
 	public void update() {
@@ -50,8 +55,7 @@ public class UI_Sun extends UI_Button {
 	
 	@Override
 	protected void onClick() {
-	destroy();
-		
+		destroy();
 	}
 	
 }

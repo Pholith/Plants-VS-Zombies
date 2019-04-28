@@ -15,8 +15,8 @@ public class AttackingPlant extends Plant {
      * Default constructor
      */
 
-	public AttackingPlant(int health, Vector2 position, int cost, float reloadTime, int damages, float range,  String animationPath, float animationSpeed) {
-		super(health, position, cost, reloadTime, animationPath , animationSpeed);
+	public AttackingPlant(int health, Vector2 position, float reloadTime, int damages, float range,  String animationPath, float animationSpeed) {
+		super(health, position, reloadTime, animationPath , animationSpeed);
 		this.damages = damages;
 		this.range = range;
 	}
@@ -31,8 +31,11 @@ public class AttackingPlant extends Plant {
 	/**
      * 
      */
+	public static int getCost() {
+    	return 0;
+	}
+
     private float range;
-       
     
     private float attackSpeedCount = 0;
 
@@ -46,7 +49,7 @@ public class AttackingPlant extends Plant {
         	attackSpeedCount += GameManager.getInstance().getDeltatime();
 
   
-	    	if(attackSpeedCount >= 2f) {
+	    	if(attackSpeedCount >= 0.8f) {
 	    		attack(getPosition());
 	    		attackSpeedCount = 0;
 	    	}
