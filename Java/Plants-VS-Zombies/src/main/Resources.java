@@ -20,6 +20,7 @@ import base.Terrain;
 import base.UI_Button;
 import base.UI_Element;
 import base.UI_Label;
+import base.UI_PlantButton;
 import base.UI_Sprite;
 import base.UI_Sun;
 import base.Vector2;
@@ -59,7 +60,7 @@ public class Resources {
     
 
     
-   
+    private  UI_PlantButton[] plantButtonList;  
     
  
     private  Sprite[] errorAnim;   
@@ -102,7 +103,7 @@ public class Resources {
     	loadImageAtPath("cards/shovelicon.png");
     	loadImageAtPath("cards/emptyfield.png");
     	loadImageAtPath("cards/chompericon.png");
-    	
+    
     	
     	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
 
@@ -132,19 +133,15 @@ public class Resources {
      
     	
                
-    	
-    	new UI_Button(new Vector2(1.5f, 1f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);});
-
-    	new UI_Button(new Vector2(1.5f, 1.9f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);});
-    	new UI_Button(new Vector2(1.5f, 2.8f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);});
-
-    	new UI_Button(new Vector2(1.5f, 3.7f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
-    	new UI_Button(new Vector2(1.5f, 4.6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);});
-    	new UI_Button(new Vector2(1.5f, 5.5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);});
-    	
-    	
-    	
-       	new UI_Button(new Vector2(1.5f, 6.4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();});
+    	plantButtonList = new UI_PlantButton[] {
+    	new UI_PlantButton(new Vector2(1.5f, 1f), new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);}, 1f),
+    	new UI_PlantButton(new Vector2(1.5f, 1.9f), new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);}, 1f),
+    	new UI_PlantButton(new Vector2(1.5f, 2.8f), new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);}, 1f),
+    	new UI_PlantButton(new Vector2(1.5f, 3.7f), new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);}, 1f),
+    	new UI_PlantButton(new Vector2(1.5f, 4.6f), new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);}, 1f),
+    	new UI_PlantButton(new Vector2(1.5f, 5.5f), new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);}, 1f),
+       	new UI_PlantButton(new Vector2(1.5f, 6.4f), new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();}, 1f)
+    	};
 
        	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
      	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
@@ -295,6 +292,9 @@ public class Resources {
     		break;
     	}
     		
+    	
+    	plantButtonList[selectedPlant%6].selectPlant();
+    	
     	selectPlantOfType(-1);
     	
     }

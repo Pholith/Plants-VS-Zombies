@@ -43,9 +43,7 @@ public class CherryBomb extends Plant {
 		timeExplode += GameManager.getInstance().getDeltatime();
 	}
 	
-	/*
-	*/
-	@Override
+
     public String name() {return "CherryBomb";}
 
 

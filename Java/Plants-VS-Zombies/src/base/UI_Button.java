@@ -22,9 +22,17 @@ public class UI_Button extends UI_Element {
 	
 	private boolean pressed; 
 	private boolean selected; 
+	/*
+	protected boolean isSelected() {
+		return selected;
+	}*/
+	
 	private Vector2 screenPosition;
 	private Vector2 lastPosition;
     private RoundRectangle2D drawRect;
+    protected RoundRectangle2D getDrawRect() {
+		return drawRect;
+	}
 	private Vector2 offset;
 	
     
@@ -126,7 +134,7 @@ public class UI_Button extends UI_Element {
 	    }
 	    
 	    
-	    protected void onClick() {}
+	    void onClick() {}
 		
 		@Override
 		public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
