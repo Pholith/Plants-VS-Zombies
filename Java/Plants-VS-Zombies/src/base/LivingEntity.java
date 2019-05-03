@@ -73,7 +73,7 @@ public abstract class LivingEntity extends GameObject {
     	}
     	return false;
     }
-    // cette méthode sert pour les zombies qui enchaissent des dégats via leurs outils
+    // cette méthode sert pour les zombies qui encaissent des dégats via leurs outils
     public int onTakeDammage(int dammage) {
     	return onTakeDammage(dammage, null);
     }
@@ -109,7 +109,7 @@ public abstract class LivingEntity extends GameObject {
     		}
     		
  
-    		return animationSprite [ (int)(((float)delta/realTimeLoop)*animationSprite.length)%animationSprite.length];
+    		return animationSprite [ (int)(((float) delta/realTimeLoop)*animationSprite.length)%animationSprite.length];
     	}
     	 	
     	

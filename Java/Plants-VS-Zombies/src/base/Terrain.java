@@ -10,6 +10,7 @@ import java.util.function.Consumer;
 import enums.EnumTerrain;
 import enums.RenderMode;
 import main.GameInfo;
+import plants.Plant;
 import ui.UI_Button;
 
 /**
@@ -33,21 +34,21 @@ public class Terrain extends GameObject {
 	}
 	
 	public static Vector2 positionToCase(Vector2 pos) {
-		return new Vector2(Math.round((pos.getX() - 3.456f) / 0.94f), 		Math.round( (pos.getY() - 1.5f) / (1.15f - ((float)sizeY-5f)/8f)) );
+		return new Vector2(Math.round((pos.getX() - 3.456f) / 0.94f), Math.round( (pos.getY() - 1.5f) / (1.15f - ((float)sizeY-5f)/8f)) );
 	}
 	
 	
 	
 	
-	public Terrain(Sprite terrainSprite,EnumTerrain terrainType) {
+	public Terrain(Sprite terrainSprite, EnumTerrain terrainType) {
 		super(Vector2.zero(), RenderMode.Both);
 		this.terrainSprite = terrainSprite;
 		this.terrainType = terrainType;
 		sizeX = 9;	
 	
-		if(terrainType == EnumTerrain.pool) {
+		if (terrainType == EnumTerrain.pool) {
 			sizeY = 6;
-		}else
+		} else
 			sizeY = 5;
 	
 		
@@ -76,6 +77,15 @@ public class Terrain extends GameObject {
     	   		if( (listOfSquares[y][x].getContain() == null) == FilledSlotOnly)
     	   			continue;
     	   		Integer[] params = new Integer[] {x,y};
+    	   		
+    	   		/*println.out.(x +" "+ y ); TO DELTE Si julien utilise pas
+    	   		if (isWater(new Vector2(x,y))) {
+    	   			Plant plant = (Plant) listOfSquares[y][x].getContain();
+    	   			if (!plant.isLilyPad()) {
+        	   			continue;
+					}
+    	   		}*/
+    	   		
     	   		lst.add(new UI_Button( caseToPosition(x,y)  ,1f,Color.orange, Constant.sizeTerrainCase , Constant.sizeTerrainCase , new Vector2(0.5f,0.5f), func -> {function.accept(params ); } ));
     	   		
     	   	}

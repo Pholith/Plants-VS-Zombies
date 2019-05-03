@@ -2,6 +2,7 @@ package main;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import base.GameObject;
@@ -23,20 +24,44 @@ public final class MainMenu {
 		 
 	 
 	 private static void terrain_menu() {
-			 GameManager.getInstance().clearScene();
+			GameManager.getInstance().clearScene();
 			new UI_Label(new Vector2(2,1.5f), "Choisissez votre terrain", Color.blue, 5f);
-			new UI_Button(new Vector2(2f, 3f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("lawn.jpg"), 400), func -> {plant_menu(EnumTerrain.lawn);});
-			new UI_Button(new Vector2(2f, 4.5f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("nightTerrain.jpg"), 400), func -> {plant_menu(EnumTerrain.night_lawn);});
-			new UI_Button(new Vector2(2f, 6f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("poolTerrain.jpg"), 400), func -> {plant_menu(EnumTerrain.pool);});
+			new UI_Button(new Vector2(2f, 3f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("lawn.jpg"), 400), func -> { plant_menu(EnumTerrain.lawn);});
+			new UI_Button(new Vector2(2f, 4.5f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("nightTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.night_lawn);});
+			new UI_Button(new Vector2(2f, 6f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("poolTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.pool);});
 		 }
 			
 	private static int selectCnt = 0;
 	private static int actCnt = 0;
 	
+	private static Class[] selectZombies() {
+		Class[] listOfZombies = new Class[6];
+		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
+
+		new UI_Label(new Vector2(8,1.5f), "Ces Zombies vont vous attaquer", Color.red, 4f);
+
+		// Les zombies simples qui sont toujours présents
+		listOfZombies[0] = totalZombies[0];
+		listOfZombies[1] = totalZombies[1];
+		
+
+		for (int i = 0; i < 4; i++) {
+			int rand = (int) (Math.random() * totalZombies.length); // à optimiser 
+			System.out.println("random = " + rand);
+
+			listOfZombies[2 + i] = totalZombies[rand];
+		}
+		
+		for (int j = 0; j < listOfZombies.length; j++) {
+			new UI_Sprite(new Vector2(11f+ (j % 3) *1f, 4f + 2f* (j / 3)), GameManager.getResources().getAnimationByPath("zombies/" + listOfZombies[j].getSimpleName() +".png")[0]);
+		}
+
+		return listOfZombies;
+	}
 	
 	private static void plant_menu(EnumTerrain terrain) {
-		 GameManager.getInstance().clearScene();
-		new UI_Label(new Vector2(2,1.5f), "Choisissez vos plantes", Color.blue, 5f);
+		GameManager.getInstance().clearScene();
+		new UI_Label(new Vector2(1.5f, 1.5f), "Choisissez vos plantes", Color.green, 4f);
 		int i = 0;
 	
 		ArrayList<UI_Button> listButtons = new ArrayList<UI_Button>();
@@ -46,48 +71,19 @@ public final class MainMenu {
 		Class[] listOfPlants = new Class[selectCnt];
 		Class[] totalplants = GameManager.getResources().getPlantsTotalList();
 		
+		Class[] listOfZombies = selectZombies();
+		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
 		
 		for(i = 0; i < totalplants.length; i++) {
 			int b = i;//obligé
-			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {zombies_menu(terrain, listOfPlants);});}));			
+			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%4) *1.5f, 2.5f + 1f* (i/4)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {
+					selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, listOfZombies, terrain));} );}));			
 		}
-		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, -1, fonc -> {});}));			
+		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%4) *1.5f, 2.5f + 1f* (i/4)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, -1, fonc -> {});}));			
 		
 		
 		//plant_menu(terrain, listOfZombies);
 	}
-	
-
-
-	
-	private static void zombies_menu (EnumTerrain terrain, Class[] listOfPlants) {
-		 GameManager.getInstance().clearScene();
-		new UI_Label(new Vector2(2,1.5f), "Choisissez vos zombies", Color.blue, 5f);
-		int i;
-		ArrayList<UI_Button> listButtons = new ArrayList<UI_Button>();
-		
-		selectCnt = 6;
-		
-		Class[] listOfZombies = new Class[selectCnt];
-		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
-
-		
-		for(i = 0; i < totalZombies.length; i++) {
-			int b = i;//obligé
-	
-			
-			listButtons.add(
-					new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 3.5f + 2f* (i/5)), 1f, Color.black, GameManager.getResources().getAnimationByPath("zombies/" + totalZombies[i].getSimpleName() +".png")[0],
-							func -> {selectButtonList(listButtons, listOfZombies, totalZombies, b,
-									fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, totalZombies, terrain));});
-							}));			
-		}
-		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 3.5f + 2f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfZombies, totalZombies, -1, fonc -> {});}));			
-		
-		
-		
-	}
-	
 	
 	
 	private static void selectButtonList(ArrayList<UI_Button> list, Class[] finalList, Class[] totalList,int idSelect, Consumer exitFunction) {

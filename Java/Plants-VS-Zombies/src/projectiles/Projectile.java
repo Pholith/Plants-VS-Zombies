@@ -44,7 +44,7 @@ public class Projectile extends GameObject {
     }
     @Override
     public void update() {
-    	
+    	super.update();
     	Zombie firstEnemy =  (Zombie) GameManager.getInstance().getFirstZombie(this);
     	// si le projectile rencontre un zombie
     	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.6) {

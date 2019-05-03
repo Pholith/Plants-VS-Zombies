@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import base.Constant;
+import base.Lawnmower;
 import base.LivingEntity;
 import base.Sprite;
 import base.Square;
@@ -112,7 +113,7 @@ public class Resources {
     	
     	zombiesTotalList = new Class[] {
     			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-    			FootballZombie.class, ScreenDoorZombie.class, FlagZombie.class
+    			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
     	};
     	
     	PlantsTotalList = new Class[] {
@@ -120,9 +121,7 @@ public class Resources {
     			Chomper.class, FreezePeaShooter.class, PotatoMine.class
     	};
     	//nomer les textures en fonction du nom des classes. (si on veut, on pourra géneraliser l'appel des textures avec le nom des classes)
-    	
-    	
-    	
+    	    	
     	loadImageAtPath("cards/CherryBomb_icon.png");
     	loadImageAtPath("cards/Chomper_icon.png");
     	loadImageAtPath("cards/FreezePeaShooter_icon.png");
@@ -156,7 +155,8 @@ public class Resources {
     	
     	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
     	
-    	
+    	cutImage("Lawnmower.png", 1, 1, 60);
+
     	
     	cutImage("zombies/SimpleZombie.png", 6, 1, 200);    	 
       	cutImage("zombies/ConeheadZombie.png", 6, 1, 200);    
@@ -189,23 +189,28 @@ public class Resources {
     
     	
     switch(game.getSelectedTerrain()) {    
-    case lawn:
-    	terrainSp = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
-    break;
-    case night_lawn:
-    	terrainSp = new Sprite(getImageByPath("nightTerrain.jpg"),Vector2.zero(), 85);
-    break;
-    case pool:
-    	terrainSp = new Sprite(getImageByPath("poolTerrain.jpg"),Vector2.zero(), 85);
-    break;
+	    case lawn:
+	    	terrainSp = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
+	    break;
+	    case night_lawn:
+	    	terrainSp = new Sprite(getImageByPath("nightTerrain.jpg"),Vector2.zero(), 85);
+	    break;
+	    case pool:
+	    	terrainSp = new Sprite(getImageByPath("poolTerrain.jpg"),Vector2.zero(), 85);
+	    break;
     }
     
 	actTerrain = new Terrain(terrainSp, game.getSelectedTerrain());
     
  	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
  	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
-	
 
+ 	// Les tondeuses
+	for (int i = 0; i < actTerrain.getTerrainSize().getY(); i++) {
+		new Lawnmower(Terrain.caseToPosition(-1, i));		
+	}
+
+	// Les boutons des plantes
 	Class[] plants = gameInfo.getListOfPlants();
 		
 	plantButtonList = new UI_PlantButton[plants.length];
@@ -307,9 +312,9 @@ public class Resources {
     
     
     
-    private void selectShovel() {        
+    private void selectShovel() {  
     	shovelMode = true; 
-	    drawTerrainButtons();
+	    drawTerrainButtons(-1);
     }
     
     
@@ -323,7 +328,7 @@ public class Resources {
     	}
     	else {
 	    	selectedPlant = value;   
-	    	drawTerrainButtons();
+	    	drawTerrainButtons(selectedPlant);
 
     	}
     }
@@ -336,10 +341,14 @@ public class Resources {
     	   terrainButtonList = new ArrayList<UI_Button>();
     }
     
-    private void drawTerrainButtons() {
+    private void drawTerrainButtons(int selectedPlant) {
     	removeTerrainButtons();
-    	 Consumer<Integer[]> buttonFunc =  (x) -> onSelectTerrainButton(x);
-    	actTerrain.generateButtons(terrainButtonList, buttonFunc, shovelMode);    	 
+    	Consumer<Integer[]> buttonFunc =  (x) -> onSelectTerrainButton(x);
+    	
+    	// Renvoie les données de la plante pour générer les bonnes cases
+    	actTerrain.generateButtons(terrainButtonList, buttonFunc, shovelMode);
+    	
+    	
 	    if(terrainButtonList.size() == 0)
     		selectedPlant = -1;
     }
@@ -375,15 +384,8 @@ public class Resources {
     		Method method = selectedPlantClass.getMethod("getCost");
     		// récupère l'entier en résultat de la méthode
 	    	Object result = method.invoke(null, null);
-	    	
-	       	if(actTerrain.isWater(Terrain.caseToPosition(vector))) {
-	       		result = (int)result + 25;
-	       	}
-	    	
-	 
-	    	System.out.println(result);
-	    	
-	    	if (money >= (int) result) {
+	    		 
+    	if (money >= (int) result) {
 	    		// instancie la plante
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
 				constructor.newInstance(new Object[] {vector});
@@ -445,24 +447,21 @@ public class Resources {
     
     
  
- public Image getImageByPath(String spritePath ){
+    public Image getImageByPath(String spritePath ){
 	 		if(loadedImages.containsKey(spritePath))
 	     		return loadedImages.get(spritePath);
 	 		System.out.println("error when loading sprite "+spritePath);
 	     	return loadedImages.get(Constant.errorTexture);
- }
+    }
  
  
- public Sprite[] getAnimationByPath(String spritePath ){
+    public Sprite[] getAnimationByPath(String spritePath ){
 	 		if(loadedAnimation.containsKey(spritePath))
 	     		return loadedAnimation.get(spritePath);
 	 			
 	     	return errorAnim;
- }
- 
- 
+    }
 
- 
  }
  
  

@@ -78,6 +78,7 @@ import fr.umlv.zen5.KeyboardKey;
 	  
 	    private int utilityObjectCount= 0;
 	    
+	    // Objets en jeu ou en attente
 	    private final ArrayList<GameObject> sceneContent;
 	    private final ArrayList<GameObject> ojbectsInQueue;  
 	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
@@ -353,7 +354,7 @@ import fr.umlv.zen5.KeyboardKey;
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
 								
-				if(gameObject.isEnemy(o) && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
+				if(gameObject.isZombie() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances
@@ -372,7 +373,7 @@ import fr.umlv.zen5.KeyboardKey;
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
 								
-				if(gameObject.isEnemy(o) && !gameObject.isProjectile() &&gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
+				if(gameObject.isPlant() && !gameObject.isProjectile() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances

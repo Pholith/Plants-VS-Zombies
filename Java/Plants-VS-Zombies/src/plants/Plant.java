@@ -35,7 +35,16 @@ public abstract class Plant extends LivingEntity {
 	public boolean isPlant() {
 		return true;
 	}
-	
+	/* TO DELETE si Julien n'en a pas besoin
+	public boolean isAquatic() {
+		return false;
+	}
+	public boolean isLilyPad() {
+		return false;
+	}
+	public boolean canBePlacedOnLilyPad() {
+		return true;
+	}*/
 
     private float reloadTime;
  

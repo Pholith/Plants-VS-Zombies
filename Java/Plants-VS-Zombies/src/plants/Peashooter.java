@@ -14,7 +14,6 @@ public class Peashooter extends AttackingPlant {
 	public Peashooter(Vector2 position) {
 		super(100, position, 3f, 50, 10f, "plants/pea_shooter.png", 4f);
 
-		
 	}
 
 	public static int getCost() {

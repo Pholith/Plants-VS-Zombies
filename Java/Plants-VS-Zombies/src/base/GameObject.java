@@ -21,8 +21,6 @@ public abstract class GameObject {
      * Default constructor
      */
 	
-	
-    
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
     public GameObject(Vector2 pos, RenderMode renderMode) {
@@ -56,7 +54,7 @@ public abstract class GameObject {
 	}
     
     //Pour faire la translation d'un gameobject dans la scene, on lui ajoute le vecteur translation divisé par la vitesse du jeu.
-    //Cela permet aux GameObject de se deplacer à la même vitesse, peut importe la vitesse de fonctionnement du jeu en terme de FPS.
+    //Cela permet aux GameObject de se deplacer à la même vitesse, peu importe la vitesse de fonctionnement du jeu en terme de FPS.
     public void translation(Vector2 v) {
     	position = position.add(v.multiply(GameManager.getInstance().getDeltatime()*100f));
     }
@@ -75,7 +73,12 @@ public abstract class GameObject {
      * 
      */
     public void update() {
-        // TODO implement here
+    	// Pour automatiquement détruire les objets hors du jeu
+    	if (getPosition().getX() < -10 || getPosition().getX() > 30f
+			|| getPosition().getY() < -10 || getPosition().getY() > 30f) {
+    		destroy();
+		}
+			
     }
 
     /**
@@ -98,7 +101,7 @@ public abstract class GameObject {
     	return renderMode;
     }
     
-	public boolean isEnemy(GameObject o) {///Une catastrophe. faire une énumeration à la place ca prend 2 sec
+	public boolean isEnemy(GameObject o) {
     	if (isPlant() && o.isZombie()) return true;
     	if (isZombie() && o.isPlant()) return true;
     	if (isProjectile() && o.isZombie()) return true;
