@@ -1,7 +1,11 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import base.Constant;
+import base.UI_Element;
+import base.Vector2;
 
 public class UI_Label extends UI_Element {
 

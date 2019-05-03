@@ -8,7 +8,7 @@ import plants.Plant;
 public class PoleVaulterZombie extends Zombie {
 
 	public PoleVaulterZombie(Vector2 position) {
-		super(100, position, "zombies/polevaulter.png", 0f, 1.5f);
+		super(100, position, "zombies/PoleVaulterZombie.png", 0f, 1.5f);
 		
 		}
 

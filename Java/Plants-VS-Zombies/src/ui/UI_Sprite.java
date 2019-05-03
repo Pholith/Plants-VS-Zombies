@@ -1,8 +1,12 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import base.Sprite;
+import base.UI_Element;
+import base.Vector2;
+import enums.RenderMode;
 import main.GameManager;
 
 public class UI_Sprite extends UI_Element {

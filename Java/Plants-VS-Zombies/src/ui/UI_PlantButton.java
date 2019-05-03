@@ -1,10 +1,12 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.function.Consumer;
 
+import base.Sprite;
+import base.Vector2;
 import main.GameManager;
 
 public class UI_PlantButton extends UI_Button{

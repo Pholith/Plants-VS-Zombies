@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,6 @@ import base.GameObject;
 import base.LevelManager;
 import base.LivingEntity;
 import base.Terrain;
-import base.UI_Label;
 import base.Vector2;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
@@ -28,6 +28,7 @@ import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
 import projectiles.Peash;
 import projectiles.Projectile;
+import ui.UI_Label;
 import zombies.SimpleZombie;
 import zombies.Zombie;
 import fr.umlv.zen5.Event.Action;
@@ -61,7 +62,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    private float resolutionX;
 	    private float resolutionY;    
-	    
+	
 	    
 	    private final Clock clock;	//Horloge temps reel 
 	    private int currentFps;		//Compteur de fps
@@ -69,12 +70,14 @@ import fr.umlv.zen5.KeyboardKey;
 	    private long lastSecTime;	//Sauvegarde du temps de dï¿½marage pour du comptage des fps
 	    private long lastFrameTime;	//Sauvegarde du temps de la derniere frame
 	    
-	    private float deltaTime;	//Temps ï¿½coulï¿½ entre la frame actuelle et celle d'avant
-	    private float timeScale;	//Vitesse gï¿½nerale du jeu
+	    private float deltaTime;	//Temps écoulllé entre la frame actuelle et celle d'avant
+	    private float timeScale;	//Vitesse génerale du jeu
 	    
 	    private int gameWait;
 	    private final int maxFps = 90;
 	  
+	    private int utilityObjectCount= 0;
+	    
 	    private final ArrayList<GameObject> sceneContent;
 	    private final ArrayList<GameObject> ojbectsInQueue;  
 	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
@@ -85,7 +88,23 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    private Point2D.Float clickLocation;    
 	    
+	    
 	    private boolean endGame;
+	    private boolean gameStarted;
+	    
+	    
+	    void setGameStarted(boolean val) {
+	    	gameStarted = val;
+	    	if(val) {
+	    	levelManager = new LevelManager();
+	    	clearScene();
+	    	}
+	    }
+	    
+	    public boolean getGameStarted() {
+
+	    	return gameStarted;
+	    }
 	    
 	    
 	    public Point2D.Float getClickLocation() {
@@ -95,15 +114,15 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    void startManager() throws IOException {
 	    	
-	       	//////////////////////////////////////////Initialisations gï¿½nerale des resources 
+	    	/////////////////////////////////////////Objets utilitaires du gameManager
 	    	
-	    	RESOURCES.startGame();
-	    	levelManager = new LevelManager();
-	     	mainCamera = new Camera();	    
-	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
+	    	utilityObjects();
 	    	
+	       	//////////////////////////////////////////Initialisations génerale des resources 
 	    	
-	    	////////////////////////////////////////Dï¿½marage de la boucle principale
+	    	RESOURCES.loadResources();
+	    		    	
+	    	////////////////////////////////////////Démarage de la boucle principale
 	    	 
 			 Application.run(Color.WHITE,context -> {			      
 			      // get the size of the screen
@@ -117,7 +136,7 @@ import fr.umlv.zen5.KeyboardKey;
 			      
 			      while (true) {
 			    	  
-			    	  if(!endGame)
+			    	  if(gameStarted && !endGame)
 			    	  levelManager.levelEvent();
 				      updateGameObjects();
 				      RESOURCES.updateResources();
@@ -129,6 +148,11 @@ import fr.umlv.zen5.KeyboardKey;
 	    }   
 	    
 	    
+	    private void utilityObjects() {	    	
+	    	mainCamera = new Camera();	    
+	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
+	    	utilityObjectCount = ojbectsInQueue.size();
+	    }
 	    	    
 	    private void updateGameObjects() {			
 	    	  	    		    	
@@ -183,7 +207,7 @@ import fr.umlv.zen5.KeyboardKey;
 	        try {
 				Thread.sleep(gameWait);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+	
 				e.printStackTrace();
 			}  
 	        
@@ -235,9 +259,10 @@ import fr.umlv.zen5.KeyboardKey;
 	        	System.out.println("Speed changed to fast");
 	        	timeScale = 5f;
 	        	}
+	       
 	        
-		 
-        		
+	    
+	    	
 			if (action != Action.POINTER_DOWN) {
 				clickLocation = null;
 				return;
@@ -247,11 +272,23 @@ import fr.umlv.zen5.KeyboardKey;
 		  }
 	  
 	    
+	 
 	    
 	    public void addGameObjectToScene(GameObject obj) {	
 	    	if(!sceneContent.contains(obj) && !ojbectsInQueue.contains(obj))
-	    		ojbectsInQueue.add(obj);
+	    		ojbectsInQueue.add(obj);	    	
 	    		obj.start();
+	    }
+	    
+	    //inverse les 2 dernier objet de la liste des GameObjects a ajouter (utile si l'on veut determiner l'ordre d'affichage de certain objets).
+	    public void invertLastGameObjectQueue() {	
+	    	//Collections.reverse(ojbectsInQueue);
+	    	
+	    	if(ojbectsInQueue.size() >= 2) {
+	    		GameObject obj = ojbectsInQueue.get(ojbectsInQueue.size()-2);
+	    		ojbectsInQueue.set(ojbectsInQueue.size()-2,ojbectsInQueue.get(ojbectsInQueue.size()-1));
+	    		ojbectsInQueue.set(ojbectsInQueue.size()-1, obj);
+	    	}
 	    }
 	    
 	    public void removeGameObjectFromScene(GameObject obj) {
@@ -287,7 +324,7 @@ import fr.umlv.zen5.KeyboardKey;
 			return timeScale;
 		}
 	    
-		/* TODO
+		/* 
 		 * Renvoie le premier objet ennemi ï¿½ l'objet
 		 * Renvoie null sinon
 		 */ 
@@ -350,12 +387,21 @@ import fr.umlv.zen5.KeyboardKey;
 			return firstEnemy;
 		}
 		
-		public void endGame(boolean win) {
-			for(GameObject obj : sceneContent) {
-				obj.destroy();				
+		public void clearScene() {
+			
+			//supresssion de tout les objets de la scene (on épargne les objets utilitaires)	
+			
+			for(int i = utilityObjectCount; i < sceneContent.size(); i++) {
+				sceneContent.get(i).destroy();				
 			}
 			
-			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnï¿½e !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
+		}
+		
+		public void endGame(boolean win) {
+
+			clearScene();
+			
+			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnée !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
 			
 			endGame = true;
 			inDebugMode = false;

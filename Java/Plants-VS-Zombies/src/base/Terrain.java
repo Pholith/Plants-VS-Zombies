@@ -7,54 +7,62 @@ import java.awt.Graphics2D;
 import java.util.*;
 import java.util.function.Consumer;
 
+import enums.EnumTerrain;
+import enums.RenderMode;
+import main.GameInfo;
+import ui.UI_Button;
+
 /**
  * 
  */
 public class Terrain extends GameObject {
    
 	private final Sprite terrainSprite;
-	private final int sizeX;
-	private final int sizeY;
+	private static int sizeX;
+	private static int sizeY;
 	private final Square[][] listOfSquares;
+	private final EnumTerrain terrainType;
 	
-	/*
-	 * 
-	 */
-	
-	public Terrain(Sprite terrainSprite  ) {
-		this(terrainSprite, 5);
-	}
-	
-	
+
 	public static Vector2 caseToPosition(Vector2 gridCase) {
 		return caseToPosition((int)gridCase.getX(),(int)gridCase.getY());
 	}
+	
 	public static Vector2 caseToPosition(int x, int y) {
-		return new Vector2(3.456f + (x) * 0.94f, 1.5f+(y)*1.15f);
+		return new Vector2(3.456f + x * 0.94f, 	1.5f+y* (1.15f - ((float)sizeY-5f)/8f));
 	}
 	
 	public static Vector2 positionToCase(Vector2 pos) {
-		return new Vector2(Math.round((pos.getX() / 0.935f) - 3.156f), Math.round( (pos.getY() /1.1f) - 1.35f));
+		return new Vector2(Math.round((pos.getX() - 3.456f) / 0.94f), 		Math.round( (pos.getY() - 1.5f) / (1.15f - ((float)sizeY-5f)/8f)) );
 	}
 	
 	
 	
 	
-	public Terrain(Sprite terrainSprite, int nbColumns ) {
+	public Terrain(Sprite terrainSprite,EnumTerrain terrainType) {
 		super(Vector2.zero(), RenderMode.Both);
 		this.terrainSprite = terrainSprite;
-		sizeX = 9;
-		sizeY = nbColumns;
+		this.terrainType = terrainType;
+		sizeX = 9;	
+	
+		if(terrainType == EnumTerrain.pool) {
+			sizeY = 6;
+		}else
+			sizeY = 5;
+	
 		
-		this.listOfSquares = new Square[nbColumns][9];
+		
+		this.listOfSquares = new Square[sizeY][9];
 		int i, j;
 	
 		
-		for(i = 0; i < nbColumns; i++) {
+
+		for(i = 0; i < sizeY; i++) {
 			for(j = 0; j < 9; j++) {
-				listOfSquares[i][j] = new Square(j,i);
+				listOfSquares[i][j] = new Square(j,i, (terrainType == EnumTerrain.pool && i >= 2 && i < 4)? true : false );
 			}	
 		}
+
 		
 	}
 	
@@ -73,10 +81,16 @@ public class Terrain extends GameObject {
     	   	}
     	}
 	}
+	
 
+	
 	
 	private boolean isInside(int x, int y) {
 		  return !(x < 0 || x >  sizeX || y < 0 || y > sizeY);	    		
+	}
+	
+	public boolean isWater(Vector2 pos) {
+		  return isInside((int)pos.getX(), (int)pos.getY()) && listOfSquares[(int)pos.getY()][(int)pos.getX()].isInWater();	    		
 	}
 	
 	   public void removeEntity(int x, int y) {
@@ -141,8 +155,14 @@ public class Terrain extends GameObject {
     	   		
     	   		if(listOfSquares[y][x].getContain() != null)
     	   			graphics.setColor(Color.cyan);
-    	   		else
+    	   		else {
+    	   		
+    	   			if(listOfSquares[y][x].isInWater())
+    	   			graphics.setColor(Color.yellow);
+    	   			else
     	   			graphics.setColor(Color.white);
+    	   		
+    	   		}
     	   		
     	   		graphics.drawRect((int)(realPos.getX() - sizeCase/2f) , (int)(realPos.getY() - sizeCase/2f) , sizeCase, sizeCase );    	    	        		
         	}    		

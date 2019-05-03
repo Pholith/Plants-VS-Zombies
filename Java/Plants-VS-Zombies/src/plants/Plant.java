@@ -12,7 +12,8 @@ import main.GameManager;
 public abstract class Plant extends LivingEntity {
 
     private Square associatedSquare;
-	
+
+    
 	public Plant( int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, animationPath, animationSpeed + (float)Math.random());
 		this.reloadTime = reloadTime;

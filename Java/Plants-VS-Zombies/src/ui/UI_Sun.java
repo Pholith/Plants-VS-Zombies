@@ -1,8 +1,9 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import base.Vector2;
 import main.GameManager;
 
 
@@ -46,7 +47,15 @@ public class UI_Sun extends UI_Button {
 		if(getPosition().getY() >= yPositionMin) {
 			startVel =  new Vector2(startVel.getX()*0.5f, startVel.getY()*0.75f);
 			velocity = startVel;
+			
+			
+			if(GameManager.getInstance().isDebugMode()) {
+				click();
 			}
+			
+			}
+		
+		
 		
 		super.update();
 	}

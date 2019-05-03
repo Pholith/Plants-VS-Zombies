@@ -5,7 +5,7 @@ import base.Vector2;
 public class BucketHeadZombie extends ProtectedZombie {
 
 	public BucketHeadZombie(Vector2 position) {
-		super(100, position, "zombies/buckethead.png", 5f, 1f, 300);
+		super(100, position, "zombies/BucketHeadZombie.png", 5f, 1f, 300);
 		
 	}
 	@Override

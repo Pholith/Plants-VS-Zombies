@@ -1,6 +1,8 @@
-package base;
+package ui;
 
 import java.awt.Color;
+
+import base.Vector2;
 
 public class UI_TremblingLabel extends UI_TempLabel {
 

@@ -8,7 +8,7 @@ import base.Vector2;
 public class ConeheadZombie extends Zombie {
 
 	public ConeheadZombie(Vector2 position) {
-		super(200, position, "zombies/zombie_conehead.png", 5f, 1f);
+		super(200, position, "zombies/ConeheadZombie.png", 5f, 1f);
 		
 		}
 	@Override

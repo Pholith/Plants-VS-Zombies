@@ -9,6 +9,7 @@ import java.util.Random;
 
 import main.GameManager;
 import plants.Peashooter;
+import ui.UI_Sun;
 import zombies.*;
 import base.Terrain;
 
@@ -27,18 +28,25 @@ public class LevelManager {
 	private double sunSpawnDelay = 5; // temps entre chaque vague
 	private double levelTimeDelay = 220; // temps d'une partie  
 	
-
-	public LevelManager() {
+	Class[] listOfZombies;
+	
+	public LevelManager() {		
 		super();
+		listOfZombies = GameManager.getResources().getGameInfo().getListOfZombies();
 	}
 
 	private long lastTimeStamp = GameManager.getInstance().getClockMillis()/1000;
 
+	
 	// liste qui contient les classes de zombie 
+	
+	/*
 	Class[] listOfZombies = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
 			FootballZombie.class, ScreenDoorZombie.class
-	};
+	};*/
+	
+	
 	
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
@@ -55,6 +63,7 @@ public class LevelManager {
 	// créé un zombie aléatoirement en utilisant la liste des classes
 	private void createZombie(int coeffDifficulty) {
 		try {
+		
 			// Prend un type de Zombie aléatoire du tableau
 			Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, coeffDifficulty);
 			// Class c1 = Class.forName(zombieClass.getName());

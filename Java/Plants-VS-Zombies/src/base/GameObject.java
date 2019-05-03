@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.*;
 
+import enums.RenderMode;
 import main.GameManager;
 import projectiles.Projectile;
 

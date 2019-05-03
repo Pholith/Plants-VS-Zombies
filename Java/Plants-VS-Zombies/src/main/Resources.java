@@ -14,21 +14,20 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import base.Constant;
-import base.GameObject;
 import base.LivingEntity;
 import base.Sprite;
 import base.Square;
 import base.Terrain;
-import base.UI_Button;
 import base.UI_Element;
-import base.UI_Label;
-import base.UI_PlantButton;
-import base.UI_Sprite;
-import base.UI_Sun;
-import base.UI_TempLabel;
-import base.UI_TremblingLabel;
 import base.Vector2;
+import enums.EnumTerrain;
 import plants.*;
+import ui.UI_Button;
+import ui.UI_Label;
+import ui.UI_PlantButton;
+import ui.UI_Sprite;
+import ui.UI_Sun;
+import ui.UI_TremblingLabel;
 import zombies.*;
 
 //Les resources ont une visibilités de "package"
@@ -43,7 +42,21 @@ public class Resources {
     private UI_Element selectedUi;
     private float plantSpawnCounter;
  
-    //si la pelle est selectionn?
+    private GameInfo gameInfo;
+    
+    private Class[] zombiesTotalList;
+    private Class[] PlantsTotalList;
+    
+    public Class[] getPlantsTotalList() {
+		return PlantsTotalList;
+	}
+    public Class[] getZombiesTotalList() {
+		return zombiesTotalList;
+	}
+    
+    
+    
+    //si la pelle est selectionnée
 
     private boolean shovelMode;
     
@@ -51,12 +64,13 @@ public class Resources {
     
     private UI_Label moneyRender;
     
-    
+    public GameInfo getGameInfo() {
+		return gameInfo;
+	}
     
     public void setSelectedUi(UI_Element selectedUi) {
 		this.selectedUi = selectedUi;
 	}
-    
     
     public boolean isSelectedUi(UI_Element elem) {
 		return selectedUi == elem;
@@ -88,34 +102,48 @@ public class Resources {
     }
 
  
-    void startGame() throws IOException {
+    void loadResources() throws IOException {
     	
     	 ///Prechargement des textures entieres
     	
     	errorAnim = cutImage(Constant.errorTexture, 1, 1, 50);
     	
-    	loadImageAtPath("lawn.jpg");    
-    	loadImageAtPath("plants/plant_idl_0.png");
-    	
-    	loadImageAtPath("cards/wallnuticon.png");
-    	loadImageAtPath("cards/cherrybombicon.png");
-    	loadImageAtPath("cards/potatomineicon.png");
-    	loadImageAtPath("cards/peashootericon.png");
-    	loadImageAtPath("cards/repeatericon.png");
-    	loadImageAtPath("cards/snowpeaicon.png");
-    	loadImageAtPath("cards/sunflowericon.png");
-    	loadImageAtPath("cards/shovelicon.png");
-    	loadImageAtPath("cards/emptyfield.png");
-    	loadImageAtPath("cards/chompericon.png");
-    
-    	
-    	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
 
     	
-    	// Chargement des sprites et animations
-  
-    	Sprite terrain = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
-    	actTerrain = new Terrain(terrain);
+    	zombiesTotalList = new Class[] {
+    			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+    			FootballZombie.class, ScreenDoorZombie.class, FlagZombie.class
+    	};
+    	
+    	PlantsTotalList = new Class[] {
+    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+    			Chomper.class, FreezePeaShooter.class, PotatoMine.class
+    	};
+    	//nomer les textures en fonction du nom des classes. (si on veut, on pourra géneraliser l'appel des textures avec le nom des classes)
+    	
+    	
+    	
+    	loadImageAtPath("cards/CherryBomb_icon.png");
+    	loadImageAtPath("cards/Chomper_icon.png");
+    	loadImageAtPath("cards/FreezePeaShooter_icon.png");
+    	loadImageAtPath("cards/Peashooter_icon.png");
+    	loadImageAtPath("cards/PotatoMine_icon.png");
+    	loadImageAtPath("cards/Repeater_icon.png");
+    	loadImageAtPath("cards/Sunflower_icon.png");
+    	loadImageAtPath("cards/WallNut_icon.png");
+    	    
+    	loadImageAtPath("cards/shovel_icon.png");
+    	loadImageAtPath("cards/emptyfield.png");
+    	
+    	
+    	
+    	// Chargement des sprites et animations  
+    	loadImageAtPath("lawn.jpg");
+    	loadImageAtPath("nightTerrain.jpg");
+    	loadImageAtPath("poolTerrain.jpg");
+    	loadImageAtPath("roofTerrain.jpg");
+    	loadImageAtPath("roofTerrainNight.jpg");
+    
     	
     	// nombre de colonne puis nombre de ligne
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
@@ -124,53 +152,97 @@ public class Resources {
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
-    	cutImage("plants/patatomine.png", 9, 6,new Vector2(0.5f,0.4f), 75);
+    	cutImage("plants/patatomine.png", 9, 6, 75);
+    	
+    	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
     	
     	
-    	cutImage("zombies/zombie_flying.png", 6, 1, 200);    	 
-      	cutImage("zombies/zombie_conehead.png", 6, 1, 200);    
-    	cutImage("zombies/flag_zombie.png", 1, 1,135);
-    	cutImage("zombies/polevaulter.png", 1, 1, 290);
-    	cutImage("zombies/buckethead.png", 1, 1, 450);
-    	cutImage("zombies/football.png", 2, 1, 80);
-    	cutImage("zombies/screendoor.png", 1, 1, 320);
+    	
+    	cutImage("zombies/SimpleZombie.png", 6, 1, 200);    	 
+      	cutImage("zombies/ConeheadZombie.png", 6, 1, 200);    
+    	cutImage("zombies/FlagZombie.png", 1, 1,135);
+    	cutImage("zombies/PoleVaulterZombie.png", 1, 1, 290);
+    	cutImage("zombies/BucketHeadZombie.png", 1, 1, 450);
+    	cutImage("zombies/FootballZombie.png", 2, 1, 80);
+    	cutImage("zombies/ScreenDoorZombie.png", 1, 1, 320);
     	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
-     
     	
 
-    	plantButtonList = new UI_PlantButton[] {
-    	new UI_PlantButton(new Vector2(1.5f, 1f), new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);}, 1f),
-    	new UI_PlantButton(new Vector2(1.5f, 1.9f), new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);}, 1f),
-    	new UI_PlantButton(new Vector2(1.5f, 2.8f), new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);}, 1f),
-    	new UI_PlantButton(new Vector2(1.5f, 3.7f), new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);}, 1f),
-    	new UI_PlantButton(new Vector2(1.5f, 4.6f), new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);}, 1f),
-    	new UI_PlantButton(new Vector2(1.5f, 5.5f), new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);}, 1f),
-       	new UI_PlantButton(new Vector2(1.5f, 6.4f), new Sprite(getImageByPath("cards/shovelicon.png"), 75), func -> {selectShovel();}, 1f)
-    	};
+    	
+    	
 
-
-       	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
-     	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
-       	moneyRender = new UI_Label(new Vector2(1f, 0.4f), "0", Color.black, 3f);
-
-
-    	//new UI_Button(new Vector2(1.5f, 4f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);});
-    	//new UI_Button(new Vector2(1.5f, 5f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/chompericon.png"), 75),    func -> {selectPlantOfType(4);});
-    	//new UI_Button(new Vector2(1.5f, 6f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/snowpeaicon.png"), 75),    func -> {selectPlantOfType(5);});
- 
-       //	new UI_Button(new Vector2(1.5f, 6.25f), 1f, Color.BLACK, new Sprite(getImageByPath("cards/shovelicon.png"), 75),     func -> {selectShovel();});
-
-    
-       	
-     
-       	
-       	
+    	MainMenu.start_menu();
     }
+    
+    
+    public void startGame(GameInfo game) {
+    	
+       	gameInfo = game;
+       	
+    	
+    	Sprite terrainSp = getErrorSprite();
+    
+    	
+    switch(game.getSelectedTerrain()) {    
+    case lawn:
+    	terrainSp = new Sprite(getImageByPath("lawn.jpg"),Vector2.zero(), 85);
+    break;
+    case night_lawn:
+    	terrainSp = new Sprite(getImageByPath("nightTerrain.jpg"),Vector2.zero(), 85);
+    break;
+    case pool:
+    	terrainSp = new Sprite(getImageByPath("poolTerrain.jpg"),Vector2.zero(), 85);
+    break;
+    }
+    
+	actTerrain = new Terrain(terrainSp, game.getSelectedTerrain());
+    
+ 	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
+ 	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
+	
+
+	Class[] plants = gameInfo.getListOfPlants();
+		
+	plantButtonList = new UI_PlantButton[plants.length];
+		
+	for(int i = 0; i < plants.length; i++) {
+		int b = i;//obligé.. oups. ?
+		plantButtonList[i] = new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f*i), new Sprite(getImageByPath("cards/" + plants[i].getSimpleName() +"_icon.png"), 75), func -> {selectPlantOfType(b);}, 1f);			
+	}
+		
+		
+	/*
+	
+	{
+	new UI_PlantButton(new Vector2(1.5f, 1f), new Sprite(getImageByPath("cards/peashootericon.png"), 75), func -> {selectPlantOfType(0);}, 1f),
+	new UI_PlantButton(new Vector2(1.5f, 1.9f), new Sprite(getImageByPath("cards/sunflowericon.png"), 75),  func -> {selectPlantOfType(1);}, 1f),
+	new UI_PlantButton(new Vector2(1.5f, 2.8f), new Sprite(getImageByPath("cards/wallnuticon.png"), 75),    func -> {selectPlantOfType(2);}, 1f),
+	new UI_PlantButton(new Vector2(1.5f, 3.7f), new Sprite(getImageByPath("cards/cherrybombicon.png"), 75), func -> {selectPlantOfType(3);}, 1f),
+	new UI_PlantButton(new Vector2(1.5f, 4.6f), new Sprite(getImageByPath("cards/chompericon.png"), 75), func -> {selectPlantOfType(4);}, 1f),
+	new UI_PlantButton(new Vector2(1.5f, 5.5f), new Sprite(getImageByPath("cards/snowpeaicon.png"), 75), func -> {selectPlantOfType(5);}, 1f),
+
+	};
+	*/
+	
+	
+   	new UI_PlantButton(new Vector2(1.5f, 6.4f), new Sprite(getImageByPath("cards/shovel_icon.png"), 75), func -> {selectShovel();}, 1f);
+	
+	
+	
+ 	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
+   	moneyRender = new UI_Label(new Vector2(1f, 0.4f), "0", Color.black, 3f);
+
+
+   	GameManager.getInstance().setGameStarted(true);
+    }
+
+	
+    
     
     
     
@@ -185,9 +257,14 @@ public class Resources {
     
     
     
+    
+    
     void updateResources() {
     	
   
+    	
+		if(GameManager.getInstance().getGameStarted()) {
+			
     	//Effet joli sur la couleur des bouttons du terrain
     	if(!shovelMode) {
 	    	for (UI_Button but : terrainButtonList)
@@ -201,6 +278,7 @@ public class Resources {
     	//Gestion du mode debug
 		if (GameManager.getInstance().isDebugMode()) {
 		
+						
 			
 			if (plantSpawnCounter >= 2f) {
 				Vector2 terrainSize = actTerrain.getTerrainSize();
@@ -210,15 +288,19 @@ public class Resources {
 				shovelMode = false;
 				System.out.println(" random: "+randomX+" "+randomY);
 
-				selectedPlant =  (int)(Math.random() * 7);
+				selectedPlant =  (int)(Math.random() * gameInfo.getListOfPlants().length);
 				onSelectTerrainButton(new Integer[] {randomX, randomY});
 				plantSpawnCounter = 0;
 			}
 			plantSpawnCounter += GameManager.getInstance().getDeltatime();
 		}
 		
+		
+
 		//money actualisation
 		moneyRender.setText(Integer.toString(money));
+		
+		}
 		    	
     }
     
@@ -268,7 +350,7 @@ public class Resources {
     	if (coords == null || coords.length != 2) 
     		return;
     	
-    	
+    
     	if (shovelMode) {
     		  actTerrain.removeEntity(coords[0], coords[1]);
     		  	selectPlantOfType(-1);
@@ -277,10 +359,14 @@ public class Resources {
     	var vector = new Vector2(coords[0], coords[1]);
     	
     	// Liste des class de plantes
-    	Class[] listOfPlant = new Class[] {
+    	/*Class[] listOfPlant = new Class[] {
     			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
     			Chomper.class, FreezePeaShooter.class, PatatoMine.class
-    	};
+    	};*/
+    	Class[] listOfPlant = gameInfo.getListOfPlants();
+    	
+    	selectedPlant %= listOfPlant.length;
+    	
     	// La plante choisi
     	Class<? extends Plant> selectedPlantClass = listOfPlant[selectedPlant];
 
@@ -289,13 +375,21 @@ public class Resources {
     		Method method = selectedPlantClass.getMethod("getCost");
     		// récupère l'entier en résultat de la méthode
 	    	Object result = method.invoke(null, null);
+	    	
+	       	if(actTerrain.isWater(Terrain.caseToPosition(vector))) {
+	       		result = (int)result + 25;
+	       	}
+	    	
+	 
 	    	System.out.println(result);
 	    	
 	    	if (money >= (int) result) {
 	    		// instancie la plante
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
 				constructor.newInstance(new Object[] {vector});
-				money -= (int) result;
+				money -= (int) result;	
+				plantButtonList[selectedPlant].selectPlant();
+		    	
 			} else {
 				new UI_TremblingLabel(Terrain.caseToPosition(vector), "Not enought sun", 1.5);
 				
@@ -306,8 +400,7 @@ public class Resources {
     	}
 
     	
-    	plantButtonList[selectedPlant%6].selectPlant();
-    	
+    
     	selectPlantOfType(-1); // remet la sélection à null
     	
 
@@ -363,10 +456,16 @@ public class Resources {
  public Sprite[] getAnimationByPath(String spritePath ){
 	 		if(loadedAnimation.containsKey(spritePath))
 	     		return loadedAnimation.get(spritePath);
-	 		
-	 		
+	 			
 	     	return errorAnim;
  }
  
  
-}
+
+ 
+ }
+ 
+ 
+ 
+ 
+

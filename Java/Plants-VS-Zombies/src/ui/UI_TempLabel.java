@@ -1,8 +1,9 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import base.Vector2;
 import main.GameManager;
 
 public class UI_TempLabel extends UI_Label {

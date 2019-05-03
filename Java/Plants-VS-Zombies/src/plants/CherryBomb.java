@@ -19,12 +19,14 @@ public class CherryBomb extends Plant {
 	
 
 	private float timeExplode = 0;
+	private boolean exploded;
+	
 	
 	public static int getCost() {
     	return 150;
 	}
 	
-	private boolean exploded;
+
 	
 	public void update() {
 

@@ -3,6 +3,8 @@ package base;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import enums.RenderMode;
+
 public abstract class UI_Element extends GameObject {
 
 

@@ -31,7 +31,7 @@ public class Camera extends GameObject {
 	
 	public void render(ArrayList<GameObject> sceneObjs, Graphics2D graphics) {
 		
-		Sprite spr;
+		
 		
 		     
 		//float renderSize;

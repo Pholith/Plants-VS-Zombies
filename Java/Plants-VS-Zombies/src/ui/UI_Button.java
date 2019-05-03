@@ -1,4 +1,4 @@
-package base;
+package ui;
 
 import java.awt.Color;
 import java.awt.Composite;
@@ -7,6 +7,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.function.Consumer;
 
+import base.Constant;
+import base.Sprite;
+import base.UI_Element;
+import base.Vector2;
+import enums.RenderMode;
 import main.GameManager;
 
 public class UI_Button extends UI_Element {
@@ -22,6 +27,9 @@ public class UI_Button extends UI_Element {
 	
 	private boolean pressed; 
 	private boolean selected; 
+	private boolean disabled; 
+	
+	private boolean readyToUse;
 	/*
 	protected boolean isSelected() {
 		return selected;
@@ -41,7 +49,7 @@ public class UI_Button extends UI_Element {
 	
 		this.simpleFunction = simpleFunction;
 		
-		this.rectHeight = rectWidth;
+		this.rectHeight = rectHeight;
 		this.rectWidth = rectWidth;
 		this.sprite = null;
 		
@@ -83,7 +91,7 @@ public class UI_Button extends UI_Element {
 
 	    
 	    	 screenPosition = new Vector2(
-	    			 lastPosition.getX()  * Constant.screenPixelPerUnit  - offset.getX(),
+	    			 lastPosition.getX()   * Constant.screenPixelPerUnit  - offset.getX(),
 	    			 lastPosition.getY()   * Constant.screenPixelPerUnit  - offset.getY());
 
 	    	 drawRect = new RoundRectangle2D.Float((int)screenPosition.getX(), (int)screenPosition.getY(),
@@ -100,10 +108,18 @@ public class UI_Button extends UI_Element {
 	    	return sprite;    	
 	    }
 		
+	
+	    
 	    @Override
 	    public void update() {
 	    	
+	    	if(disabled)
+	    		return;
 	    	
+	    	if(!readyToUse) {
+	    		readyToUse = GameManager.getResources().isSelectedUi(null);
+	    		return;
+	    	}
 	    	
 	    	Point2D.Float mousePos = GameManager.getInstance().getClickLocation();
 	    	
@@ -113,10 +129,7 @@ public class UI_Button extends UI_Element {
 	    	
 	    	if(mousePos != null && checkInside(mousePos.x, mousePos.y)) {
 	    		if(!pressed) {    	
-	    			simpleFunction.accept(null);	
-	    			pressed = true;
-	    			onClick();
-	    			GameManager.getResources().setSelectedUi(this);
+	    			click();
 	    		}
 	    	}else
 	    		pressed = false;
@@ -128,11 +141,21 @@ public class UI_Button extends UI_Element {
 	    	
 	    }
 	    	
+	    public void click() {
+			simpleFunction.accept(null);	
+			pressed = true;
+			onClick();
+			GameManager.getResources().setSelectedUi(this);
+	    }
 	   
 	    public boolean checkInside(float x, float y) {
 	    	if(x >= screenPosition.getX() && x <= screenPosition.getX()+rectWidth && y >= screenPosition.getY() && y <= screenPosition.getY()+rectHeight)	    	
 	    		return true;	    	
 	    	return false;
+	    }
+	    
+	    public void setDisable(boolean disabled) {
+	    	this.disabled = disabled;
 	    }
 	    
 	    
@@ -152,9 +175,14 @@ public class UI_Button extends UI_Element {
 		if(selected) {
 			graphics.setColor(new Color(127, 127, 127, 127));
 			graphics.draw(drawRect);
-			graphics.fill(drawRect);
-			
+			graphics.fill(drawRect);			
+		}		
+		if(disabled) {
+			graphics.setColor(new Color(100, 100, 100, 127));
+			graphics.draw(drawRect);
+			graphics.fill(drawRect);			
 		}
+		
 		}
 		
 		

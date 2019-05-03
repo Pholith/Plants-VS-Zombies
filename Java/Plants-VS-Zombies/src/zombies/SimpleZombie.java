@@ -10,7 +10,7 @@ public class SimpleZombie extends Zombie {
 
 
 	public SimpleZombie(Vector2 position) {
-		super(100, position, "zombies/zombie_flying.png", 5f, 1f);
+		super(100, position, "zombies/SimpleZombie.png", 5f, 1f);
 
 	}
 	@Override
