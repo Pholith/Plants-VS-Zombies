@@ -94,7 +94,7 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
-    	money = 0;
+    	money = 1000;
     }
 
 
@@ -359,6 +359,7 @@ public class Resources {
     	if (coords == null || coords.length != 2) 
     		return;
     	
+    	
     
     	if (shovelMode) {
     		  actTerrain.removeEntity(coords[0], coords[1]);
@@ -385,6 +386,10 @@ public class Resources {
     		// récupère l'entier en résultat de la méthode
 	    	Object result = method.invoke(null, null);
 	    		 
+	    	if(actTerrain.isWater(new Vector2(coords[0], coords[1])))
+	    		result = (int)result + 25;
+	    		
+	    	
     	if (money >= (int) result) {
 	    		// instancie la plante
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});

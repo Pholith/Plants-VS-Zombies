@@ -23,6 +23,7 @@ public class PotatoMine extends Plant {
 	}
 	
 	private boolean exploded;
+	
 	public static int getCost() {
     	return 25;
 	}
@@ -52,7 +53,7 @@ public class PotatoMine extends Plant {
 		if(explodeAnim != 0) {					
 			explodeAnim+= GameManager.getInstance().getDeltatime();
 			if(explodeAnim > 0.7)
-		destroy();
+				destroy();
 		}
 		
 	}

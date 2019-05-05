@@ -25,7 +25,7 @@ public class PoleVaulterZombie extends Zombie {
 	    	Plant firstEnemy = (Plant) GameManager.getInstance().getFirstPlant(this);
 	    	// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
 	    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
-	    		this.translation(-0.5f, 0); // translation de une case vers la gauche
+	    		this.translationFixed(-0.5f, 0); // translation de une case vers la gauche
 	    		canVault = false;
 	    		this.addSpeed(-0.5f);
 	    	}
