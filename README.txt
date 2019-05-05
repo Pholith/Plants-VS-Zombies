@@ -7,11 +7,14 @@ Vincent Buisset
 
 
 Ce qui a été implémenté:
-- Entiereté de la phase 1
+- Entiereté de la phase 1 et 2
 - Gestion intelligente de la scene et des GameObjects
 - Lecture des sprites et animation
 - Système de Projectile
 - Systeme de Caméra et de rendu
+- Différents terrain, don le jardin , la piscine et le jardin de nuit
+- Menu de sélection du terrrain et des plantes.
+- Plus de plantes !
 
 
 Avant propos:
@@ -83,6 +86,8 @@ Les éventuels problèmes rencontrés:
  - Il a été assez difficile de rendre générique la partie du code permettant de choisir un type de Zombie aléatoire à faire spawn sans utiliser plein de if ou un switch. Pour cela, j'ai réalisé un tableau de classes qui contient toutes les classes de Zombie, et qui me permet d'en choisir un aléatoirement et de l'instancier.
 
  - Au début on a eu du mal à trouver une organisation pour le préchargement des textures. Désormais ce travail est délégué à la classe Resources, qui gére des Hashmap (Chemin des textures/textures préchargés), accessibles grace à des méthodes. 
+
+ - Problemes rencontrés au niveau de vagues de zombies, du choix des plantes en début de jeu et de leur sélection pendant la partie. Nous avons finalement obtés pour des systemes géneriques avec des listes de classes. Ces listes complètes sont disponibles dans Resources.java (plantsTotalList et zombiesTotalList).
 
 ====== Notre Diagramme UML ====== 
 

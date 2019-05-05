@@ -46,10 +46,10 @@ public class Resources {
     private GameInfo gameInfo;
     
     private Class[] zombiesTotalList;
-    private Class[] PlantsTotalList;
+    private Class[] plantsTotalList;
     
     public Class[] getPlantsTotalList() {
-		return PlantsTotalList;
+		return plantsTotalList;
 	}
     public Class[] getZombiesTotalList() {
 		return zombiesTotalList;
@@ -116,7 +116,7 @@ public class Resources {
     			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
     	};
     	
-    	PlantsTotalList = new Class[] {
+    	plantsTotalList = new Class[] {
     			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
     			Chomper.class, FreezePeaShooter.class, PotatoMine.class
     	};
