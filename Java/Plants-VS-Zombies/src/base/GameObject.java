@@ -61,6 +61,13 @@ public abstract class GameObject {
     public void translation(float x, float y) {
     	translation(new Vector2(x, y));
     }
+    
+    public void translationFixed(Vector2 v) {
+    	position = position.add(v);
+    }
+    public void translationFixed(float x, float y) {
+    	translationFixed(new Vector2(x, y));
+    }
 
     /**
      * 

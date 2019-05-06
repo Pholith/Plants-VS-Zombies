@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 import java.util.function.Consumer;
 
+import base.Sprite;
 import base.Vector2;
 import main.GameManager;
 
@@ -16,13 +17,12 @@ public class UI_Sun extends UI_Button {
 	private float yPositionMin;
 	private Vector2 startVel;
 	
-	public UI_Sun(Vector2 pos, Consumer simpleFunction) {
-		super(pos, 1f, Color.white, GameManager.getResources().getAnimationByPath("particles/sun.png")[0], simpleFunction);
+	public UI_Sun(Vector2 pos, Consumer simpleFunction, Sprite sprite) {
+		super(pos, 1f, Color.white, sprite, simpleFunction);
 	}
-
-//	public UI_Sun(Vector2 pos) {
-//		this(pos, _useless -> {});
-//	}
+	public UI_Sun(Vector2 pos, Consumer simpleFunction) {
+		this(pos, simpleFunction, GameManager.getResources().getAnimationByPath("particles/sun.png")[0]);
+	}
 
 	@Override
 	public void start() {
@@ -53,7 +53,7 @@ public class UI_Sun extends UI_Button {
 				click();
 			}
 			
-			}
+		}
 		
 		
 		

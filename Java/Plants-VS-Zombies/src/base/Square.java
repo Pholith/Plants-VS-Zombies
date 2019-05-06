@@ -51,6 +51,7 @@ public class Square {
     	}else {
     		if(associatedLillyPad != null)
     			associatedLillyPad.destroy();
+    		associatedLillyPad = null;
     	}
     }
     }

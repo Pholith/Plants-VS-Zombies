@@ -8,7 +8,7 @@ public class Chomper extends AttackingPlant {
 
 	
 	public Chomper(Vector2 position) {
-		super(100, position, 3f, 50, 10f, "plants/chomper.png", 3f);
+		super(100, position, 3f, "plants/chomper.png", 3f);
 
 		
 	}

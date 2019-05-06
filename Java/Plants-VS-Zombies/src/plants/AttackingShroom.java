@@ -9,17 +9,12 @@ import main.GameManager;
 /**
  * 
  */
-public class AttackingPlant extends Plant {
+public class AttackingShroom extends Shroom {
 
-	public AttackingPlant(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
+	public AttackingShroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, reloadTime, animationPath , animationSpeed);
 	}
 
-
-	public static int getCost() {
-    	return 0;
-	}
-    
     private float attackSpeedCount = 0;
 
     @Override
@@ -29,7 +24,7 @@ public class AttackingPlant extends Plant {
     public void update() {
     	super.update();
     	// lance des projectiles si la ligne n'est pas vide
-    	if (GameManager.getInstance().getFirstZombie(this) != null) {
+    	if (conditionOfAttacking()) {
         	attackSpeedCount += GameManager.getInstance().getDeltatime();
 
   
@@ -39,10 +34,12 @@ public class AttackingPlant extends Plant {
 	    	}
     	}
     }
-    
-    
+
     public void attack(Vector2 position) {
     	
+    }
+    public boolean conditionOfAttacking() {
+    	return (GameManager.getInstance().getFirstZombie(this) != null);
     }
     
 }

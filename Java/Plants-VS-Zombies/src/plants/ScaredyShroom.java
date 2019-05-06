@@ -1,0 +1,45 @@
+package plants;
+
+
+import java.util.*;
+
+import base.Vector2;
+import main.GameManager;
+import projectiles.PuffProjectile;
+import zombies.Zombie;
+
+public class ScaredyShroom extends AttackingShroom {
+
+	public ScaredyShroom(Vector2 position) {
+		super(100, position, 3f, "plants/scaredyshroom.png", 4f);
+		hidden = false;
+	}
+
+
+	public static int getCost() {
+    	return 25;
+	}
+
+    @Override
+    public String name() {return "ScaredyShroom";}
+
+    private boolean hidden;
+    @Override
+    public void update() {
+    	super.update();
+		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
+    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 2f) {
+    		hidden = true;
+    	} else {
+    		hidden = false;
+    	}
+    }
+    @Override
+    public void attack(Vector2 position) {
+    	new PuffProjectile(position);
+    }
+    @Override
+    public boolean conditionOfAttacking() {
+    	return !hidden && super.conditionOfAttacking();
+    }
+}
