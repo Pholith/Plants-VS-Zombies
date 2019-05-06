@@ -189,11 +189,11 @@ public class Resources {
     	
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     	
-    	cutImage("particles/end_anim_defeat.png", 5, 12,new Vector2(0.5f,0), 60 / (int)(screenSize.height/900f) ); 
-    	cutImage("particles/end_anim_victory.png", 19, 2,new Vector2(0.5f,0), 35 / (int)(screenSize.height/900f) ); 
+    	cutImage("particles/end_anim_defeat.png", 5, 12,new Vector2(0.5f,0), (int)(60f / (screenSize.height/900f)) ); 
+    	cutImage("particles/end_anim_victory.png", 19, 2,new Vector2(0.5f,0), (int)(35f / (screenSize.height/900f)) ); 
     	
     	
-    	cutImage("titlepage2.jpg", 1, 1,new Vector2(0.5f,0f), 120/ (int)(screenSize.height/900f));
+    	cutImage("titlepage2.jpg", 1, 1,new Vector2(0.5f,0f), (int)(120f/ (screenSize.height/900f)));
     	
     	
 
