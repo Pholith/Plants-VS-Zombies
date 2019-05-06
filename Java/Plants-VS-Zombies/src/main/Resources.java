@@ -167,14 +167,16 @@ public class Resources {
     	cutImage("plants/sunflower.png", 6, 9, 70);
     	cutImage("plants/wallNut.png", 9, 3, 60);
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
-    	cutImage("plants/ScaredyShroom.png", 1, 1, 210);
+
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
     	cutImage("plants/patatomine.png", 9, 6, 75);
     	cutImage("plants/Repeater.png", 7, 6, 75);
     	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
-    	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f,0.4f), 100);
-    	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f,0.4f), 70);
+    	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f,0.8f), 100);
+    	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f,0.8f), 70);
+    	cutImage("plants/ScaredyShroom.png", 1, 1, 210);
+    	
     	cutImage("plants/PuffProjectile.png", 1, 2, new Vector2(0.5f,0.4f), 70);
     	
    
