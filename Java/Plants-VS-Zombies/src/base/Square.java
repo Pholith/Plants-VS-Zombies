@@ -16,15 +16,14 @@ public class Square {
 	private int posY;
 	
 	private final Vector2 pos;
-	private GameObject associatedLillyPad;
-	
+
 	private final boolean inWater;
 	
 	public boolean isInWater() {
 		return inWater;
 	}
 	
-	private LivingEntity contain;
+	private ArrayList<LivingEntity> contain;
 	
 	
 	
@@ -33,6 +32,7 @@ public class Square {
     posY = y;    
     pos = Terrain.caseToPosition(x,y);    
     this.inWater = inWater;
+    contain = new ArrayList<LivingEntity>();
     }
     
     public Square(int x, int y) {
@@ -40,24 +40,28 @@ public class Square {
     }
     
     
-    public void setContain(LivingEntity ent) {
-    	contain = ent;  
-    	
-    	if(inWater) {
-    	if(ent != null) {
-    		if(associatedLillyPad == null)
-    			associatedLillyPad = new UI_Sprite(Terrain.caseToPosition(posX, posY),  GameManager.getResources().getAnimationByPath("plants/LilyPad.png")[0]);
-    			GameManager.getInstance().invertLastGameObjectQueue();
-    	}else {
-    		if(associatedLillyPad != null)
-    			associatedLillyPad.destroy();
-    		associatedLillyPad = null;
+    public void addContain(LivingEntity ent) {
+    	contain.add(ent);  
+    	if(contain.size() > 1)
+    		ent.translationFixed(0.1f, 0);
+    }
+    
+    public void removeEnt(LivingEntity plant) {
+    	if(contain.contains(plant)) {
+    		contain.remove(plant);    		
     	}
     }
+    
+    
+    public void destroyLast() {
+    	if(contain.size() > 0) 
+    		contain.get(contain.size()-1).destroy();	
+    	
     }
+  
     
     
-	public LivingEntity getContain() {
+	public ArrayList<LivingEntity> getContain() {
 		return contain;
 	}
     

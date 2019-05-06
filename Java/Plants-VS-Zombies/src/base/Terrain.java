@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import enums.EnumTerrain;
 import enums.RenderMode;
+import enums.TerrainSearch;
 import main.GameInfo;
 import plants.Plant;
 import ui.UI_Button;
@@ -68,26 +69,45 @@ public class Terrain extends GameObject {
 	}
 	
 	
+	boolean checkSquare(Square square, TerrainSearch searchMode) {
+		ArrayList<LivingEntity> ent = square.getContain();
+			
+			switch (searchMode) {
+	
+			case emptySurface:   	   					
+				return (ent.size() == 0 && !square.isInWater()) || (ent.size() == 1 && square.isInWater());			
+
+			case emptyGround:   	   					
+				return (ent.size() == 0 && !square.isInWater());			
+			
+			case emptyWater:   	   					
+				return (ent.size() == 0 && square.isInWater());			
+				
+			case notEmptyPlant:  
+				return (ent.size() > 0);					
+			}
+			
+			return false;	
+	}
+	
+	
+	
  
-	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function, boolean FilledSlotOnly) {
+	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function, TerrainSearch searchMode) {
     	int x,y;
   
     	for(y = 0; y < sizeY; y++) {
     	   	for(x = 0; x < sizeX; x++) {
-    	   		if( (listOfSquares[y][x].getContain() == null) == FilledSlotOnly)
-    	   			continue;
+    	   	    	   				
     	   		Integer[] params = new Integer[] {x,y};
     	   		
-    	   		/*println.out.(x +" "+ y ); TO DELTE Si julien utilise pas
-    	   		if (isWater(new Vector2(x,y))) {
-    	   			Plant plant = (Plant) listOfSquares[y][x].getContain();
-    	   			if (!plant.isLilyPad()) {
-        	   			continue;
-					}
-    	   		}*/
+    	   		if(checkSquare(listOfSquares[y][x], searchMode)) { 	   		
     	   		
+    	
+    	   		
+    	   				
     	   		lst.add(new UI_Button( caseToPosition(x,y)  ,1f,Color.orange, Constant.sizeTerrainCase , Constant.sizeTerrainCase , new Vector2(0.5f,0.5f), func -> {function.accept(params ); } ));
-    	   		
+    	   		}
     	   	}
     	}
 	}
@@ -108,20 +128,19 @@ public class Terrain extends GameObject {
 	    		System.err.println("Impossible de suprimer l'entité position("+x+" ,"+y+" ) dans la matrice de jeu.");
 	    		return;
 	    	}
-		  	
-		  	listOfSquares[y][x].getContain().destroy();
+		  	listOfSquares[y][x].destroyLast();
 	   }
 
     
     public Square addEntity(int x, int y, LivingEntity ent) {
     	
-    	if(!isInside(x,y) || listOfSquares[y][x].getContain() != null) {
+    	if(!isInside(x,y)) {
     		System.err.println("Impossible d'ajouter l'entité "+ent.toString()+" dans la matrice de jeu.");
     		ent.destroy();
     		return null;
     	}
     	
-    	listOfSquares[y][x].setContain(ent);  
+    	listOfSquares[y][x].addContain(ent);  
     	return listOfSquares[y][x];
     }
     

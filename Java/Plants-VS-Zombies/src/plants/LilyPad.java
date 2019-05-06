@@ -6,8 +6,7 @@ import projectiles.Peash;
 public class LilyPad extends Plant {
 
 	public LilyPad(Vector2 position) {
-		super(50, position, 3f, "plants/LyliPad.png", 1f);
-
+		super(50, position, 3f, "plants/LilyPad.png", 1f);
 	}
 
 	public static int getCost() {
