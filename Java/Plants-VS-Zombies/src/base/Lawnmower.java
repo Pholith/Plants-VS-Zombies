@@ -28,7 +28,7 @@ public class Lawnmower extends GameObject {
     	
     	Zombie firstEnemy =  (Zombie) GameManager.getInstance().getFirstZombie(this);
     	// si le projectile rencontre un zombie
-    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.2) {
+    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() + 0.8f) {
     		if (!startedMove) {
 				startedMove = true;
 			}

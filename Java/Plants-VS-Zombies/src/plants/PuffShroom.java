@@ -11,7 +11,7 @@ import zombies.Zombie;
 public class PuffShroom extends AttackingShroom {
 
 	public PuffShroom(Vector2 position) {
-		super(100, position, 3f, "plants/puffshroom.png", 4f);
+		super(100, position, 3f, "plants/PuffShroom.png", 4f);
 	}
 
 

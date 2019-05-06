@@ -28,8 +28,10 @@ public class GameInfo {
 		this.listOfZombies = listOfZombies;
 		this.selectedTerrain = selectedTerrain;
 	}
-	
-	
+
+	public boolean isNight() {
+		return selectedTerrain == EnumTerrain.night_lawn || selectedTerrain == EnumTerrain.night_roof;
+	}
 	
 	
 	

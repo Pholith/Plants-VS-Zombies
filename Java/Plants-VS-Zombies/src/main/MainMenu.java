@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
+import base.Constant;
 import base.GameObject;
 import base.Sprite;
 import base.Vector2;
@@ -17,8 +18,9 @@ import ui.UI_Sprite;
 public final class MainMenu {
 	
 	 static void start_menu() {
-			new UI_Label(new Vector2(2,1.5f), "Plant VS zombies", Color.blue, 5f);
-			new UI_Button(new Vector2(3f, 3f),1f,Color.lightGray, 200f,60f, new Vector2(0,0.7f), func -> {terrain_menu();});	
+			//new UI_Label(new Vector2(2,1.5f), "Plant VS zombies", Color.blue, 5f);
+		 new UI_Sprite(new Vector2( (GameManager.getInstance().getResolutionX()/Constant.screenPixelPerUnit)/2f, 0), GameManager.getResources().getAnimationByPath("titlepage2.jpg")[0]);
+			new UI_Button(new Vector2(3f, 3f),1f,Color.white, 200f,60f, new Vector2(0,0.7f), func -> {terrain_menu();});	
 			new UI_Label(new Vector2(3f, 3f), "Commencer", Color.black,3f);
 		 }
 		 

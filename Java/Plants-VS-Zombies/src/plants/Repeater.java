@@ -13,7 +13,7 @@ import projectiles.Peash;
 public class Repeater extends AttackingPlant {
 
 	public Repeater(Vector2 position) {
-		super(100, position, 3f, "plants/repeater.png", 4f);
+		super(100, position, 3f, "plants/Repeater.png", 2f);
 
 	}
 

@@ -1,7 +1,9 @@
 ﻿package main;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -14,6 +16,7 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import base.Constant;
+import base.GameObject;
 import base.Lawnmower;
 import base.LivingEntity;
 import base.Sprite;
@@ -22,7 +25,9 @@ import base.Terrain;
 import base.UI_Element;
 import base.Vector2;
 import enums.EnumTerrain;
+import enums.TerrainSearch;
 import plants.*;
+import ui.UI_AnimatedSprite;
 import ui.UI_Button;
 import ui.UI_Label;
 import ui.UI_PlantButton;
@@ -42,11 +47,23 @@ public class Resources {
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     private float plantSpawnCounter;
- 
+    private Dimension screenSize;
+    
+    private  Map<String, TerrainSearch> specialSearch;
+    
+    
     private GameInfo gameInfo;
     
-    private Class[] zombiesTotalList;
-    private Class[] plantsTotalList;
+    private Class[] zombiesTotalList = new Class[] {
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
+	};
+    
+    private Class[] plantsTotalList = new Class[] {
+			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
+			PuffShroom.class, SunShroom.class, ScaredyShroom.class
+	};
     
     public Class[] getPlantsTotalList() {
 		return plantsTotalList;
@@ -54,6 +71,8 @@ public class Resources {
     public Class[] getZombiesTotalList() {
 		return zombiesTotalList;
 	}
+    
+    
     
     
     
@@ -94,7 +113,11 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
-    	money = 1000;
+    	money = 100;
+    	
+    	specialSearch = new HashMap<String, TerrainSearch>();
+    	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
+    	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
     }
 
 
@@ -102,7 +125,9 @@ public class Resources {
     	return actTerrain.addEntity(x, y, ent);    	
     }
 
- 
+    Terrain getTerrain() {
+    	return actTerrain;
+    }
     void loadResources() throws IOException {
     	
     	 ///Prechargement des textures entieres
@@ -111,34 +136,24 @@ public class Resources {
     	
 
     	
-    	zombiesTotalList = new Class[] {
-    			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-    			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
-    	};
+ 
     	
     	plantsTotalList = new Class[] {
-    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class, LilyPad.class,
     			Chomper.class, FreezePeaShooter.class, PotatoMine.class, Repeater.class, 
     			PuffShroom.class, ScaredyShroom.class, SunShroom.class
     	};
     	//nomer les textures en fonction du nom des classes. (si on veut, on pourra géneraliser l'appel des textures avec le nom des classes)
-    	    	
-    	loadImageAtPath("cards/CherryBomb_icon.png");
-    	loadImageAtPath("cards/Chomper_icon.png");
-    	loadImageAtPath("cards/FreezePeaShooter_icon.png");
-    	loadImageAtPath("cards/Peashooter_icon.png");
-    	loadImageAtPath("cards/PotatoMine_icon.png");
-    	loadImageAtPath("cards/Repeater_icon.png");
-    	loadImageAtPath("cards/Sunflower_icon.png");
-    	loadImageAtPath("cards/WallNut_icon.png");
-    	loadImageAtPath("cards/Repeater_icon.png");
-    	// loadImageAtPath("cards/ScaredyShroom_icon.png");
-    	// loadImageAtPath("cards/SunShroom_icon.png");
-    	    
+    	    	    	    
     	loadImageAtPath("cards/shovel_icon.png");
-    	loadImageAtPath("cards/emptyfield.png");
+    	loadImageAtPath("cards/emptyfield.png");    	
+
+    	for(Class plant : plantsTotalList) {
+    		loadImageAtPath("cards/" + plant.getSimpleName() + "_icon.png");
+    	}
     	
     	
+    	loadImageAtPath("titlepage2.jpg");
     	
     	// Chargement des sprites et animations  
     	loadImageAtPath("lawn.jpg");
@@ -147,18 +162,22 @@ public class Resources {
     	loadImageAtPath("roofTerrain.jpg");
     	loadImageAtPath("roofTerrainNight.jpg");
     
-    	
     	// nombre de colonne puis nombre de ligne
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
     	cutImage("plants/sunflower.png", 6, 9, 70);
     	cutImage("plants/wallNut.png", 9, 3, 60);
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
+    	cutImage("plants/ScaredyShroom.png", 1, 1, 210);
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
     	cutImage("plants/patatomine.png", 9, 6, 75);
-    	
+    	cutImage("plants/Repeater.png", 7, 6, 75);
     	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
+    	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f,0.4f), 100);
+    	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f,0.4f), 70);
+    	cutImage("plants/PuffProjectile.png", 1, 2, new Vector2(0.5f,0.4f), 70);
     	
+   
     	cutImage("Lawnmower.png", 1, 1, 60);
 
     	
@@ -169,17 +188,23 @@ public class Resources {
     	cutImage("zombies/BucketHeadZombie.png", 1, 1, 450);
     	cutImage("zombies/FootballZombie.png", 2, 1, 80);
     	cutImage("zombies/ScreenDoorZombie.png", 1, 1, 320);
-    	
+
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
     	cutImage("particles/sun2.png", 1, 1, new Vector2(0.5f,0.5f), 150);   
-  	
     	
+    	
+    	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    	
+    	cutImage("particles/end_anim_defeat.png", 5, 12,new Vector2(0.5f,0), (int)(60f / (screenSize.height/900f)) ); 
+    	cutImage("particles/end_anim_victory.png", 19, 2,new Vector2(0.5f,0), (int)(35f / (screenSize.height/900f)) ); 
+    	
+    	
+    	cutImage("titlepage2.jpg", 1, 1,new Vector2(0.5f,0f), (int)(120f/ (screenSize.height/900f)));    	
 
-    	MainMenu.start_menu();
     }
     
     
@@ -343,12 +368,17 @@ public class Resources {
     	   terrainButtonList = new ArrayList<UI_Button>();
     }
     
+    
     private void drawTerrainButtons(int selectedPlant) {
     	removeTerrainButtons();
     	Consumer<Integer[]> buttonFunc =  (x) -> onSelectTerrainButton(x);
     	
-    	// Renvoie les données de la plante pour générer les bonnes cases
-    	actTerrain.generateButtons(terrainButtonList, buttonFunc, shovelMode);
+    	// Renvoie les données de la plante pour générer les bonnes cases    
+    	if(shovelMode) {
+    		actTerrain.generateButtons(terrainButtonList, buttonFunc, TerrainSearch.notEmptyPlant);
+    	}else {
+    		actTerrain.generateButtons(terrainButtonList, buttonFunc, ((specialSearch.containsKey(gameInfo.getListOfPlants()[selectedPlant].getSimpleName()  ))? specialSearch.get(gameInfo.getListOfPlants()[selectedPlant].getSimpleName()) :TerrainSearch.emptySurface));
+    	}
     	
     	
 	    if(terrainButtonList.size() == 0)
@@ -388,10 +418,7 @@ public class Resources {
     		// récupère l'entier en résultat de la méthode
 	    	Object result = method.invoke(null, null);
 	    		 
-	    	if(actTerrain.isWater(new Vector2(coords[0], coords[1])))
-	    		result = (int)result + 25;
-	    		
-	    	
+ 	
     	if (money >= (int) result) {
 	    		// instancie la plante
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});

@@ -9,7 +9,7 @@ public class SunShroom extends Shroom {
 
     
     public SunShroom(Vector2 position) {
-		super(100, position, 15f, "plants/sunshroom.png", 2f);
+		super(100, position, 15f, "plants/SunShroom.png", 4f);
 		productionDelay = 20;
 		growDelay = 40;
 	}    
@@ -36,17 +36,17 @@ public class SunShroom extends Shroom {
     @Override
     public void update() {
     	super.update();
-    	if(production >= productionDelay) {
-        	new UI_LittleSun(getPosition(), func -> { GameManager.getInstance().getResources().getASun( !isBig() );} );     	
-        	production = 0;
+    	if (!isSleeping()) {
+	
+	    	if(production >= productionDelay) {
+	        	new UI_LittleSun(getPosition(), func -> { GameManager.getInstance().getResources().getASun( !isBig() );} );     	
+	        	production = 0;
+	    	}
+	    	if (!isBig()) {
+				grow += GameManager.getInstance().getDeltatime();
+			}
+	    	production += GameManager.getInstance().getDeltatime();
     	}
-    	if (!isBig()) {
-			grow += GameManager.getInstance().getDeltatime();
-		}
-    	production += GameManager.getInstance().getDeltatime();
     	
     }
-	
-
-
 }

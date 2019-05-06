@@ -23,14 +23,15 @@ public class AttackingShroom extends Shroom {
     @Override
     public void update() {
     	super.update();
-    	// lance des projectiles si la ligne n'est pas vide
-    	if (conditionOfAttacking()) {
-        	attackSpeedCount += GameManager.getInstance().getDeltatime();
+    	if (!isSleeping()) {
 
-  
-	    	if(attackSpeedCount >= 0.8f) {
-	    		attack(getPosition());
-	    		attackSpeedCount = 0;
+	    	if (conditionOfAttacking()) {
+	        	attackSpeedCount += GameManager.getInstance().getDeltatime();
+		  
+		    	if(attackSpeedCount >= 0.8f) {
+		    		attack(getPosition());
+		    		attackSpeedCount = 0;
+		    	}
 	    	}
     	}
     }

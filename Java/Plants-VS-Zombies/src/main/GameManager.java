@@ -18,7 +18,6 @@ import javax.imageio.ImageIO;
 import base.Camera;
 import base.Constant;
 import base.GameObject;
-import base.LevelManager;
 import base.LivingEntity;
 import base.Terrain;
 import base.Vector2;
@@ -28,6 +27,7 @@ import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
 import projectiles.Peash;
 import projectiles.Projectile;
+import ui.UI_AnimatedSprite;
 import ui.UI_Label;
 import zombies.SimpleZombie;
 import zombies.Zombie;
@@ -56,13 +56,21 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    private static final Resources RESOURCES = new Resources();
 	    public static Resources getResources() { return RESOURCES;  }
-
-	
+	    
+	    private  ScreenInfo screenInfo;
+	    	/*
+	    public ScreenInfo getScreenInfo() {
+			return screenInfo;
+		}*/
+	    
 	    private boolean inDebugMode;
 	    
 	    private float resolutionX;
 	    private float resolutionY;    
-	
+	    public float getResolutionX() {
+			return resolutionX;
+		}
+	    
 	    
 	    private final Clock clock;	//Horloge temps reel 
 	    private int currentFps;		//Compteur de fps
@@ -90,7 +98,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private Point2D.Float clickLocation;    
 	    
 	    
-	    private boolean endGame;
+	    private boolean gameEnded;
 	    private boolean gameStarted;
 	    
 	    
@@ -127,17 +135,18 @@ import fr.umlv.zen5.KeyboardKey;
 	    	 
 			 Application.run(Color.WHITE,context -> {			      
 			      // get the size of the screen
-			      ScreenInfo screenInfo = context.getScreenInfo();			    
+			      screenInfo = context.getScreenInfo();			    
 			      resolutionX = screenInfo.getWidth();
 			      resolutionY = screenInfo.getHeight();
 			     
 			      
 			      System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
-			      
+
+			    	MainMenu.start_menu();
 			      
 			      while (true) {
 			    	  
-			    	  if(gameStarted && !endGame)
+			    	  if(gameStarted && !gameEnded)
 			    	  levelManager.levelEvent();
 				      updateGameObjects();
 				      RESOURCES.updateResources();
@@ -226,7 +235,7 @@ import fr.umlv.zen5.KeyboardKey;
 	        
 	        
 	        
-	        if(endGame)
+	        if(gameEnded)
 	        	return;
 	        	
 	        if (key == KeyboardKey.LEFT)
@@ -278,9 +287,10 @@ import fr.umlv.zen5.KeyboardKey;
 	    public void addGameObjectToScene(GameObject obj) {	
 	    	if(!sceneContent.contains(obj) && !ojbectsInQueue.contains(obj))
 	    		ojbectsInQueue.add(obj);	    	
-	    		obj.start();
+	    	
+	    	obj.start();
 	    }
-	    
+	    /*
 	    //inverse les 2 dernier objet de la liste des GameObjects a ajouter (utile si l'on veut determiner l'ordre d'affichage de certain objets).
 	    public void invertLastGameObjectQueue() {	
 	    	//Collections.reverse(ojbectsInQueue);
@@ -290,7 +300,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    		ojbectsInQueue.set(ojbectsInQueue.size()-2,ojbectsInQueue.get(ojbectsInQueue.size()-1));
 	    		ojbectsInQueue.set(ojbectsInQueue.size()-1, obj);
 	    	}
-	    }
+	    }*/
 	    
 	    public void removeGameObjectFromScene(GameObject obj) {
 	    	if(obj != null && !ojbectsToRemoveQueue.contains(obj))
@@ -402,9 +412,18 @@ import fr.umlv.zen5.KeyboardKey;
 
 			clearScene();
 			
+			
+			if(win) 
+			new UI_AnimatedSprite(new Vector2((resolutionX/Constant.screenPixelPerUnit)/2f, 0), "particles/end_anim_victory.png", 1.2f, false);		    	
+						
 			new UI_Label(new Vector2(1f, 1f), (win)?"Partie gagnée !":"Partie perdue !", (win)?Color.green :Color.red, 5f);
 			
-			endGame = true;
+			if(!win) {
+				new UI_AnimatedSprite(new Vector2((resolutionX/Constant.screenPixelPerUnit)/2f, 0), "particles/end_anim_defeat.png", 1.2f, true);		    	
+				
+			}
+			
+			gameEnded = true;
 			inDebugMode = false;
 			
 		}

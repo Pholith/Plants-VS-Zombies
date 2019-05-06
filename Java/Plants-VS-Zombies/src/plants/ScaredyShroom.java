@@ -11,7 +11,7 @@ import zombies.Zombie;
 public class ScaredyShroom extends AttackingShroom {
 
 	public ScaredyShroom(Vector2 position) {
-		super(100, position, 3f, "plants/scaredyshroom.png", 4f);
+		super(100, position, 3f, "plants/ScaredyShroom.png", 4f);
 		hidden = false;
 	}
 
@@ -27,12 +27,15 @@ public class ScaredyShroom extends AttackingShroom {
     @Override
     public void update() {
     	super.update();
-		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
-    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 2f) {
-    		hidden = true;
-    	} else {
-    		hidden = false;
-    	}
+    	if (!isSleeping()) {
+			Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
+	    	if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 2f) {
+	    		hidden = true;
+	    	} else {
+	    		hidden = false;
+	    	}
+		}
+
     }
     @Override
     public void attack(Vector2 position) {

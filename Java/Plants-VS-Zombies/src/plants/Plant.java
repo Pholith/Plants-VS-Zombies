@@ -52,6 +52,6 @@ public abstract class Plant extends LivingEntity {
     @Override
 	   public void onDestroy() {
 	    if(associatedSquare != null)
-	    	associatedSquare.setContain(null);
+	    	associatedSquare.removeEnt(this);
 	   }
 }
