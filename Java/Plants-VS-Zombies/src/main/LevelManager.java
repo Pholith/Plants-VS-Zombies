@@ -25,8 +25,8 @@ public class LevelManager {
 	
 	private double spawnDelay = 12; // temps de spawn en sec
 	private double waveDelay = 80; // temps entre chaque vague
-	private double sunSpawnDelay = 5; // temps entre chaque vague
-	private double levelTimeDelay = 220; // temps d'une partie  
+	private double sunSpawnDelay = 10; // temps entre chaque vague
+	private double levelTimeDelay = 300; // temps d'une partie  
 	
 	Class[] listOfZombies;
 	
@@ -70,6 +70,7 @@ public class LevelManager {
 			// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
 			Constructor<? extends Zombie> constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
 			Vector2 vector2 = new Vector2((float) (10 + Math.random()*2), (float) Math.random() * GameManager.getResources().getTerrain().getTerrainSize().getY());
+
 			constructor.newInstance(new Object[] {vector2});
 
 		} catch (Exception e) {
@@ -94,7 +95,9 @@ public class LevelManager {
 			counterOfLastZombie ++;
 			counterOfLastWave ++;
 			counterBeforeEnd ++;
-			counterOfSun ++;
+			if (!GameManager.getResources().getGameInfo().isNight()) {
+				counterOfSun ++;
+			}
 			lastTimeStamp = timeStamp;
 		}		
 		// fin du niveau

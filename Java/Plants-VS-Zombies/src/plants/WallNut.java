@@ -5,13 +5,10 @@ import java.util.*;
 
 import base.Vector2;
 
-/**
- * 
- */
 public class WallNut extends Plant {
 
 	public WallNut(Vector2 position) {
-		super(600, position, 3f, "plants/wallNut.png", 3f);
+		super(500, position, 3f, "plants/wallNut.png", 3f);
 	}
 
 	public static int getCost() {

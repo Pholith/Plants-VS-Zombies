@@ -27,11 +27,7 @@ public abstract class Zombie extends LivingEntity {
     private float speed;
     private int dammage = 25;
     
-    
-    private boolean slowed = false;
-    private double timeSlow = 0;
-    private double timeSlowDelay = 7;
-    
+        
     @Override
     public String name() {return "Zombie";}
     
@@ -41,20 +37,43 @@ public abstract class Zombie extends LivingEntity {
 
     @Override
     public boolean isZombie() {
-    	return true;
+    	return !hypnotised;
     }
     private float eatCouldown = 0;
 
     public void addSpeed(float f) {
     	speed += -f/400;
     }
+    private boolean slowed = false;
+    private double timeSlow = 0;
+    private double timeSlowDelay = 7;
+    
     public void slow() {
     	slowed = true;
     }
     
+    private double timeStun = 0; // état immobilisation
+    public void stun() { 
+    	timeStun = 3f;
+    }
+    private boolean hypnotised = false;
+    public void hypnotise() { // deviens allié des plantes
+    	hypnotised = true;
+    	speed = 2 * (-speed);
+    }
+    public boolean isHypnotised() {
+    	return hypnotised;
+    }
     @Override
     public void update() {
     	super.update();
+    	
+    	if (timeStun > 0) {
+    		timeStun -= GameManager.getInstance().getDeltatime();
+			setInactive();
+    		return;
+		}
+    	setActive();
     	if (slowed) {
     		timeSlow += GameManager.getInstance().getDeltatime();
     		if (timeSlow >= timeSlowDelay) {
@@ -63,9 +82,14 @@ public abstract class Zombie extends LivingEntity {
 			}
 		}
 
-    	Plant firstEnemy = (Plant) GameManager.getInstance().getFirstPlant(this);
-    	// si le zombie rencontre une plante devant lui et assez proche, il s'arrï¿½te pour la manger
-    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
+    	LivingEntity firstEnemy;
+    	if (hypnotised) {
+        	firstEnemy = (LivingEntity) GameManager.getInstance().getFirstZombie(this);
+		} else {
+			firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
+		}
+    	// si le zombie rencontre une plante devant lui et assez proche, il la mange
+    	if (firstEnemy != null && (!hypnotised && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5 || (hypnotised && firstEnemy.getPosition().getX() < this.getPosition().getX() + 0.5))) {
     	
     		eatCouldown += GameManager.getInstance().getDeltatime();
     		

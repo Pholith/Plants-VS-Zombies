@@ -1,29 +1,26 @@
 package plants;
 
-
-import java.util.*;
-
 import base.Vector2;
 import main.GameManager;
-import projectiles.PuffProjectile;
+import projectiles.Fume;
 import zombies.Zombie;
 
-public class PuffShroom extends AttackingShroom {
+public class FumeShroom extends AttackingShroom {
 
-	public PuffShroom(Vector2 position) {
-		super(100, position, 3f, "plants/PuffShroom.png", 4f);
+	public FumeShroom(Vector2 position) {
+		super(100, position, 5f, "plants/FumeShroom.png", 3f);
 	}
 
 	public static int getCost() {
-    	return 0;
+    	return 75;
 	}
    
     @Override
-    public String name() {return "PuffShroom";}
+    public String name() {return "FumeShroom";}
 
     @Override
     public void attack(Vector2 position) {
-    	new PuffProjectile(position, 3f);
+    	new Fume(position);
     }
     
     @Override
@@ -31,4 +28,5 @@ public class PuffShroom extends AttackingShroom {
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
 		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f);
     }
+
 }

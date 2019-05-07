@@ -1,14 +1,8 @@
 package plants;
 
-
-import java.util.*;
-
 import base.Vector2;
 import projectiles.Peash;
 
-/**
- * 
- */
 public class Peashooter extends AttackingPlant {
 
 	public Peashooter(Vector2 position) {

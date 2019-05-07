@@ -5,6 +5,7 @@ import java.util.*;
 
 import base.GameObject;
 import base.Vector2;
+import main.Explosion;
 import main.GameManager;
 import zombies.Zombie;
 
@@ -21,15 +22,10 @@ public class PotatoMine extends Plant {
 	public void start() {
 		
 	}
-	
-	private boolean exploded;
-	
+		
 	public static int getCost() {
     	return 25;
 	}
-	
-	private float explodeAnim = 0;
-
 	
 	public void update() {
 
@@ -40,22 +36,15 @@ public class PotatoMine extends Plant {
 				
 				for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this, 1f)) {
 					gameObject.takeDammage(500);
-					setAnimationSprite(GameManager.getResources().getAnimationByPath("particles/explosion.png"));
-					explodeAnim = 0.1f;
 				}
-
+				new Explosion(getPosition());
+				destroy();
 	    	}
 	    } else {
 			setInactive();
 			timeBeforeReady -= GameManager.getInstance().getDeltatime();
 		}
-		
-		if(explodeAnim != 0) {					
-			explodeAnim+= GameManager.getInstance().getDeltatime();
-			if(explodeAnim > 0.7)
-				destroy();
-		}
-		
+				
 	}
 	
 	/*

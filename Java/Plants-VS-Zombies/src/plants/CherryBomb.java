@@ -5,6 +5,7 @@ import java.util.*;
 
 import base.GameObject;
 import base.Vector2;
+import main.Explosion;
 import main.GameManager;
 import zombies.Zombie;
 
@@ -19,7 +20,6 @@ public class CherryBomb extends Plant {
 	
 
 	private float timeExplode = 0;
-	private boolean exploded;
 	
 	
 	public static int getCost() {
@@ -30,17 +30,13 @@ public class CherryBomb extends Plant {
 	
 	public void update() {
 
-		if (timeExplode > 1f && !exploded) {
+		if (timeExplode > 1f) {
 			for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this)) {
-				gameObject.takeDammage(500);				
+				gameObject.takeDammage(500);
 			}
-			setAnimationSprite(GameManager.getResources().getAnimationByPath("particles/explosion.png"));
-			
-			exploded = true;
+			new Explosion(getPosition());
+			destroy();
 		}
-		if (timeExplode > 1.7f) 
-			destroy();				
-		
 		
 		timeExplode += GameManager.getInstance().getDeltatime();
 	}

@@ -1,5 +1,6 @@
 package zombies;
 
+import base.LivingEntity;
 import base.Terrain;
 import base.Vector2;
 import main.GameManager;
@@ -22,7 +23,7 @@ public class PoleVaulterZombie extends Zombie {
 		super.update();
 		
 		if (canVault) {
-	    	Plant firstEnemy = (Plant) GameManager.getInstance().getFirstPlant(this);
+	    	LivingEntity firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
 	    	// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
 	    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
 	    		this.translationFixed(-0.5f, 0); // translation de une case vers la gauche

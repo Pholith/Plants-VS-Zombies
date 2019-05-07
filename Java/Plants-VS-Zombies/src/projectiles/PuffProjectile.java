@@ -15,7 +15,7 @@ public class PuffProjectile extends Projectile {
 		
 	}
 	public PuffProjectile(Vector2 position, float maxLenght) {
-		super(position, new Vector2(0.06f, 0), 10, "plants/PuffProjectile.png");
+		super(position, new Vector2(0.06f, 0), 10, "plants/Bubble.png");
 		this.originalPosition = position;
 		this.maxlenght = maxLenght;
 	}

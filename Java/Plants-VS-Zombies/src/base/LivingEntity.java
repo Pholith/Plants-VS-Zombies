@@ -53,6 +53,9 @@ public abstract class LivingEntity extends GameObject {
 
 
     private int health;
+    public int getHealth() {
+    	return health;
+    }
     protected void setActive() {
     	isActive = true;
     }
@@ -88,6 +91,8 @@ public abstract class LivingEntity extends GameObject {
     	lastFrameUpdate = GameManager.getInstance().getClockMillis();
     	
     }
+    // utile pour l'explosion
+    public void onLastFrame() {}
     
     @Override
     public void update() {
@@ -107,9 +112,11 @@ public abstract class LivingEntity extends GameObject {
     		if (delta >=  realTimeLoop) {
     			lastFrameUpdate = GameManager.getInstance().getClockMillis();
     		}
-    		
- 
-    		return animationSprite [ (int)(((float) delta/realTimeLoop)*animationSprite.length)%animationSprite.length];
+    		int complexCalcul = (int) (((float) delta/realTimeLoop) * animationSprite.length);
+    		if (complexCalcul >= animationSprite.length) {
+				onLastFrame();
+			}
+    		return animationSprite [ complexCalcul % animationSprite.length ];
     	}
     	 	
     	

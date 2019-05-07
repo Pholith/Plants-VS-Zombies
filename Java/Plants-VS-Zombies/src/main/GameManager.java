@@ -11,6 +11,7 @@ import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -360,6 +361,25 @@ import fr.umlv.zen5.KeyboardKey;
 			return listOfZombies;
 		}
 		
+		public HashSet<Zombie> getAllZombies() {
+			HashSet<Zombie> listZombies = new HashSet<Zombie>();
+			for (GameObject gameObject : sceneContent) {
+				if (gameObject.isZombie()) {
+					listZombies.add((Zombie) gameObject);
+				}
+			}
+			return listZombies;
+		}
+		public boolean isZombieOnRow(int row) {
+			//getResources().getTerrain().getTerrainSize().getY();
+			
+			for (GameObject gameObject : sceneContent) {
+				if (gameObject.isZombie() && Terrain.positionToCase(gameObject.getPosition()).isOnSameRow(new Vector2(0, row))) {
+					return true;
+				}
+			}
+			return false;
+		}
 		public GameObject getFirstZombie(GameObject o) {
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
@@ -382,8 +402,14 @@ import fr.umlv.zen5.KeyboardKey;
 			
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
-								
-				if(gameObject.isPlant() && !gameObject.isProjectile() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
+					
+				boolean hypnotisedZombie = false;
+				if (gameObject instanceof Zombie) {
+					if (((Zombie) gameObject).isHypnotised()) {
+						hypnotisedZombie = true;
+					}
+				}
+				if( ( gameObject.isPlant()|| hypnotisedZombie) && !gameObject.isProjectile() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() < o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances

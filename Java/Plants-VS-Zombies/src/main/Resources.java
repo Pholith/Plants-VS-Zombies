@@ -54,16 +54,6 @@ public class Resources {
     
     private GameInfo gameInfo;
     
-    private Class[] zombiesTotalList = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
-	};
-    
-    private Class[] plantsTotalList = new Class[] {
-			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
-			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
-			PuffShroom.class, SunShroom.class, ScaredyShroom.class
-	};
     
     public Class[] getPlantsTotalList() {
 		return plantsTotalList;
@@ -72,7 +62,18 @@ public class Resources {
 		return zombiesTotalList;
 	}
     
+    private Class[] zombiesTotalList = new Class[] {
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
+	};
     
+    private Class[] plantsTotalList = new Class[] {
+			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
+			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
+			TallNut.class, Threepeater.class
+	};
+
     
     
     
@@ -113,7 +114,7 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
-    	money = 100;
+    	money = 1000;
     	
     	specialSearch = new HashMap<String, TerrainSearch>();
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
@@ -136,13 +137,6 @@ public class Resources {
     	
 
     	
- 
-    	
-    	plantsTotalList = new Class[] {
-    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class, LilyPad.class,
-    			Chomper.class, FreezePeaShooter.class, PotatoMine.class, Repeater.class, 
-    			PuffShroom.class, ScaredyShroom.class, SunShroom.class
-    	};
     	//nomer les textures en fonction du nom des classes. (si on veut, on pourra géneraliser l'appel des textures avec le nom des classes)
     	    	    	    
     	loadImageAtPath("cards/shovel_icon.png");
@@ -169,17 +163,22 @@ public class Resources {
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
 
     	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
+    	cutImage("plants/eating_chomper.png", 11, 4,new Vector2(0.4f,0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
     	cutImage("plants/patatomine.png", 9, 6, 75);
-    	cutImage("plants/Repeater.png", 7, 6, 75);
+    	cutImage("plants/Repeater.png", 7, 6, 60);
     	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
     	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f,0.8f), 100);
     	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f,0.8f), 70);
     	cutImage("plants/ScaredyShroom.png", 1, 1, 210);
-    	
-    	cutImage("plants/PuffProjectile.png", 1, 2, new Vector2(0.5f,0.4f), 70);
-    	
-   
+    	cutImage("plants/FumeShroom.png", 23, 2, 80);
+    	cutImage("plants/IceShroom.png", 1, 1, 210);
+    	cutImage("plants/DoomShroom.png", 23, 2, 80);
+    	cutImage("plants/HypnoShroom.png", 59, 1, 80);
+    	cutImage("plants/TallNut.png", 41, 1, 80);
+    	cutImage("plants/TallNut_cracked.png", 1, 1, 120);
+    	cutImage("plants/Threepeater.png", 19, 2, 70);
+
     	cutImage("Lawnmower.png", 1, 1, 60);
 
     	
@@ -193,6 +192,10 @@ public class Resources {
 
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
+    	cutImage("plants/Bubble.png", 1, 1, new Vector2(0.5f, 1.25f), 120);
+    	cutImage("plants/Fume.png", 1, 1, new Vector2(0.1f, 1.5f), 120);
+
+    	
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   

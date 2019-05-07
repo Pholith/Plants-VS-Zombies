@@ -1,8 +1,6 @@
 package projectiles;
 
 
-import java.util.*;
-
 import base.Constant;
 import base.GameObject;
 import base.Sprite;
@@ -11,14 +9,9 @@ import main.GameManager;
 import zombies.Zombie;
 
 
-
-/**
- * 
- */
 public class Projectile extends GameObject {
 
 	private Sprite defaultSprite;
-	
 	
     public Projectile(Vector2 position, Vector2 speed, int dammage, String texturePath) {
 		super(position);
@@ -34,6 +27,9 @@ public class Projectile extends GameObject {
     private Vector2 speed;
     private int dammage; 
 
+    public int getDammage() {
+    	return dammage;
+    }
     @Override
     public boolean isProjectile() {
     	return true;
@@ -42,6 +38,7 @@ public class Projectile extends GameObject {
 		z.takeDammage(dammage, this);
 		destroy();
     }
+    
     @Override
     public void update() {
     	super.update();
