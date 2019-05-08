@@ -13,6 +13,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.imageio.ImageIO;
 
@@ -26,8 +28,8 @@ import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
-import projectiles.Peash;
-import projectiles.Projectile;
+import projectiles.Pea;
+import projectiles.LineProjectile;
 import ui.UI_AnimatedSprite;
 import ui.UI_Label;
 import zombies.SimpleZombie;
@@ -341,24 +343,44 @@ import fr.umlv.zen5.KeyboardKey;
 		 * Renvoie null sinon
 		 */ 
 		
-		public ArrayList<Zombie> getZombieArround(GameObject o) {
+		public HashSet<Zombie> getZombieArround(GameObject o) {
 			return getZombieArround(o, 2f);
 		}
-		public ArrayList<Zombie> getZombieArround(GameObject o, double distance) {
-			ArrayList<Zombie> listOfZombies = new ArrayList<>();
+		public HashSet<Zombie> getZombieArround(GameObject o, double distance) {
+			HashSet<Zombie> listOfZombies = new HashSet<>();
+			var hashset = getGameObjectArround(o, distance, new Function<GameObject, Boolean>() {
+				@Override
+				public Boolean apply(GameObject t) {
+					if (t.isZombie()) {
+						return Boolean.valueOf(true);
+					}
+					return Boolean.valueOf(false);
+				}
+			});
+			for (GameObject gameObject : hashset) {
+				listOfZombies.add( (Zombie) gameObject);
+			}
+			return listOfZombies;
+		}
+		/* Retourne les objets autour de l'objet donnée en paramètre suivant certains critères
+		* o l'objet de référence
+		* distance la distance autour de cet objet
+		* lambda la fonction de sélection de l'objet
+		*/
+		public HashSet<GameObject> getGameObjectArround(GameObject o, double distance, Function<GameObject, Boolean> lambda) {
+			HashSet<GameObject> listOfGameObject = new HashSet<>();
 			
 			for (GameObject gameObject : sceneContent) {
 								
-				if (gameObject.isEnemy(o) &&
+				if (lambda.apply(gameObject) &&
 						gameObject.getPosition().getX()    	< o.getPosition().getX() + distance &&
 						gameObject.getPosition().getX()	    > o.getPosition().getX() - distance &&
 						gameObject.getPosition().getY() 	< o.getPosition().getY() + distance &&
 						gameObject.getPosition().getY()  	> o.getPosition().getY() - distance ){
-					listOfZombies.add((Zombie) gameObject);
+					listOfGameObject.add(gameObject);
 				}				
 			}
-			
-			return listOfZombies;
+			return listOfGameObject;
 		}
 		
 		public HashSet<Zombie> getAllZombies() {

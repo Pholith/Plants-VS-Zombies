@@ -15,25 +15,15 @@ import java.util.function.Consumer;
 
 import javax.imageio.ImageIO;
 
-import base.Constant;
-import base.GameObject;
-import base.Lawnmower;
-import base.LivingEntity;
-import base.Sprite;
-import base.Square;
-import base.Terrain;
-import base.UI_Element;
-import base.Vector2;
+import base.*;
 import enums.EnumTerrain;
 import enums.TerrainSearch;
 import plants.*;
-import ui.UI_AnimatedSprite;
-import ui.UI_Button;
-import ui.UI_Label;
-import ui.UI_PlantButton;
-import ui.UI_Sprite;
-import ui.UI_Sun;
-import ui.UI_TremblingLabel;
+import plants.day.*;
+import plants.night.*;
+import plants.pool.*;
+import plants.roof.CabbagePult;
+import ui.*;
 import zombies.*;
 
 //Les resources ont une visibilités de "package"
@@ -71,7 +61,9 @@ public class Resources {
 			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
 			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
 			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
-			TallNut.class, Threepeater.class
+			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
+			
+			CabbagePult.class
 	};
 
     
@@ -119,6 +111,7 @@ public class Resources {
     	specialSearch = new HashMap<String, TerrainSearch>();
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
+    	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
     }
 
 
@@ -162,22 +155,28 @@ public class Resources {
     	cutImage("plants/wallNut.png", 9, 3, 60);
     	cutImage("plants/cherryBomb.png", 1, 1, 260);
 
-    	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f,0.8f), 80);
-    	cutImage("plants/eating_chomper.png", 11, 4,new Vector2(0.4f,0.8f), 80);
+    	cutImage("plants/chomper.png", 31, 1,new Vector2(0.4f, 0.8f), 80);
+    	cutImage("plants/eating_chomper.png", 11, 4,new Vector2(0.4f, 0.8f), 80);
     	cutImage("plants/freeze_pea_shooter.png", 7, 3, 64);
     	cutImage("plants/patatomine.png", 9, 6, 75);
     	cutImage("plants/Repeater.png", 7, 6, 60);
-    	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f,0.4f), 175);
-    	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f,0.8f), 100);
-    	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f,0.8f), 70);
+    	cutImage("plants/LilyPad.png", 1, 1,new Vector2(0.5f, 0.4f), 175);
+    	cutImage("plants/SunShroom.png", 13, 1, new Vector2(0.5f, 0.8f), 100);
+    	cutImage("plants/PuffShroom.png", 19, 2, new Vector2(0.5f, 0.8f), 70);
     	cutImage("plants/ScaredyShroom.png", 1, 1, 210);
     	cutImage("plants/FumeShroom.png", 23, 2, 80);
     	cutImage("plants/IceShroom.png", 1, 1, 210);
     	cutImage("plants/DoomShroom.png", 23, 2, 80);
     	cutImage("plants/HypnoShroom.png", 59, 1, 80);
-    	cutImage("plants/TallNut.png", 41, 1, 80);
+    	cutImage("plants/TallNut.png", 41, 1, 90);
     	cutImage("plants/TallNut_cracked.png", 1, 1, 120);
     	cutImage("plants/Threepeater.png", 19, 2, 70);
+    	cutImage("plants/Torchwood.png", 9, 3, 100);
+    	cutImage("plants/Jalapeno.png", 1, 1, 210);
+    	cutImage("plants/Squash.png", 1, 1, 180);
+    	cutImage("plants/TangleKelp.png", 1, 1, new Vector2(0.5f, 0.4f), 180);
+    	cutImage("plants/Spikeweed.png", 1, 1, new Vector2(0.5f, 0.2f), 80);
+    	cutImage("plants/CabbagePult.png", 33, 1, new Vector2(0.75f, 0.75f), 70);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
@@ -194,8 +193,9 @@ public class Resources {
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/Bubble.png", 1, 1, new Vector2(0.5f, 1.25f), 120);
     	cutImage("plants/Fume.png", 1, 1, new Vector2(0.1f, 1.5f), 120);
+    	cutImage("plants/FirePea.png", 2, 2, new Vector2(0.5f,2f), 320);
+    	cutImage("plants/Cabbage.png", 1, 1,new Vector2(2f, 2f), 70);
 
-    	
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   

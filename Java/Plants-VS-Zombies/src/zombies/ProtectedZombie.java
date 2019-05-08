@@ -1,6 +1,7 @@
 package zombies;
 
 import base.Vector2;
+import projectiles.LineProjectile;
 import projectiles.Projectile;
 
 public abstract class ProtectedZombie extends Zombie {

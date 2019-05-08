@@ -55,7 +55,7 @@ public final class MainMenu {
 		}
 		
 		for (int j = 0; j < listOfZombies.length; j++) {
-			new UI_Sprite(new Vector2(11f+ (j % 3) *1f, 4f + 2f* (j / 3)), GameManager.getResources().getAnimationByPath("zombies/" + listOfZombies[j].getSimpleName() +".png")[0]);
+			new UI_Sprite(new Vector2(9.5f+ (j % 3) *1f, 4f + 2f* (j / 3)), GameManager.getResources().getAnimationByPath("zombies/" + listOfZombies[j].getSimpleName() +".png")[0]);
 		}
 
 		return listOfZombies;
@@ -78,10 +78,10 @@ public final class MainMenu {
 		
 		for(i = 0; i < totalplants.length; i++) {
 			int b = i;//obligé
-			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%4) *1.5f, 2.5f + 1f* (i/4)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {
+			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {
 					selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, listOfZombies, terrain));} );}));			
 		}
-		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%4) *1.5f, 2.5f + 1f* (i/4)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, -1, fonc -> {});}));			
+		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, -1, fonc -> {});}));			
 		
 		
 		//plant_menu(terrain, listOfZombies);

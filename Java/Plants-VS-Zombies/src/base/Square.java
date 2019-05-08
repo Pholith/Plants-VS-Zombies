@@ -4,7 +4,7 @@ package base;
 import java.util.*;
 
 import main.GameManager;
-import plants.Peashooter;
+import plants.day.Peashooter;
 import ui.UI_Sprite;
 
 /**

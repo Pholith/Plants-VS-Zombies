@@ -7,7 +7,7 @@ import java.util.*;
 
 import enums.RenderMode;
 import main.GameManager;
-import projectiles.Projectile;
+import projectiles.LineProjectile;
 
 /**
  * 

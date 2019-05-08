@@ -3,6 +3,8 @@ package base;
 import java.util.ArrayList;
 
 import main.GameManager;
+import projectiles.LineProjectile;
+import projectiles.LobProjectile;
 import projectiles.Projectile;
 import zombies.BucketHeadZombie;
 
@@ -68,8 +70,8 @@ public abstract class LivingEntity extends GameObject {
     public boolean takeDammage(int dammage) {
     	return takeDammage(dammage, null);
     }
-    public boolean takeDammage(int dammage, Projectile p) {
-    	health -= onTakeDammage(dammage, p);
+    public boolean takeDammage(int dammage, Projectile lobProjectile) {
+    	health -= onTakeDammage(dammage, lobProjectile);
     	if (health <= 0) {
     		destroy();
     		return true;

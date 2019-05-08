@@ -7,11 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import plants.Peashooter;
 import ui.UI_Sun;
 import zombies.*;
+import base.Gravestone;
 import base.Terrain;
 import base.Vector2;
+import plants.day.Peashooter;
 
 public class LevelManager {
 
@@ -33,6 +34,9 @@ public class LevelManager {
 	public LevelManager() {		
 		super();
 		listOfZombies = GameManager.getResources().getGameInfo().getListOfZombies();
+		if (GameManager.getResources().getGameInfo().isNight()) {
+			// TODO mettre des tombes
+		}		
 	}
 
 	private long lastTimeStamp = GameManager.getInstance().getClockMillis()/1000;

@@ -8,7 +8,7 @@ import main.GameManager;
 /**
  * 
  */
-public class PuffProjectile extends Projectile {
+public class PuffProjectile extends LineProjectile {
 
 	public PuffProjectile(Vector2 position) {
 		this(position, -1);

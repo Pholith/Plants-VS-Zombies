@@ -5,7 +5,7 @@ import java.util.HashSet;
 import base.Vector2;
 import zombies.Zombie;
 
-public class Fume extends Projectile {
+public class Fume extends LineProjectile {
 
 	public Fume(Vector2 position) {
 		super(position, new Vector2(0.06f, 0), 10, "plants/Fume.png");
