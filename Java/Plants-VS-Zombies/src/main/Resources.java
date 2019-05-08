@@ -110,6 +110,7 @@ public class Resources {
     	
     	specialSearch = new HashMap<String, TerrainSearch>();
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
+    	specialSearch.put(Spikeweed.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
     }

@@ -6,7 +6,7 @@ import zombies.Zombie;
 public class Cabbage extends LobProjectile {
 
 	public Cabbage(Vector2 position, Zombie target) {
-		super(position, new Vector2((target.getPosition().getX()-position.getX()-0.3f)/100 , -0.05f), 10, "plants/Cabbage.png", target);
+		super(position, new Vector2((target.getPosition().getX()-position.getX()-0.3f)/100 , -0.05f), 15, "plants/Cabbage.png", target);
 		this.target = target;
 	}
 	

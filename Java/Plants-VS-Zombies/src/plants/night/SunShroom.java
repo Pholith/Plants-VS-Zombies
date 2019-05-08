@@ -10,7 +10,7 @@ public class SunShroom extends Shroom {
     
     public SunShroom(Vector2 position) {
 		super(100, position, 15f, "plants/SunShroom.png", 4f);
-		productionDelay = 20;
+		productionDelay = 12;
 		growDelay = 40;
 	}    
 	

@@ -14,7 +14,7 @@ public class Sunflower extends Plant {
     
     public Sunflower(Vector2 position) {
 		super(100, position, 15f, "plants/sunflower.png", 2f);
-		productionDelay = 20;
+		productionDelay = 15;
 	}    
 	private int productionDelay;
     private float production = 0;
