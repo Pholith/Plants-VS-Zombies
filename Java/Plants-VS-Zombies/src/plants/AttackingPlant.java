@@ -27,7 +27,7 @@ public abstract class AttackingPlant extends Plant {
     	if (conditionToAttack()) {
         	attackSpeedCount += GameManager.getInstance().getDeltatime();
   
-	    	if(attackSpeedCount >= 0.8f) {
+	    	if(attackSpeedCount >= 0.9f) {
 	    		attack(getPosition(), target);
 	    		attackSpeedCount = 0;
 	    	}

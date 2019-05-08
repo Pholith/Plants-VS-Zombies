@@ -25,7 +25,7 @@ public abstract class AttackingShroom extends Shroom {
 	    	if (conditionOfAttacking()) {
 	        	attackSpeedCount += GameManager.getInstance().getDeltatime();
 		  
-		    	if(attackSpeedCount >= 0.8f) {
+		    	if(attackSpeedCount >= 1.1f) {
 		    		attack(getPosition());
 		    		attackSpeedCount = 0;
 		    	}

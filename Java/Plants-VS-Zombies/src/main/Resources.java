@@ -106,7 +106,7 @@ public class Resources {
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
-    	money = 1000;
+    	money = 100;
     	
     	specialSearch = new HashMap<String, TerrainSearch>();
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
