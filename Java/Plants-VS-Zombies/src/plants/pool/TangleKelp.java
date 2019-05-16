@@ -1,7 +1,7 @@
 package plants.pool;
 
+import base.Explosion;
 import base.Vector2;
-import main.Explosion;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;

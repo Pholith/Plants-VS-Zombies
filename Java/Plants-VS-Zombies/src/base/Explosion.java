@@ -1,10 +1,5 @@
-package main;
+package base;
 
-import base.GameObject;
-import base.LivingEntity;
-import base.Sprite;
-import base.Terrain;
-import base.Vector2;
 import enums.RenderMode;
 
 public class Explosion extends LivingEntity {

@@ -1,7 +1,7 @@
 package plants.night;
 
+import base.Explosion;
 import base.Vector2;
-import main.Explosion;
 import main.GameManager;
 import zombies.Zombie;
 
