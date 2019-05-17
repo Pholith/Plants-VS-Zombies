@@ -2,6 +2,7 @@ package plants.pool;
 
 import base.Explosion;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;
@@ -9,12 +10,8 @@ import zombies.Zombie;
 public class Squash extends Plant {
 
 	public Squash(Vector2 position) {
-		super(100, position, 10f, "plants/Squash.png", 1);
+		super(100, position, EnumReloadTime.medium, 50, "plants/Squash.png", 1);
 
-	}
-	
-	public static int getCost() {
-		return 50;
 	}
 	
 	public void update() {

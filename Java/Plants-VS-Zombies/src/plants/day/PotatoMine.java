@@ -2,6 +2,7 @@ package plants.day;
 
 import base.Explosion;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;
@@ -9,15 +10,11 @@ import zombies.Zombie;
 public class PotatoMine extends Plant {
 
 	public PotatoMine(Vector2 position) {
-		super(100, position, 3f, "plants/patatomine.png", 4f);
+		super(100, position, EnumReloadTime.slow, 25, "plants/patatomine.png", 4f);
 	}
 	
 	private float timeBeforeReady = 10;
-		
-	public static int getCost() {
-    	return 25;
-	}
-	
+			
 	public void update() {
 
 		if (timeBeforeReady <= 0) {

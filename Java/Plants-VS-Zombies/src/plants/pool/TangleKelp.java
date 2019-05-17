@@ -2,6 +2,7 @@ package plants.pool;
 
 import base.Explosion;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;
@@ -9,11 +10,7 @@ import zombies.Zombie;
 public class TangleKelp extends Plant {
 
 	public TangleKelp(Vector2 position) {
-		super(100, position, 10f, "plants/TangleKelp.png", 3f);
-	}
-	
-	public static int getCost() {
-    	return 25;
+		super(100, position, EnumReloadTime.fast, 25,"plants/TangleKelp.png", 3f);
 	}
 	
 	public void update() {

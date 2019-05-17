@@ -3,13 +3,6 @@ package base;
 
 import java.util.*;
 
-import main.GameManager;
-import plants.day.Peashooter;
-import ui.UI_Sprite;
-
-/**
- * 
- */
 public class Square {
 
 	private int posX;

@@ -1,22 +1,19 @@
 package plants.night;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import zombies.Zombie;
 
 public class HypnoShroom extends Shroom {
 
 	public HypnoShroom(Vector2 position) {
-		super(100, position, 10f, "plants/HypnoShroom.png", 3f);
+		super(100, position, EnumReloadTime.slow, "plants/HypnoShroom.png", 3f);
 	}
 
     @Override
     public String name() {return "HypnoShroom";}
 
-    public static int getCost() {
-    	return 75;
-	}
-    
     public void update() {
     	if (isSleeping()) {
 			return;

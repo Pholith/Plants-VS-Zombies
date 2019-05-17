@@ -1,6 +1,7 @@
 package plants.night;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import projectiles.Fume;
 import zombies.Zombie;
@@ -8,13 +9,9 @@ import zombies.Zombie;
 public class FumeShroom extends AttackingShroom {
 
 	public FumeShroom(Vector2 position) {
-		super(100, position, 5f, "plants/FumeShroom.png", 3f);
+		super(100, position, EnumReloadTime.medium, "plants/FumeShroom.png", 3f);
 	}
 
-	public static int getCost() {
-    	return 75;
-	}
-   
     @Override
     public String name() {return "FumeShroom";}
 

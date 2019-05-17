@@ -1,6 +1,7 @@
 package plants.day;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import plants.AttackingPlant;
 import projectiles.Pea;
 import zombies.Zombie;
@@ -8,12 +9,8 @@ import zombies.Zombie;
 public class Peashooter extends AttackingPlant {
 
 	public Peashooter(Vector2 position) {
-		super(100, position, 3f, "plants/pea_shooter.png", 4f);
+		super(100, position, EnumReloadTime.fast, 100, "plants/pea_shooter.png", 4f);
 
-	}
-
-	public static int getCost() {
-    	return 100;
 	}
 
     @Override

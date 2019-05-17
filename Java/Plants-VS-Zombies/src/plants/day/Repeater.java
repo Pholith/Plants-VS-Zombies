@@ -4,6 +4,7 @@ package plants.day;
 import java.util.*;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.AttackingPlant;
 import projectiles.Pea;
@@ -15,12 +16,7 @@ import zombies.Zombie;
 public class Repeater extends AttackingPlant {
 
 	public Repeater(Vector2 position) {
-		super(100, position, 3f, "plants/Repeater.png", 1.75f);
-
-	}
-
-	public static int getCost() {
-    	return 200;
+		super(100, position, EnumReloadTime.fast, 200, "plants/Repeater.png", 1.75f);
 	}
 
     @Override

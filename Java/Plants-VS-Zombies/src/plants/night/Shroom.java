@@ -13,7 +13,7 @@ import projectiles.Pea;
 public abstract class Shroom extends Plant {
 
 	public Shroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, reloadTime, animationPath , animationSpeed);
+		super(health, position, reloadTime, 0,animationPath , animationSpeed);
 	
 		isSleeping = !GameManager.getResources().getGameInfo().isNight();
 		if (isSleeping) {

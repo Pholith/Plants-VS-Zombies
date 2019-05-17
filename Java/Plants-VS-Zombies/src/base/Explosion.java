@@ -1,7 +1,5 @@
 package base;
 
-import enums.RenderMode;
-
 public class Explosion extends LivingEntity {
 
 	public Explosion(Vector2 pos) {

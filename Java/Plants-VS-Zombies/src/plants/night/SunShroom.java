@@ -2,6 +2,7 @@ package plants.night;
 
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import ui.UI_LittleSun;
 
@@ -9,8 +10,8 @@ public class SunShroom extends Shroom {
 
     
     public SunShroom(Vector2 position) {
-		super(100, position, 15f, "plants/SunShroom.png", 4f);
-		productionDelay = 12;
+		super(100, position, EnumReloadTime.fast, "plants/SunShroom.png", 4f);
+		productionDelay = 17;
 		growDelay = 40;
 	}    
 	
@@ -18,7 +19,7 @@ public class SunShroom extends Shroom {
 	private int growDelay;
 	
 	private float grow = 0;
-    private float production = 0;
+    private float production = 10;  // La sunflower produit son premier soleil plus rapidement
 
     @Override
     public String name() {return "SunShroom";}
@@ -27,10 +28,6 @@ public class SunShroom extends Shroom {
     private boolean isBig() {
     	return (grow >= growDelay);
     }
-	public static int getCost() {
-    	return 25;
-	}
-	
 
     
     @Override

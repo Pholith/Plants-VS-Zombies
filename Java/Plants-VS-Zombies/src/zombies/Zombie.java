@@ -1,17 +1,11 @@
 package zombies;
 
 
-import java.util.*;
 
 import base.LivingEntity;
-import base.Sprite;
 import base.Vector2;
 import main.GameManager;
-import plants.Plant;
 
-/**
- * 
- */
 public abstract class Zombie extends LivingEntity {
 
 
@@ -21,9 +15,6 @@ public abstract class Zombie extends LivingEntity {
 	
 	}
 
-	/**
-     * 
-     */
     private float speed;
     private int dammage = 25;
     

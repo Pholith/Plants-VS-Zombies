@@ -6,6 +6,7 @@ import java.util.*;
 import base.Explosion;
 import base.GameObject;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;
@@ -16,18 +17,12 @@ import zombies.Zombie;
 public class CherryBomb extends Plant {
 
 	public CherryBomb(Vector2 position) {
-		super(100, position, 3f, "plants/cherryBomb.png", 6f);
+		super(100, position, EnumReloadTime.slow, 150, "plants/cherryBomb.png", 6f);
 	}
 	
 
 	private float timeExplode = 0;
 	
-	
-	public static int getCost() {
-    	return 150;
-	}
-	
-
 	
 	public void update() {
 

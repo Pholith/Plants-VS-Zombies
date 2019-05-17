@@ -2,6 +2,7 @@ package plants.pool;
 
 import base.Terrain;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.AttackingPlant;
 import projectiles.Pea;
@@ -10,12 +11,8 @@ import zombies.Zombie;
 public class Threepeater extends AttackingPlant {
 
 	public Threepeater(Vector2 position) {
-		super(100, position, 3f, "plants/Threepeater.png", 4f);
+		super(100, position, EnumReloadTime.fast, 325,"plants/Threepeater.png", 4f);
 
-	}
-
-	public static int getCost() {
-    	return 325;
 	}
 
     @Override

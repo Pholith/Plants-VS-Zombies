@@ -2,10 +2,8 @@ package base;
 
 import java.awt.Image;
 
-import main.GameManager;
-
 /*
-Attention, cette classe sert essentiellement a stocker des valeures.
+Attention, cette classe sert essentiellement a stocker des valeurs.
 */
 
 final public class Sprite {

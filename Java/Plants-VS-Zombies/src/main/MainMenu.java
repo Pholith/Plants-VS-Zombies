@@ -49,7 +49,6 @@ public final class MainMenu {
 
 		for (int i = 0; i < 4; i++) {
 			int rand = (int) (Math.random() * totalZombies.length); // à optimiser 
-			System.out.println("random = " + rand);
 
 			listOfZombies[2 + i] = totalZombies[rand];
 		}

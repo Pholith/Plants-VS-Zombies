@@ -4,13 +4,7 @@ package base;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.util.ArrayList;
-
-import javax.swing.text.StyledEditorKit.BoldAction;
-
-import main.GameManager;
-
 
 public class Camera extends GameObject {
 

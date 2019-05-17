@@ -1,6 +1,7 @@
 package plants.pool;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.AttackingPlant;
 import zombies.Zombie;
@@ -8,14 +9,12 @@ import zombies.Zombie;
 public class Spikeweed extends AttackingPlant {
 
 	public Spikeweed(Vector2 position) {
-		super(100, position, 10f, "plants/Spikeweed.png", 3f);
-
+		super(100, position, EnumReloadTime.fast, 100, "plants/Spikeweed.png", 3f);
 	}
-	public static int getCost() { return 100; }
-	
+
 	@Override
 	public void attack(Vector2 position, Zombie zombie__) {
-		super.attack(position);
+		super.attack(position, zombie__);
 		var zombies = GameManager.getInstance().getZombieArround(this, 0.8f);
 		for (Zombie zombie : zombies) {
 			zombie.takeDammage(10);
@@ -30,9 +29,4 @@ public class Spikeweed extends AttackingPlant {
 	@Override
 	public String name() { return "Spikeweed" ;}
 	
-	@Override
-	public void update() {
-		super.update();
-		
-	}
 }

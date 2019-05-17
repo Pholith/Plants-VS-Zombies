@@ -7,20 +7,12 @@ import java.util.*;
 
 import enums.RenderMode;
 import main.GameManager;
-import projectiles.LineProjectile;
 
-/**
- * 
- */
 public abstract class GameObject {
 
 	  private Vector2 position;
 	  private final RenderMode renderMode;
-	  
-    /**
-     * Default constructor
-     */
-	
+	  	
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
     public GameObject(Vector2 pos, RenderMode renderMode) {
@@ -69,16 +61,11 @@ public abstract class GameObject {
     	translationFixed(new Vector2(x, y));
     }
 
-    /**
-     * 
-     */
+
     public void start() {
         // TODO implement here
     }
 
-    /**
-     * 
-     */
     public void update() {
     	// Pour automatiquement détruire les objets hors du jeu
     	if (getPosition().getX() < -10 || getPosition().getX() > 30f
@@ -88,10 +75,7 @@ public abstract class GameObject {
 			
     }
 
-    /**
-     * @throws IOException 
-     * 
-     */
+
     public Sprite display() {
     	return null;
     }

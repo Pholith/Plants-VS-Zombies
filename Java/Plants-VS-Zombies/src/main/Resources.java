@@ -7,7 +7,6 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ import java.util.function.Consumer;
 import javax.imageio.ImageIO;
 
 import base.*;
-import enums.EnumTerrain;
 import enums.TerrainSearch;
 import plants.*;
 import plants.day.*;
@@ -81,6 +79,11 @@ public class Resources {
 		return gameInfo;
 	}
     
+    GameConfig gameConfig;// Fichier de config
+    public GameConfig getGameConfig() {
+		return gameConfig;
+	}
+    
     public void setSelectedUi(UI_Element selectedUi) {
 		this.selectedUi = selectedUi;
 	}
@@ -136,7 +139,7 @@ public class Resources {
     	loadImageAtPath("cards/shovel_icon.png");
     	loadImageAtPath("cards/emptyfield.png");    	
 
-    	for(Class plant : plantsTotalList) {
+    	for(Class<? extends Plant> plant : plantsTotalList) {
     		loadImageAtPath("cards/" + plant.getSimpleName() + "_icon.png");
     	}
     	
@@ -218,7 +221,8 @@ public class Resources {
     	
        	gameInfo = game;
        	
-    	
+    	gameConfig = new GameConfig();
+
     	Sprite terrainSp = getErrorSprite();
     
     	
@@ -232,6 +236,12 @@ public class Resources {
 	    case pool:
 	    	terrainSp = new Sprite(getImageByPath("poolTerrain.jpg"),Vector2.zero(), 85);
 	    break;
+	case night_roof:
+		break;
+	case roof:
+		break;
+	default:
+		break;
     }
     
 	actTerrain = new Terrain(terrainSp, game.getSelectedTerrain());
@@ -249,9 +259,21 @@ public class Resources {
 		
 	plantButtonList = new UI_PlantButton[plants.length];
 		
+	float reloadTime = 0;
+
 	for(int i = 0; i < plants.length; i++) {
-		int b = i;//obligé.. oups. ?
-		plantButtonList[i] = new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f*i), new Sprite(getImageByPath("cards/" + plants[i].getSimpleName() +"_icon.png"), 75), func -> {selectPlantOfType(b);}, 1f);			
+		int b = i; // obligé.. oups. ?
+		try {
+			// créé des plantes et les détruits juste ensuite pour accéder aux champs plutôt que de faire plein de réflexion statique qu'il fait 
+			Constructor<? extends Plant> constructor = plants[i].getDeclaredConstructor(new Class[] {Vector2.class});
+			Plant plant = constructor.newInstance(new Object[] { new Vector2(1, 1) });
+			reloadTime = plant.getReloadTime();
+			listOfCosts[i] = plant.getCost();
+			plant.destroy();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		plantButtonList[i] = new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f*i), new Sprite(getImageByPath("cards/" + plants[i].getSimpleName() +"_icon.png"), 75), func -> {selectPlantOfType(b);}, reloadTime);			
 	}
 		
 		
@@ -391,8 +413,8 @@ public class Resources {
     		selectedPlant = -1;
     }
     
-    
-   private void onSelectTerrainButton(Integer[] coords) {
+    int listOfCosts[] = new int [6]; // tableau de 6 int
+    private void onSelectTerrainButton(Integer[] coords) {
     	
     	if (coords == null || coords.length != 2) 
     		return;
@@ -406,46 +428,29 @@ public class Resources {
     	}
     	var vector = new Vector2(coords[0], coords[1]);
     	
-    	// Liste des class de plantes
-    	/*Class[] listOfPlant = new Class[] {
-    			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
-    			Chomper.class, FreezePeaShooter.class, PatatoMine.class
-    	};*/
-    	Class[] listOfPlant = gameInfo.getListOfPlants();
-    	
-    	selectedPlant %= listOfPlant.length;
-    	
-    	// La plante choisi
-    	Class<? extends Plant> selectedPlantClass = listOfPlant[selectedPlant];
-
-    	try {
-    		// Récupère la méthode static getCost de la plante
-    		Method method = selectedPlantClass.getMethod("getCost");
-    		// récupère l'entier en résultat de la méthode
-	    	Object result = method.invoke(null, null);
-	    		 
  	
-    	if (money >= (int) result) {
-	    		// instancie la plante
+    	int cost = listOfCosts[selectedPlant];
+    	Class<? extends Plant> selectedPlantClass = gameInfo.getListOfPlants()[selectedPlant];
+
+    	if (money >= (int) cost ) {
+    		// instancie la plante
+    		try {
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
 				constructor.newInstance(new Object[] {vector});
-				money -= (int) result;	
+				money -= (int) cost;	
 				plantButtonList[selectedPlant].selectPlant();
-		    	
-			} else {
-				new UI_TremblingLabel(Terrain.caseToPosition(vector), "Not enought sun", 1.5);
-				
+
+    		} catch (Exception e) {
+    			System.out.println(e);
 			}
-	   		
-    	} catch (Exception e){
-    		System.out.println(e);
-    	}
-
-    	
-    
+		    	
+		} else {
+			new UI_TremblingLabel(Terrain.caseToPosition(vector), "Not enought sun", 1.5);
+			
+		}
+   		
+    	   
     	selectPlantOfType(-1); // remet la sélection à null
-    	
-
     }
     
 

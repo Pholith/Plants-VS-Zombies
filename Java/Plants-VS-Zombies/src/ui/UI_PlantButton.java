@@ -51,7 +51,7 @@ public class UI_PlantButton extends UI_Button{
 		RoundRectangle2D rectEffect;
 		
 	
-		if(inReload) {
+		if (inReload) {
 			rectEffect = new RoundRectangle2D.Float((float)getDrawRect().getX(), (float)getDrawRect().getY(),
 					(float)getDrawRect().getWidth(),
 					(float)getDrawRect().getHeight()* (1f - (float)(reloadCounter / reloadTime)),

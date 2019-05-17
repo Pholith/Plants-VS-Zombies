@@ -1,38 +1,25 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
 import java.io.IOException;
 import java.time.Clock;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Function;
-
-import javax.imageio.ImageIO;
 
 import base.Camera;
 import base.Constant;
 import base.GameObject;
-import base.LivingEntity;
 import base.Terrain;
 import base.Vector2;
 import fr.umlv.zen5.Application;
 import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
-import projectiles.Pea;
-import projectiles.LineProjectile;
 import ui.UI_AnimatedSprite;
 import ui.UI_Label;
-import zombies.SimpleZombie;
 import zombies.Zombie;
 import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
@@ -161,7 +148,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    }   
 	    
 	    
-	    private void utilityObjects() {	    	
+	    private void utilityObjects() {
 	    	mainCamera = new Camera();	    
 	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
 	    	utilityObjectCount = ojbectsInQueue.size();

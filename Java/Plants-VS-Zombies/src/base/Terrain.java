@@ -10,13 +10,9 @@ import java.util.function.Consumer;
 import enums.EnumTerrain;
 import enums.RenderMode;
 import enums.TerrainSearch;
-import main.GameInfo;
-import plants.Plant;
 import ui.UI_Button;
 
-/**
- * 
- */
+
 public class Terrain extends GameObject {
    
 	private final Sprite terrainSprite;

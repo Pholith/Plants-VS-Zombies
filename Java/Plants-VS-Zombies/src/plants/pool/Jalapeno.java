@@ -5,6 +5,7 @@ import java.util.function.Function;
 import base.Explosion;
 import base.GameObject;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import zombies.Zombie;
@@ -12,7 +13,7 @@ import zombies.Zombie;
 public class Jalapeno extends Plant {
 
 	public Jalapeno(Vector2 position) {
-		super(100, position, 10f, "plants/Jalapeno.png", 1);
+		super(100, position, EnumReloadTime.very_slow, 125, "plants/Jalapeno.png", 1);
 
 	}
 
@@ -45,6 +46,5 @@ public class Jalapeno extends Plant {
 	}
 	
 	public String name() {return "Jalapeno"; }
-	
-	public static int getCost() { return 125; }
+
 }

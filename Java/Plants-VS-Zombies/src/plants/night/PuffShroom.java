@@ -4,6 +4,7 @@ package plants.night;
 import java.util.*;
 
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import projectiles.PuffProjectile;
 import zombies.Zombie;
@@ -11,13 +12,9 @@ import zombies.Zombie;
 public class PuffShroom extends AttackingShroom {
 
 	public PuffShroom(Vector2 position) {
-		super(100, position, 3f, "plants/PuffShroom.png", 4f);
+		super(100, position, EnumReloadTime.fast, "plants/PuffShroom.png", 4f);
 	}
 
-	public static int getCost() {
-    	return 0;
-	}
-   
     @Override
     public String name() {return "PuffShroom";}
 

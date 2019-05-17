@@ -6,16 +6,11 @@ import zombies.Zombie;
 
 public abstract class AttackingPlant extends Plant {
 
-	public AttackingPlant(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, reloadTime, animationPath , animationSpeed);
+	public AttackingPlant(int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {
+		super(health, position, reloadTime, cost, animationPath , animationSpeed);
 	}
 
-
-	public static int getCost() {
-    	return 0;
-	}
-    
-    private float attackSpeedCount = 0;
+	private float attackSpeedCount = 0;
 
     @Override
     public String name() {return "AttackingPlant";}

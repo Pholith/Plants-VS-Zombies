@@ -9,6 +9,7 @@ import java.util.Random;
 
 import ui.UI_Sun;
 import zombies.*;
+import base.Constant;
 import base.Gravestone;
 import base.Terrain;
 import base.Vector2;
@@ -19,15 +20,15 @@ public class LevelManager {
 	private int levelDifficulty = 1; 
 	private float levelAdvancement = 1; // détermine la puissance des zombies qui vont spawn
 	
-	private int counterOfLastZombie = 0; // temps depuis la dernière attaque en sec
-	private int counterOfLastWave = 0; // temps depuis la dernière attaque en sec
-	private int counterBeforeEnd = 0; // temps depuis la dernière attaque en sec
-	private int counterOfSun = 0; // temps depuis la dernière attaque en sec
+	private int counterOfLastZombie = 0;
+	private int counterOfLastWave = 0;
+	private int counterBeforeEnd = 0;
+	private int counterOfSun = 10;
 	
-	private double spawnDelay = 12; // temps de spawn en sec
-	private double waveDelay = 80; // temps entre chaque vague
-	private double sunSpawnDelay = 10; // temps entre chaque vague
-	private double levelTimeDelay = 300; // temps d'une partie  
+	private double spawnDelay =  GameManager.getResources().getGameConfig().spawnDelay; // temps de spawn en sec
+	private double waveDelay = GameManager.getResources().getGameConfig().waveDelay; // temps entre chaque vague
+	private double sunSpawnDelay = GameManager.getResources().getGameConfig().sunSpawnDelay; // temps entre chaque soleil
+	private double levelTimeDelay = GameManager.getResources().getGameConfig().levelTimeDelay; // temps d'une partie  
 	
 	Class[] listOfZombies;
 	

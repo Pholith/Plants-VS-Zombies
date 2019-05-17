@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import base.GameObject;
 import base.Vector2;
+import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
 import projectiles.LineProjectile;
@@ -12,7 +13,7 @@ import projectiles.LineProjectile;
 public class Torchwood extends Plant {
 
 	public Torchwood(Vector2 position) {
-		super(100, position, 10f, "plants/Torchwood.png", 3f);
+		super(100, position, EnumReloadTime.fast, 175, "plants/Torchwood.png", 3f);
 	}
 	
 	public void update() {
@@ -35,5 +36,4 @@ public class Torchwood extends Plant {
 	}
 	public String name() {return "Torchwood"; }
 
-	public static int getCost() { return 175; }
 }

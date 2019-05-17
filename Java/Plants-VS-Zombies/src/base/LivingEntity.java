@@ -1,16 +1,10 @@
 package base;
 
-import java.util.ArrayList;
 
 import main.GameManager;
-import projectiles.LineProjectile;
-import projectiles.LobProjectile;
 import projectiles.Projectile;
-import zombies.BucketHeadZombie;
 
-/**
- * 
- */
+
 public abstract class LivingEntity extends GameObject {
 
   
