@@ -70,7 +70,7 @@ public class Vector2 {
 		}
 		
 	    public double length() {
-	        return (double) Math.sqrt(this.x*this.x + this.y*this.y);
+	        return Math.sqrt(this.x*this.x + this.y*this.y);
 	    }
 
 		/* Les méthodes de multiplication */

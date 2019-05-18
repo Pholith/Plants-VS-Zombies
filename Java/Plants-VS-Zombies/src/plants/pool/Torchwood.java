@@ -12,10 +12,15 @@ import projectiles.LineProjectile;
 
 public class Torchwood extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5202859548868323963L;
 	public Torchwood(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 175, "plants/Torchwood.png", 3f);
 	}
 	
+	@Override
 	public void update() {
 		super.update();
 		
@@ -34,6 +39,7 @@ public class Torchwood extends Plant {
 			((LineProjectile) projectile).burn();
 		}
 	}
+	@Override
 	public String name() {return "Torchwood"; }
 
 }

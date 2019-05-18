@@ -8,8 +8,11 @@ import projectiles.Projectile;
 public abstract class LivingEntity extends GameObject {
 
   
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5366255047840179209L;
 	private Sprite[] animationSprite;
-	private int actFrame;
 	private final long timeLoopAnimation;
     private long lastFrameUpdate;
     private boolean isActive; // pour stoper et remettre l'animation (chomper)
@@ -26,7 +29,6 @@ public abstract class LivingEntity extends GameObject {
 		
 		timeLoopAnimation= (long)(1000.0/animSpeed*5f);
 		
-		actFrame = 0;
 		lastFrameUpdate =  GameManager.getInstance().getClockMillis();
 		
 		this.isActive = true;
@@ -108,7 +110,7 @@ public abstract class LivingEntity extends GameObject {
     		if (delta >=  realTimeLoop) {
     			lastFrameUpdate = GameManager.getInstance().getClockMillis();
     		}
-    		int complexCalcul = (int) (((float) delta/realTimeLoop) * animationSprite.length);
+    		int complexCalcul = (int) ((delta/realTimeLoop) * animationSprite.length);
     		if (complexCalcul >= animationSprite.length) {
 				onLastFrame();
 			}

@@ -1,16 +1,15 @@
 package plants.night;
 
-
-import java.util.*;
-
 import base.Vector2;
-import main.GameInfo;
 import main.GameManager;
 import plants.Plant;
-import projectiles.Pea;
-
 
 public abstract class Shroom extends Plant {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8129930468465270305L;
 
 	public Shroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, reloadTime, 0,animationPath , animationSpeed);
@@ -29,7 +28,8 @@ public abstract class Shroom extends Plant {
     public boolean isSleeping() {
     	return isSleeping;
     }
-    public void update() {
+    @Override
+	public void update() {
     	super.update();
     }
 }	

@@ -9,12 +9,18 @@ import zombies.Zombie;
 
 public class PotatoMine extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3461239287327393128L;
+
 	public PotatoMine(Vector2 position) {
 		super(100, position, EnumReloadTime.slow, 25, "plants/patatomine.png", 4f);
 	}
 	
 	private float timeBeforeReady = 10;
 			
+	@Override
 	public void update() {
 
 		if (timeBeforeReady <= 0) {

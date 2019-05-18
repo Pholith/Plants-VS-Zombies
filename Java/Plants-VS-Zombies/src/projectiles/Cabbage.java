@@ -5,6 +5,10 @@ import zombies.Zombie;
 
 public class Cabbage extends LobProjectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1223280193823263400L;
 	public Cabbage(Vector2 position, Zombie target) {
 		super(position, new Vector2((target.getPosition().getX()-position.getX()-0.3f)/100 , -0.05f), 15, "plants/Cabbage.png", target);
 		this.target = target;
@@ -17,6 +21,7 @@ public class Cabbage extends LobProjectile {
 		System.out.println(target);
 	}
 	
-    public String name() { return "Cabbage"; }
+    @Override
+	public String name() { return "Cabbage"; }
 
 }

@@ -12,6 +12,10 @@ import zombies.Zombie;
 
 public class Jalapeno extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6392260685887828267L;
 	public Jalapeno(Vector2 position) {
 		super(100, position, EnumReloadTime.very_slow, 125, "plants/Jalapeno.png", 1);
 
@@ -45,6 +49,7 @@ public class Jalapeno extends Plant {
 		timeExplode += GameManager.getInstance().getDeltatime();
 	}
 	
+	@Override
 	public String name() {return "Jalapeno"; }
 
 }

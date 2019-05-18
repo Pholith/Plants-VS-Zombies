@@ -5,11 +5,17 @@ import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
 import ui.UI_LittleSun;
+import ui.UI_Sun;
 
 public class SunShroom extends Shroom {
 
     
-    public SunShroom(Vector2 position) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4692640622404725591L;
+
+	public SunShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, "plants/SunShroom.png", 4f);
 		productionDelay = 17;
 		growDelay = 40;
@@ -30,13 +36,17 @@ public class SunShroom extends Shroom {
     }
 
     
-    @Override
+	@Override
     public void update() {
     	super.update();
     	if (!isSleeping()) {
 	
 	    	if(production >= productionDelay) {
-	        	new UI_LittleSun(getPosition(), func -> { GameManager.getInstance().getResources().getASun( !isBig() );} );     	
+	    		if (isBig()) {
+		        	new UI_Sun(getPosition(), func -> { GameManager.getResources().getASun(50);} );     	
+				} else {
+		        	new UI_LittleSun(getPosition(), func -> { GameManager.getResources().getASun(25);} );     	
+				}
 	        	production = 0;
 	    	}
 	    	if (!isBig()) {

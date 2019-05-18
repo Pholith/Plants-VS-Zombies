@@ -1,12 +1,15 @@
 package zombies;
 
 import base.LivingEntity;
-import base.Terrain;
 import base.Vector2;
 import main.GameManager;
-import plants.Plant;
 
 public class PoleVaulterZombie extends Zombie {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7267173382726304261L;
 
 	public PoleVaulterZombie(Vector2 position) {
 		super(100, position, "zombies/PoleVaulterZombie.png", 0f, 1.5f);

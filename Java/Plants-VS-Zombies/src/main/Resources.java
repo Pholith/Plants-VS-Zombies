@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,17 +26,18 @@ import ui.*;
 import zombies.*;
 
 //Les resources ont une visibilités de "package"
-public class Resources {
+public class Resources implements Serializable {
 	
-	
-    private final Map<String,Image> loadedImages;
+	private static final long serialVersionUID = -719443022268576451L;
+	private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
     private Terrain actTerrain;
     private int selectedPlant;
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     private float plantSpawnCounter;
-    private Dimension screenSize;
+    @SuppressWarnings("unused")
+	private Dimension screenSize;
     
     private  Map<String, TerrainSearch> specialSearch;
     
@@ -43,19 +45,23 @@ public class Resources {
     private GameInfo gameInfo;
     
     
-    public Class[] getPlantsTotalList() {
+    @SuppressWarnings("rawtypes")
+	public Class[] getPlantsTotalList() {
 		return plantsTotalList;
 	}
-    public Class[] getZombiesTotalList() {
+    @SuppressWarnings("rawtypes")
+	public Class[] getZombiesTotalList() {
 		return zombiesTotalList;
 	}
     
-    private Class[] zombiesTotalList = new Class[] {
+    @SuppressWarnings("rawtypes")
+	private Class[] zombiesTotalList = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
 			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
 	};
     
-    private Class[] plantsTotalList = new Class[] {
+    @SuppressWarnings("rawtypes")
+	private Class[] plantsTotalList = new Class[] {
 			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
 			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
 			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
@@ -110,7 +116,10 @@ public class Resources {
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
     	money = 100;
-    	
+    	gameConfig = new GameConfig();
+
+    	listOfCosts = new int [gameConfig.getConfigInt("numberOfPlantSelectable")]; 
+
     	specialSearch = new HashMap<String, TerrainSearch>();
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(Spikeweed.class.getSimpleName(), TerrainSearch.emptyGround);
@@ -126,7 +135,8 @@ public class Resources {
     Terrain getTerrain() {
     	return actTerrain;
     }
-    void loadResources() throws IOException {
+    @SuppressWarnings("unchecked")
+	void loadResources() throws IOException {
     	
     	 ///Prechargement des textures entieres
     	
@@ -217,12 +227,11 @@ public class Resources {
     }
     
     
-    public void startGame(GameInfo game) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public void startGame(GameInfo game) {
     	
        	gameInfo = game;
        	
-    	gameConfig = new GameConfig();
-
     	Sprite terrainSp = getErrorSprite();
     
     	
@@ -260,8 +269,9 @@ public class Resources {
 	plantButtonList = new UI_PlantButton[plants.length];
 		
 	float reloadTime = 0;
-
-	for(int i = 0; i < plants.length; i++) {
+	
+	int i;
+	for(i = 0; i < plants.length; i++) {
 		int b = i; // obligé.. oups. ?
 		try {
 			// créé des plantes et les détruits juste ensuite pour accéder aux champs plutôt que de faire plein de réflexion statique qu'il fait 
@@ -273,9 +283,10 @@ public class Resources {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		plantButtonList[i] = new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f*i), new Sprite(getImageByPath("cards/" + plants[i].getSimpleName() +"_icon.png"), 75), func -> {selectPlantOfType(b);}, reloadTime);			
+		plantButtonList[i] = new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f * i), new Sprite(getImageByPath("cards/" + plants[i].getSimpleName() +"_icon.png"), 75), func -> {selectPlantOfType(b);}, reloadTime);			
 	}
-		
+   	new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f * i), new Sprite(getImageByPath("cards/shovel_icon.png"), 75), func -> {selectShovel();}, 1f);
+
 		
 	/*
 	
@@ -291,10 +302,6 @@ public class Resources {
 	*/
 	
 	
-   	new UI_PlantButton(new Vector2(1.5f, 6.4f), new Sprite(getImageByPath("cards/shovel_icon.png"), 75), func -> {selectShovel();}, 1f);
-	
-	
-	
  	new UI_Sprite(new Vector2(2f, 0.3f), new Sprite(getImageByPath("particles/sun.png"), 100));
    	moneyRender = new UI_Label(new Vector2(1f, 0.4f), "0", Color.black, 3f);
 
@@ -305,15 +312,12 @@ public class Resources {
 	
     
 
-    public void getASun(boolean isLittle) {
-    	if (isLittle) {
-			money += 25;
-			return;
-		}
-    	money += 50;
+    public void getASun(int moneyToAdd) {
+		money += moneyToAdd;
+		return;
     }
     public void getASun() {
-    	getASun(false);
+    	getASun(50);
     }
     
     
@@ -328,10 +332,10 @@ public class Resources {
     	//Effet joli sur la couleur des bouttons du terrain
     	if(!shovelMode) {
 	    	for (UI_Button but : terrainButtonList)
-	    		but.setRenderColor(new Color(255, 165, 0, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	    		but.setRenderColor(new Color(255, 165, 0, 200 + (int)(50d*Math.cos( GameManager.getInstance().getClockMillis()/250d)) ));
 	    	} else {
 	    		for (UI_Button but : terrainButtonList)
-	        		but.setRenderColor(new Color(0, 165, 255, 200 + (int)(50d*Math.cos( (double)(GameManager.getInstance().getClockMillis()/250d))) ));
+	        		but.setRenderColor(new Color(0, 165, 255, 200 + (int)(50d*Math.cos( GameManager.getInstance().getClockMillis()/250d)) ));
     	}
     		
     	
@@ -413,7 +417,7 @@ public class Resources {
     		selectedPlant = -1;
     }
     
-    int listOfCosts[] = new int [6]; // tableau de 6 int
+    int listOfCosts[]; // tableau des couts de plantes
     private void onSelectTerrainButton(Integer[] coords) {
     	
     	if (coords == null || coords.length != 2) 
@@ -428,16 +432,17 @@ public class Resources {
     	}
     	var vector = new Vector2(coords[0], coords[1]);
     	
- 	
     	int cost = listOfCosts[selectedPlant];
-    	Class<? extends Plant> selectedPlantClass = gameInfo.getListOfPlants()[selectedPlant];
+    	
+    	@SuppressWarnings("unchecked")
+		Class<? extends Plant> selectedPlantClass = gameInfo.getListOfPlants()[selectedPlant];
 
-    	if (money >= (int) cost ) {
+    	if (money >= cost ) {
     		// instancie la plante
     		try {
 		    	Constructor<? extends Plant> constructor = selectedPlantClass.getDeclaredConstructor(new Class[] {Vector2.class});
 				constructor.newInstance(new Object[] {vector});
-				money -= (int) cost;	
+				money -= cost;	
 				plantButtonList[selectedPlant].selectPlant();
 
     		} catch (Exception e) {

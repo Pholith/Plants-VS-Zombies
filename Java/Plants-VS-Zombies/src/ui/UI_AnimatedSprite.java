@@ -7,6 +7,10 @@ import main.GameManager;
 
 public class UI_AnimatedSprite extends GameObject {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1823019298420833798L;
 	private Sprite[] animationSprite;
 	private long lastFrameUpdate;
 	private long timeLoopAnimation;
@@ -42,7 +46,7 @@ public class UI_AnimatedSprite extends GameObject {
     			lastFrameUpdate = GameManager.getInstance().getClockMillis();
     		}
     		
-    		finalId = (int)(((float) delta/realTimeLoop)*animationSprite.length);
+    		finalId = (int)((delta/realTimeLoop)*animationSprite.length);
   
     		if(destroyAfter && finalId >= animationSprite.length ) {
     			destroy();

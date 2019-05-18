@@ -1,23 +1,13 @@
 package main;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
-
 import ui.UI_Sun;
 import zombies.*;
-import base.Constant;
-import base.Gravestone;
-import base.Terrain;
 import base.Vector2;
-import plants.day.Peashooter;
 
 public class LevelManager {
 
-	private int levelDifficulty = 1; 
 	private float levelAdvancement = 1; // détermine la puissance des zombies qui vont spawn
 	
 	private int counterOfLastZombie = 0;
@@ -25,19 +15,27 @@ public class LevelManager {
 	private int counterBeforeEnd = 0;
 	private int counterOfSun = 10;
 	
-	private double spawnDelay =  GameManager.getResources().getGameConfig().spawnDelay; // temps de spawn en sec
-	private double waveDelay = GameManager.getResources().getGameConfig().waveDelay; // temps entre chaque vague
-	private double sunSpawnDelay = GameManager.getResources().getGameConfig().sunSpawnDelay; // temps entre chaque soleil
-	private double levelTimeDelay = GameManager.getResources().getGameConfig().levelTimeDelay; // temps d'une partie  
+	private double spawnDelay; // temps de spawn en sec
+	private final double waveDelay; // temps entre chaque vague
+	private double sunSpawnDelay; // temps entre chaque soleil
+	private final double levelTimeDelay; // temps d'une partie  
 	
+	@SuppressWarnings("rawtypes")
 	Class[] listOfZombies;
 	
 	public LevelManager() {		
 		super();
 		listOfZombies = GameManager.getResources().getGameInfo().getListOfZombies();
+		
 		if (GameManager.getResources().getGameInfo().isNight()) {
-			// TODO mettre des tombes
-		}		
+		
+		}
+
+		spawnDelay =  GameManager.getResources().getGameConfig().getConfigDouble("spawnDelay"); 
+		waveDelay = GameManager.getResources().getGameConfig().getConfigDouble("waveDelay"); 
+		sunSpawnDelay = GameManager.getResources().getGameConfig().getConfigDouble("sunSpawnDelay");
+		levelTimeDelay = GameManager.getResources().getGameConfig().getConfigDouble("levelTimeDelay"); 
+
 	}
 
 	private long lastTimeStamp = GameManager.getInstance().getClockMillis()/1000;
@@ -55,6 +53,7 @@ public class LevelManager {
 	
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
 		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
 	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
@@ -90,8 +89,9 @@ public class LevelManager {
 	}
 	
 	// gère les attaques de zombies et les niveaux
+	@SuppressWarnings("static-access")
 	public void levelEvent() {
-		double timeMultiplier = 1d/(double)GameManager.getInstance().getTimeScale();
+		double timeMultiplier = 1d/GameManager.getInstance().getTimeScale();
 
 		// compteur de seconde 
 		long timeStamp = GameManager.getInstance().getClockMillis();	
@@ -112,7 +112,8 @@ public class LevelManager {
 		}
 		// invocation de soleil aléatoire
 		if (counterOfSun >= sunSpawnDelay) {
-			new UI_Sun(new Vector2((float) Math.random()*5 + 3, (float) Math.random()*4 + 1), func -> { GameManager.getInstance().getResources().getASun(); });
+			new UI_Sun(new Vector2((float) Math.random()*5 + 3, (float) Math.random()*4 + 1), func -> { GameManager.getInstance();
+			GameManager.getResources().getASun(); });
 			counterOfSun = 0;
 			sunSpawnDelay ++;
 		}

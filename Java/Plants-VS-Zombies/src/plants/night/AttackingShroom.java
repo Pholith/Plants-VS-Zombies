@@ -1,12 +1,14 @@
 package plants.night;
 
-
-import java.util.*;
-
 import base.Vector2;
 import main.GameManager;
 
 public abstract class AttackingShroom extends Shroom {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3271337480719168226L;
 
 	public AttackingShroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
 		super(health, position, reloadTime, animationPath , animationSpeed);

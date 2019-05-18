@@ -8,6 +8,10 @@ import zombies.Zombie;
 
 public class Spikeweed extends AttackingPlant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7559993030311394735L;
 	public Spikeweed(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 100, "plants/Spikeweed.png", 3f);
 	}

@@ -1,13 +1,15 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-
 import base.Vector2;
 import main.GameManager;
 
 public class UI_TempLabel extends UI_Label {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1811565844735917900L;
 	private final double livingTime; // temps (sec) avant disparition automatique du label
 	private double living;
 	
@@ -30,6 +32,7 @@ public class UI_TempLabel extends UI_Label {
 			destroy();
 		}
 	}
+	@Override
 	public String name() { return "UI_TempLabel" ;}
 	
 }

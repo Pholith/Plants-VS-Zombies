@@ -5,9 +5,6 @@ import java.util.*;
 
 public class Square {
 
-	private int posX;
-	private int posY;
-	
 	private final Vector2 pos;
 
 	private final boolean inWater;
@@ -19,10 +16,7 @@ public class Square {
 	private ArrayList<LivingEntity> contain;
 	
 	
-	
     public Square(int x, int y, boolean inWater) {
-    posX = x;
-    posY = y;    
     pos = Terrain.caseToPosition(x,y);    
     this.inWater = inWater;
     contain = new ArrayList<LivingEntity>();

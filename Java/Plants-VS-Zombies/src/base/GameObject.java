@@ -2,15 +2,17 @@ package base;
 
 
 import java.awt.Graphics2D;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import enums.RenderMode;
 import main.GameManager;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
-	  private Vector2 position;
+	private static final long serialVersionUID = -7807705176476327139L;
+	
+	private Vector2 position;
 	  private final RenderMode renderMode;
 	  	
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
@@ -19,7 +21,7 @@ public abstract class GameObject {
     	position = Objects.requireNonNull(pos);
     	this.renderMode = renderMode;
     	GameManager.getInstance().addGameObjectToScene(this);
-    	System.out.println(name()+" created");
+    	System.out.println("Created: " + name());
     }   
     
     
@@ -32,7 +34,7 @@ public abstract class GameObject {
     public void destroy() {
     	onDestroy();
     	GameManager.getInstance().removeGameObjectFromScene(this);
-    	System.out.println("Objet "+toString()+" destroyed!");
+    	System.out.println("Destroyed: "+toString());
     }
     
     public void onDestroy() {

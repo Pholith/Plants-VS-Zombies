@@ -2,17 +2,14 @@ package main;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 import base.Constant;
-import base.GameObject;
 import base.Sprite;
 import base.Vector2;
 import enums.EnumTerrain;
 import ui.UI_Button;
 import ui.UI_Label;
-import ui.UI_PlantButton;
 import ui.UI_Sprite;
 
 public final class MainMenu {
@@ -36,6 +33,7 @@ public final class MainMenu {
 	private static int selectCnt = 0;
 	private static int actCnt = 0;
 	
+	@SuppressWarnings("rawtypes")
 	private static Class[] selectZombies() {
 		Class[] listOfZombies = new Class[6];
 		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
@@ -60,6 +58,7 @@ public final class MainMenu {
 		return listOfZombies;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unused" })
 	private static void plant_menu(EnumTerrain terrain) {
 		GameManager.getInstance().clearScene();
 		new UI_Label(new Vector2(1.5f, 1.5f), "Choisissez vos plantes", Color.green, 4f);
@@ -67,7 +66,7 @@ public final class MainMenu {
 	
 		ArrayList<UI_Button> listButtons = new ArrayList<UI_Button>();
 		
-		selectCnt = 6;
+		selectCnt = GameManager.getResources().getGameConfig().getConfigInt("numberOfPlantSelectable");
 		
 		Class[] listOfPlants = new Class[selectCnt];
 		Class[] totalplants = GameManager.getResources().getPlantsTotalList();
@@ -75,8 +74,10 @@ public final class MainMenu {
 		Class[] listOfZombies = selectZombies();
 		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
 		
+		var numberOfPlantSelectable = GameManager.getResources().getGameConfig().getConfigDouble("numberOfPlantSelectable");
+
 		for(i = 0; i < totalplants.length; i++) {
-			int b = i;//obligé
+			int b = i; // obligé
 			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {
 					selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, listOfZombies, terrain));} );}));			
 		}
@@ -87,6 +88,7 @@ public final class MainMenu {
 	}
 	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void selectButtonList(ArrayList<UI_Button> list, Class[] finalList, Class[] totalList,int idSelect, Consumer exitFunction) {
 		
 		if(idSelect == -1) {

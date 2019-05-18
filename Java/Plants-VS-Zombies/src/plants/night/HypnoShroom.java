@@ -7,6 +7,11 @@ import zombies.Zombie;
 
 public class HypnoShroom extends Shroom {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5127240311825675996L;
+
 	public HypnoShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.slow, "plants/HypnoShroom.png", 3f);
 	}
@@ -14,7 +19,8 @@ public class HypnoShroom extends Shroom {
     @Override
     public String name() {return "HypnoShroom";}
 
-    public void update() {
+    @Override
+	public void update() {
     	if (isSleeping()) {
 			return;
 		}

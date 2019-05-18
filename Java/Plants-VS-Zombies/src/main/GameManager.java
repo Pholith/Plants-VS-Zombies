@@ -191,7 +191,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    private void inputCheck(ApplicationContext context) {
 	    
-	    	gameWait = (int)((((float)savedFps/(float)maxFps)-1f)*(1000f/(float)savedFps));
+	    	gameWait = (int)((((float)savedFps/(float)maxFps)-1f)*(1000f/savedFps));
 	    	
 	    	if(gameWait < 500/maxFps)
 	    		gameWait = 500/maxFps;

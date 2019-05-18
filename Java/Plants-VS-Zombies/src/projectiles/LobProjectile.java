@@ -11,6 +11,10 @@ import zombies.Zombie;
 
 public class LobProjectile extends GameObject implements Projectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6384191522990649520L;
 	private Sprite defaultSprite;
 	
     public LobProjectile(Vector2 position, Vector2 speed, int dammage, String texturePath, Zombie target) {
@@ -41,7 +45,8 @@ public class LobProjectile extends GameObject implements Projectile {
     public boolean isProjectile() {
     	return true;
     }
-    public void hit(Zombie z) {
+    @Override
+	public void hit(Zombie z) {
 		z.takeDammage(dammage, this);
 		destroy();
     }

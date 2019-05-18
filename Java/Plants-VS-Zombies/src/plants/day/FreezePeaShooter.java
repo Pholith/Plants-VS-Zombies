@@ -8,6 +8,11 @@ import zombies.Zombie;
 
 public class FreezePeaShooter extends AttackingPlant {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3643547459251354045L;
+
 	public FreezePeaShooter(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 175, "plants/freeze_pea_shooter.png", 4f);
 

@@ -11,6 +11,10 @@ import main.GameManager;
 
 public class UI_PlantButton extends UI_Button{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7204627577293192451L;
 	private final float reloadTime;
 	private float reloadCounter;
 	private boolean inReload;
@@ -54,7 +58,7 @@ public class UI_PlantButton extends UI_Button{
 		if (inReload) {
 			rectEffect = new RoundRectangle2D.Float((float)getDrawRect().getX(), (float)getDrawRect().getY(),
 					(float)getDrawRect().getWidth(),
-					(float)getDrawRect().getHeight()* (1f - (float)(reloadCounter / reloadTime)),
+					(float)getDrawRect().getHeight()* (1f - reloadCounter / reloadTime),
 	                10, 10);
 			
 		graphics.setColor(new Color(0.3f,0.3f,0.3f,0.6f) );

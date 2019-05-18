@@ -8,7 +8,11 @@ import main.GameManager;
 
 public abstract class Plant extends LivingEntity {
 
-    private Square associatedSquare;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7281120931319503073L;
+	private Square associatedSquare;
 
     
 	public Plant( int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {

@@ -1,8 +1,5 @@
 package plants.night;
 
-
-import java.util.*;
-
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
@@ -10,6 +7,11 @@ import projectiles.PuffProjectile;
 import zombies.Zombie;
 
 public class PuffShroom extends AttackingShroom {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3879882259660663122L;
 
 	public PuffShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, "plants/PuffShroom.png", 4f);

@@ -8,6 +8,11 @@ import zombies.Zombie;
 
 public class FumeShroom extends AttackingShroom {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7820722405485852686L;
+
 	public FumeShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.medium, "plants/FumeShroom.png", 3f);
 	}

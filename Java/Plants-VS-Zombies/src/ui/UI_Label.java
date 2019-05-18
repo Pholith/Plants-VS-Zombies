@@ -9,6 +9,10 @@ import base.Vector2;
 
 public class UI_Label extends UI_Element {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6050818849520792063L;
 	private String objectText;
 	
 	

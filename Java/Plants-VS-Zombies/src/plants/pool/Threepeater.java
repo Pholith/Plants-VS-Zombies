@@ -10,6 +10,10 @@ import zombies.Zombie;
 
 public class Threepeater extends AttackingPlant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3797155690029072371L;
 	public Threepeater(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 325,"plants/Threepeater.png", 4f);
 

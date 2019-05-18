@@ -6,6 +6,11 @@ import zombies.Zombie;
 
 public abstract class AttackingPlant extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 632537147549425195L;
+
 	public AttackingPlant(int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {
 		super(health, position, reloadTime, cost, animationPath , animationSpeed);
 	}

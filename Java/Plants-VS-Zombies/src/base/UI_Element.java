@@ -8,6 +8,11 @@ public abstract class UI_Element extends GameObject {
 
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2886098452385486133L;
+
 	private Color renderColor;
 	
 	  private final float renderScale;

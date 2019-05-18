@@ -9,11 +9,17 @@ import zombies.Zombie;
 
 public class Squash extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5658580890233503275L;
+
 	public Squash(Vector2 position) {
 		super(100, position, EnumReloadTime.medium, 50, "plants/Squash.png", 1);
 
 	}
 	
+	@Override
 	public void update() {
 	
 		var zombies = GameManager.getInstance().getZombieArround(this, 2f); // TODO améliorer pour prendre le zombie le plus à gauche

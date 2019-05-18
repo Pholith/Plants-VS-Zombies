@@ -1,7 +1,6 @@
 package ui;
 
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -16,6 +15,11 @@ import main.GameManager;
 
 public class UI_Button extends UI_Element {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5576154544359578301L;
+
 	//Sprite du boutton
 	private Sprite sprite;
 	
@@ -23,6 +27,7 @@ public class UI_Button extends UI_Element {
 	private final float rectWidth;
 	private final float rectHeight;
 	
+	@SuppressWarnings("rawtypes")
 	private final Consumer simpleFunction;
 	
 	private boolean pressed; 

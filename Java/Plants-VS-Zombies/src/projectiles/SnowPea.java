@@ -5,6 +5,10 @@ import zombies.Zombie;
 
 public class SnowPea extends LineProjectile {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7975374527286108868L;
 	public SnowPea(Vector2 position, boolean burned) {
 		super(position, new Vector2(0.06f, 0), 10, "plants/snowpeash.png", burned);
 	}

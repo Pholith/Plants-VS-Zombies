@@ -1,8 +1,5 @@
 package plants.pool;
 
-
-import java.util.*;
-
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
@@ -10,6 +7,10 @@ import plants.Plant;
 
 public class TallNut extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6437048781022792380L;
 	public TallNut(Vector2 position) {
 		super(1000, position, EnumReloadTime.slow, 125,"plants/TallNut.png", 3f);
 	}

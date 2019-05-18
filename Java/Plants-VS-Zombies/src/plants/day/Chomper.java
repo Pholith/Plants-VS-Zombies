@@ -9,6 +9,11 @@ import zombies.Zombie;
 public class Chomper extends AttackingPlant {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1203901686241945647L;
+
 	public Chomper(Vector2 position) {
 		super(100, position, EnumReloadTime.medium, 150, "plants/chomper.png", 2.5f);
 	}

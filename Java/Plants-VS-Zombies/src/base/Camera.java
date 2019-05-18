@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 public class Camera extends GameObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6148888095804149524L;
+	@SuppressWarnings("unused")
 	private float renderSize = 5.0f;//pas encore utilisé
 
 	
@@ -26,14 +31,7 @@ public class Camera extends GameObject {
 	public void render(ArrayList<GameObject> sceneObjs, Graphics2D graphics) {
 		
 		
-		
-		     
-		//float renderSize;
-		
-		
-		
-		
-		
+
 		for(GameObject obj : sceneObjs) {
 		
 			

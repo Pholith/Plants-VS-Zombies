@@ -1,19 +1,20 @@
 package plants.day;
 
-
-import java.util.*;
-
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
-import main.Resources;
 import plants.Plant;
 import ui.UI_Sun;
 
 public class Sunflower extends Plant {
 
     
-    public Sunflower(Vector2 position) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4797164123801536637L;
+
+	public Sunflower(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 50, "plants/sunflower.png", 2f);
 		productionDelay = 18;
 	}    
@@ -28,7 +29,7 @@ public class Sunflower extends Plant {
     public void update() {
     	super.update();
     	if(production >= productionDelay) {
-        	new UI_Sun(getPosition(), func -> {GameManager.getInstance().getResources().getASun();} );     	
+        	new UI_Sun(getPosition(), func -> {GameManager.getResources().getASun();} );     	
         	production = 0;
     	}
     	production += GameManager.getInstance().getDeltatime();

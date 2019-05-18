@@ -1,11 +1,14 @@
 package zombies;
 
 
-import java.util.*;
-
 import base.Vector2;
 
 public class ScreenDoorZombie extends ProtectedZombie {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6869274534723805321L;
 
 	public ScreenDoorZombie(Vector2 position) {
 		super(100, position, "zombies/ScreenDoorZombie.png", 5f, 1f, 300);

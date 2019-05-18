@@ -13,6 +13,10 @@ import main.GameManager;
 public class UI_Sun extends UI_Button {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6011136737444258832L;
 	private Vector2 velocity;
 	private float yPositionMin;
 	private Vector2 startVel;

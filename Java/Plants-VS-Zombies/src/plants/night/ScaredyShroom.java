@@ -1,8 +1,5 @@
 package plants.night;
 
-
-import java.util.*;
-
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
@@ -11,6 +8,10 @@ import zombies.Zombie;
 
 public class ScaredyShroom extends AttackingShroom {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2173676450217102004L;
 	public ScaredyShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, "plants/ScaredyShroom.png", 4f);
 		hidden = false;

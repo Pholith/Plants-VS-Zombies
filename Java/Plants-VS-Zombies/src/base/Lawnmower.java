@@ -6,6 +6,10 @@ import zombies.Zombie;
 
 public class Lawnmower extends GameObject {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 885593557573489144L;
 	private Sprite[] sprite;
 	private float speed;
 	
@@ -16,14 +20,17 @@ public class Lawnmower extends GameObject {
 		speed = 0.01f;
 	}
 
+	@Override
 	public	Sprite display() {
 		return sprite[0];
 	}
 
-    public String name() {return "Lawnmower";}
+    @Override
+	public String name() {return "Lawnmower";}
 
     private boolean startedMove;
-    public void update() {
+    @Override
+	public void update() {
     	super.update();
     	
     	Zombie firstEnemy =  (Zombie) GameManager.getInstance().getFirstZombie(this);

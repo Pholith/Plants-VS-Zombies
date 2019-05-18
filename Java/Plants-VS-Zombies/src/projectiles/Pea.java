@@ -4,6 +4,10 @@ import base.Vector2;
 
 public class Pea extends LineProjectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4053060156770010153L;
 	public Pea(Vector2 position) {
 		this(position, false);
 	}

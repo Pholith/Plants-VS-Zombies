@@ -1,10 +1,14 @@
 package zombies;
 
 import base.Vector2;
-import projectiles.LineProjectile;
 import projectiles.Projectile;
 
 public abstract class ProtectedZombie extends Zombie {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1584863804058794081L;
 
 	public ProtectedZombie(int health, Vector2 position, String animationpath, float animSpeed, float speed, int healthOfProtection) {
 		super(health, position, animationpath, animSpeed, speed);

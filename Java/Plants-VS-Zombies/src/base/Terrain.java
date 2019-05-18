@@ -15,11 +15,14 @@ import ui.UI_Button;
 
 public class Terrain extends GameObject {
    
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5789226166886876185L;
 	private final Sprite terrainSprite;
 	private static int sizeX;
 	private static int sizeY;
 	private final Square[][] listOfSquares;
-	private final EnumTerrain terrainType;
 	
 
 	public static Vector2 caseToPosition(Vector2 gridCase) {
@@ -27,11 +30,11 @@ public class Terrain extends GameObject {
 	}
 	
 	public static Vector2 caseToPosition(int x, int y) {
-		return new Vector2(3.456f + x * 0.94f, 	1.5f+y* (1.15f - ((float)sizeY-5f)/8f));
+		return new Vector2(3.456f + x * 0.94f, 	1.5f+y* (1.15f - (sizeY-5f)/8f));
 	}
 	
 	public static Vector2 positionToCase(Vector2 pos) {
-		return new Vector2(Math.round((pos.getX() - 3.456f) / 0.94f), Math.round( (pos.getY() - 1.5f) / (1.15f - ((float)sizeY-5f)/8f)) );
+		return new Vector2(Math.round((pos.getX() - 3.456f) / 0.94f), Math.round( (pos.getY() - 1.5f) / (1.15f - (sizeY-5f)/8f)) );
 	}
 	
 	
@@ -40,7 +43,6 @@ public class Terrain extends GameObject {
 	public Terrain(Sprite terrainSprite, EnumTerrain terrainType) {
 		super(Vector2.zero(), RenderMode.Both);
 		this.terrainSprite = terrainSprite;
-		this.terrainType = terrainType;
 		sizeX = 9;	
 	
 		if (terrainType == EnumTerrain.pool) {

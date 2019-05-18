@@ -7,6 +7,11 @@ import zombies.Zombie;
 
 public class Fume extends LineProjectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -551467092123706681L;
+
 	public Fume(Vector2 position) {
 		super(position, new Vector2(0.06f, 0), 10, "plants/Fume.png");
 		alreadyAttacked = new HashSet<Zombie>();
@@ -37,7 +42,8 @@ public class Fume extends LineProjectile {
 		alreadyAttacked.add(z);
 		z.takeDammage(getDammage(), this);
 	}
-    public boolean canByPassScreenDoor() {
+    @Override
+	public boolean canByPassScreenDoor() {
     	return true;
     }
 

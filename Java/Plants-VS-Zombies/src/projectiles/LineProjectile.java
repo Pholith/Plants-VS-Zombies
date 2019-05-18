@@ -11,6 +11,10 @@ import zombies.Zombie;
 
 public class LineProjectile extends GameObject implements Projectile {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1719476588207871569L;
 	private Sprite defaultSprite;
 	
     public LineProjectile(Vector2 position, Vector2 speed, int dammage, String texturePath, boolean burned) {
@@ -32,14 +36,16 @@ public class LineProjectile extends GameObject implements Projectile {
     private Vector2 speed;
     private int dammage; 
 
-    public int getDammage() {
+    @Override
+	public int getDammage() {
     	return dammage;
     }
     @Override
     public boolean isProjectile() {
     	return true;
     }
-    public void hit(Zombie z) {
+    @Override
+	public void hit(Zombie z) {
 		z.takeDammage(dammage, this);
 		destroy();
     }
@@ -62,7 +68,8 @@ public class LineProjectile extends GameObject implements Projectile {
     public Sprite display() {  
     	return defaultSprite;
     }
-    public boolean canByPassScreenDoor() {
+    @Override
+	public boolean canByPassScreenDoor() {
     	return false;
     }
     private boolean burned;

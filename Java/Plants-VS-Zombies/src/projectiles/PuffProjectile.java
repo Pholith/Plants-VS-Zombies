@@ -1,14 +1,14 @@
 package projectiles;
 
-import java.util.*;
-
 import base.Vector2;
-import main.GameManager;
 
-/**
- * 
- */
 public class PuffProjectile extends LineProjectile {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7812064061458956225L;
+
 
 	public PuffProjectile(Vector2 position) {
 		this(position, -1);

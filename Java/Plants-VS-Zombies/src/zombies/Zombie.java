@@ -1,7 +1,5 @@
 package zombies;
 
-
-
 import base.LivingEntity;
 import base.Vector2;
 import main.GameManager;
@@ -9,9 +7,15 @@ import main.GameManager;
 public abstract class Zombie extends LivingEntity {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1527264097639594956L;
+
+
 	public Zombie(int health, Vector2 position, String animationPath, float animSpeed, float speed) {
 		super(health, position, animationPath, animSpeed + (float)Math.random());
-		this.speed = -speed/400; // pour avoir une petite vitesse sans avoir des 0.00002f
+		this.speed = -speed/400 * GameManager.getResources().getGameConfig().getConfigFloat("zombieSpeedCoeff"); // pour avoir une petite vitesse sans avoir des 0.00002f
 	
 	}
 

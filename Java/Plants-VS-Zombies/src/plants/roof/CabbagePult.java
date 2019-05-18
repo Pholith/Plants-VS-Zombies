@@ -8,6 +8,11 @@ import zombies.Zombie;
 
 public class CabbagePult extends AttackingPlant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3181715344348714771L;
+
 	public CabbagePult(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 100, "plants/CabbagePult.png", 2f);
 	}
@@ -17,5 +22,6 @@ public class CabbagePult extends AttackingPlant {
 		new Cabbage(getPosition(), zombie);
 	}
 
-    public String name() { return "CabbagePult"; }
+    @Override
+	public String name() { return "CabbagePult"; }
 }
