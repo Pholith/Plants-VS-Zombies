@@ -1,9 +1,15 @@
 package base;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Square {
+public class Square implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 973040957361362706L;
 
 	private final Vector2 pos;
 

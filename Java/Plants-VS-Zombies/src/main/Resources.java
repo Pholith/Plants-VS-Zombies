@@ -116,8 +116,9 @@ public class Resources implements Serializable {
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
     	money = 100;
+    	
     	gameConfig = new GameConfig();
-
+    	
     	listOfCosts = new int [gameConfig.getConfigInt("numberOfPlantSelectable")]; 
 
     	specialSearch = new HashMap<String, TerrainSearch>();

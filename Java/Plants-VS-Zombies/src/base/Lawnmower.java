@@ -14,7 +14,7 @@ public class Lawnmower extends GameObject {
 	private float speed;
 	
 	public Lawnmower(Vector2 pos) {
-		super(pos, RenderMode.Sprite);
+		super(pos, RenderMode.Sprite, 1);
 		
 		sprite = GameManager.getResources().getAnimationByPath("Lawnmower.png");
 		speed = 0.01f;

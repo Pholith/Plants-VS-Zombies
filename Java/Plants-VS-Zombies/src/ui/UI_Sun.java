@@ -36,7 +36,8 @@ public class UI_Sun extends UI_Button {
 		yPositionMin = getPosition().getY() + (float)Math.random();
 	}
 	
-
+	@Override
+	protected int getLayer() { return 10; }
 	@Override
     public String name() {return "UI_Sun";}
 

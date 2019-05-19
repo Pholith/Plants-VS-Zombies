@@ -8,7 +8,7 @@ public class Gravestone extends GameObject {
 	private static final long serialVersionUID = -318750136912032570L;
 
 	public Gravestone(Vector2 pos) {
-		super(pos, RenderMode.Sprite);
+		super(pos, RenderMode.Sprite, 1);
 		sprite = GameManager.getResources().getAnimationByPath("Gravestone.png");
 	}
 	

@@ -31,7 +31,9 @@ public class UI_Label extends UI_Element {
 
 	@Override
 	public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
-	
+		if (!isVisible()) {
+			return;
+		}
 
 		int screenUnit = Constant.screenPixelPerUnit;
 		float sc = getRenderScale();

@@ -1,15 +1,20 @@
 package main;
 
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.HashMap;
 
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
-public class GameConfig {
+public class GameConfig implements Serializable {
 
 	// CONSTANTES DU LEVEL MANAGER
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -105588413660771305L;
 	private HashMap<String, String> configMap;
 	private JSONObject jsonObject; // HashMap provenant du JSON 
 	

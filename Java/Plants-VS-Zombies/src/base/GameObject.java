@@ -8,26 +8,33 @@ import java.util.*;
 import enums.RenderMode;
 import main.GameManager;
 
-public abstract class GameObject implements Serializable {
+public abstract class GameObject implements Serializable, Comparable<GameObject> {
 
 	private static final long serialVersionUID = -7807705176476327139L;
 	
+	private final int layer; // Pour l'ordre d'affichage ( ENTRE 1 ET 100 )
+	protected int getLayer() { return layer; } // permet de modifier le layer comme en protected
+    @Override
+	public int compareTo(GameObject o) {
+    	return getLayer() - o.getLayer();
+    }
 	private Vector2 position;
-	  private final RenderMode renderMode;
+	private final RenderMode renderMode;
 	  	
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
-    public GameObject(Vector2 pos, RenderMode renderMode) {
+    public GameObject(Vector2 pos, RenderMode renderMode,int layer) {
     	position = Objects.requireNonNull(pos);
     	this.renderMode = renderMode;
     	GameManager.getInstance().addGameObjectToScene(this);
     	System.out.println("Created: " + name());
+    	this.layer = layer;
     }   
     
     
     // gameobject sans position n'étant pas dans le jeu (paradoxe ?)
     public GameObject(Vector2 pos) {
-    	this(pos, RenderMode.Sprite);
+    	this(pos, RenderMode.Sprite, 1);
     }
     
     /* Détruit un gameObject */

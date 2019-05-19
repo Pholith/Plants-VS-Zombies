@@ -1,8 +1,13 @@
 package base;
 
+import java.io.Serializable;
 
-public class Vector2 {
+public class Vector2 implements Serializable {
 
+		/**
+	 * 
+	 */
+	private static final long serialVersionUID = -269571007417092821L;
 		private final float x;
 		private final float y;
 		

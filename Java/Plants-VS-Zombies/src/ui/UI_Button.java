@@ -61,15 +61,9 @@ public class UI_Button extends UI_Element {
 		this.offset = offset = new Vector2( rectWidth*offset.getX() ,rectHeight*offset.getY());
 		
 		
-		
 		///Calcul de positions :
 		CalcPosition();
 		}
-		
-		
-		@Override
-	    public String name() {return "UI_Button";}
-
 		
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, Sprite sprite, Consumer simpleFunction) {
 			super(pos, renderScale, renderColor, RenderMode.Both );
@@ -89,6 +83,9 @@ public class UI_Button extends UI_Element {
 	 		CalcPosition();
 		}
 		
+		@Override
+	    public String name() {return "UI_Button";}
+
 		
 		void CalcPosition() {			
 			lastPosition = getPosition();
@@ -169,6 +166,9 @@ public class UI_Button extends UI_Element {
 		@Override
 		public void selfDisplay(Vector2 CamPos, Graphics2D graphics) {
 	
+			if (!isVisible()) {
+				return;
+			}
 			if(sprite == null) {
 				graphics.setColor(getRenderColor());
 				graphics.draw(drawRect);
@@ -176,18 +176,18 @@ public class UI_Button extends UI_Element {
 				//graphics.fillRect((int)screenPosition.getX(), (int)screenPosition.getY(),(int) rectWidth, (int)rectHeight);
 			}
 			
+				
+			if(selected) {
+				graphics.setColor(new Color(127, 127, 127, 127));
+				graphics.draw(drawRect);
+				graphics.fill(drawRect);			
+			}		
+			if(disabled) {
+				graphics.setColor(new Color(100, 100, 100, 127));
+				graphics.draw(drawRect);
+				graphics.fill(drawRect);			
+			}
 			
-		if(selected) {
-			graphics.setColor(new Color(127, 127, 127, 127));
-			graphics.draw(drawRect);
-			graphics.fill(drawRect);			
-		}		
-		if(disabled) {
-			graphics.setColor(new Color(100, 100, 100, 127));
-			graphics.draw(drawRect);
-			graphics.fill(drawRect);			
-		}
-		
 		}
 		
 		

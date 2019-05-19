@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.io.Serializable;
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import base.Camera;
@@ -25,16 +28,22 @@ import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
 
 
-	///Cette classe est un singleton. Le jeu dï¿½mare ï¿½ sa creation , ï¿½ l'appel de la fonction StartManger();
-	public final class GameManager {
+	///Cette classe est un singleton. Le jeu démarre après sa creation , et l'appel de la fonction StartManger();
+	public final class GameManager implements Serializable {
 		
-	    private static final GameManager SINGLE_INSTANCE = new GameManager();
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 5825660919828564296L;
+
+		private static final GameManager SINGLE_INSTANCE = new GameManager();
 	    public static GameManager getInstance() { return SINGLE_INSTANCE;  }
+	    
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
 	    	sceneContent = new ArrayList<GameObject>(); 
-	    	ojbectsInQueue = new ArrayList<GameObject>(); 
-	    	ojbectsToRemoveQueue = new ArrayList<GameObject>(); 
+	    	objectsInQueue = new ArrayList<GameObject>(); 
+	    	objectsToRemoveQueue = new ArrayList<GameObject>(); 
 	    	deltaTime = 1f;
 	    	timeScale = 1f;
 	    	savedFps = 60;
@@ -78,8 +87,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    // Objets en jeu ou en attente
 	    private final ArrayList<GameObject> sceneContent;
-	    private final ArrayList<GameObject> ojbectsInQueue;  
-	    private final ArrayList<GameObject> ojbectsToRemoveQueue;  
+	    private final ArrayList<GameObject> objectsInQueue;  
+	    private final ArrayList<GameObject> objectsToRemoveQueue;  
 	    //private final ArrayList<<Vector2,Vector2>> linesToDraw;  
 	    private Camera mainCamera;
 	    private LevelManager levelManager;
@@ -91,11 +100,28 @@ import fr.umlv.zen5.KeyboardKey;
 	    private boolean gameEnded;
 	    private boolean gameStarted;
 	    
+	    PauseMenu pauseMenu;
+	    ApplicationContext context;
 	    
 	    void setGameStarted(boolean val) {
 	    	gameStarted = val;
 	    	if(val) {
 	    	levelManager = new LevelManager();
+	    	
+	    	
+	    	
+			Consumer<Integer> resume =  (x) -> { pauseMenu.hide(); timeScale = 1f; };
+			Consumer<Integer> save =  (x) -> { SaveManager.save(sceneContent);};
+			Consumer<Integer> load =  (x) -> { };
+			Consumer<Void> exit =  (x) -> { context.exit(0); };
+
+	    	pauseMenu = new PauseMenu(resolutionX, resolutionY, resume, save, load, exit) {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 9127473762164938994L;} ;
+
 	    	clearScene();
 	    	}
 	    }
@@ -113,37 +139,42 @@ import fr.umlv.zen5.KeyboardKey;
 	    
 	    void startManager() throws IOException {
 	    	
-	    	/////////////////////////////////////////Objets utilitaires du gameManager
+	    	///////////////////////////////////////// Objets utilitaires du gameManager
 	    	
 	    	utilityObjects();
 	    	
-	       	//////////////////////////////////////////Initialisations génerale des resources 
+	       	////////////////////////////////////////// Initialisations génerale des resources 
 	    	
 	    	RESOURCES.loadResources();
 	    		    	
-	    	////////////////////////////////////////Démarage de la boucle principale
+	    	//////////////////////////////////////// Démarage de la boucle principale
 	    	 
-			 Application.run(Color.WHITE,context -> {			      
+			Application.run(Color.WHITE,context -> {			      
 			      // get the size of the screen
-			      screenInfo = context.getScreenInfo();			    
-			      resolutionX = screenInfo.getWidth();
-			      resolutionY = screenInfo.getHeight();
-			     
-			      
-			      System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
+				screenInfo = context.getScreenInfo();			    
+				resolutionX = screenInfo.getWidth();
+				resolutionY = screenInfo.getHeight();
+				 
+				if (this.context == null) {
+					this.context = context;
+				}
 
-			    	MainMenu.start_menu();
 			      
-			      while (true) {
+			    System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
+
+			    MainMenu.start_menu();
+			      
+			    while (true) {
 			    	  
-			    	  if(gameStarted && !gameEnded)
-			    	  levelManager.levelEvent();
-				      updateGameObjects();
-				      RESOURCES.updateResources();
-				      inputCheck(context);
-				      render(context);
-				      fpsCount();
-			      }
+			    if (gameStarted && !gameEnded)
+			    	levelManager.levelEvent();
+			    updateGameObjects();
+			    RESOURCES.updateResources();
+			    inputCheck(context);
+			    render(context);
+			    fpsCount();
+			    
+		     	}
 			 });
 	    }   
 	    
@@ -151,20 +182,22 @@ import fr.umlv.zen5.KeyboardKey;
 	    private void utilityObjects() {
 	    	mainCamera = new Camera();	    
 	    	fpsBox = new UI_Label(new Vector2(0.05f,7f), "FPS..", Color.black, 3f );
-	    	utilityObjectCount = ojbectsInQueue.size();
+	    	utilityObjectCount = objectsInQueue.size();
 	    }
 	    	    
 	    private void updateGameObjects() {			
 	    	  	    		    	
-	    	  for (GameObject gameObject : ojbectsInQueue) {
+	    	  for (GameObject gameObject : objectsInQueue) {
 	    		  sceneContent.add(gameObject);
-		    	  }
-	    	  for (GameObject gameObject : ojbectsToRemoveQueue) {
+	    	  }
+	    	  Collections.sort(sceneContent); // On trie la liste à chaque fois qu'on y rajoute des objets
+
+	    	  for (GameObject gameObject : objectsToRemoveQueue) {
 	    		  sceneContent.remove(gameObject);
-		    	  }
+		      }
 	    	  
-	    	  ojbectsInQueue.clear();
-	    	  ojbectsToRemoveQueue.clear();
+	    	  objectsInQueue.clear();
+	    	  objectsToRemoveQueue.clear();
 	    	  
 	    	//update tout les objets
 	    	  for (GameObject gameObject : sceneContent) {
@@ -173,8 +206,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    }
 	    
 	    private void render(ApplicationContext context) {			
-	    	  
-		      context.renderFrame(graphics -> {  
+
+	    	context.renderFrame(graphics -> {  
 		    	  //clear les graphics
 		    	  graphics.setColor(Color.WHITE);
 		    	  graphics.fill(new  Rectangle2D.Float(0, 0, resolutionX, resolutionY));		
@@ -186,8 +219,6 @@ import fr.umlv.zen5.KeyboardKey;
 		      });
 	    }
 	    
-	    
-
 	    
 	    private void inputCheck(ApplicationContext context) {
 	    
@@ -222,17 +253,23 @@ import fr.umlv.zen5.KeyboardKey;
 	          return;
 	        }
 		  	
-	        
+	        if (key == KeyboardKey.P) {
+	        	if (pauseMenu != null && !pauseMenu.isVisible()) {
+					timeScale = 0;
+					pauseMenu.show();
+					System.out.println("Game Paused");
+	        	}
+			}
 	        
 	        
 	        if(gameEnded)
 	        	return;
 	        	
 	        if (key == KeyboardKey.LEFT)
-	        	mainCamera.translation(-0.2f, 0);
+	        	mainCamera.pushLeft();
 	        	
 	        if (key == KeyboardKey.RIGHT)
-	        	mainCamera.translation(0.2f, 0);
+	        	mainCamera.pushRight();
 	        
 	
 	      
@@ -241,21 +278,21 @@ import fr.umlv.zen5.KeyboardKey;
 	        	if(!inDebugMode) {
 	        	System.out.println("Debug mode activated");
 	        	timeScale = 5f;	            
-	        	}else {	        		
+	        	} else {	        		
 	        		System.out.println("Debug mode stopped");
 		        	timeScale = 1f;	            
 	        	}
 		        inDebugMode = !inDebugMode;		        
 	        }
-	        if (key == KeyboardKey.P) {
+	        if (key == KeyboardKey.O) {
 	        	System.out.println("Speed changed to slow");
 	        	timeScale = 0.3f;
 	        }
-	        if (key == KeyboardKey.O) {
+	        if (key == KeyboardKey.I) {
 	        	System.out.println("Speed changed to normal");
 	        	timeScale = 1f;
 	        }
-	        if (key == KeyboardKey.I) {
+	        if (key == KeyboardKey.U) {
 	        	System.out.println("Speed changed to fast");
 	        	timeScale = 5f;
 	        	}
@@ -275,9 +312,9 @@ import fr.umlv.zen5.KeyboardKey;
 	 
 	    
 	    public void addGameObjectToScene(GameObject obj) {	
-	    	if(!sceneContent.contains(obj) && !ojbectsInQueue.contains(obj))
-	    		ojbectsInQueue.add(obj);	    	
-	    	
+	    	if(!sceneContent.contains(obj) && !objectsInQueue.contains(obj))
+	    		objectsInQueue.add(obj);	    	
+
 	    	obj.start();
 	    }
 	    /*
@@ -293,8 +330,8 @@ import fr.umlv.zen5.KeyboardKey;
 	    }*/
 	    
 	    public void removeGameObjectFromScene(GameObject obj) {
-	    	if(obj != null && !ojbectsToRemoveQueue.contains(obj))
-	    		ojbectsToRemoveQueue.add(obj);
+	    	if(obj != null && !objectsToRemoveQueue.contains(obj))
+	    		objectsToRemoveQueue.add(obj);
 	    }
 	    
 	    

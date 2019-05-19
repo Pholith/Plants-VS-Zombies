@@ -4,9 +4,10 @@ package base;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Camera extends GameObject {
+public class Camera extends GameObject implements Serializable {
 
 	/**
 	 * 
@@ -19,6 +20,7 @@ public class Camera extends GameObject {
 	public Camera(Vector2 pos,  float renderSize) {
 		super(pos);
 		this.renderSize = renderSize;
+		speed = Vector2.zero();
 	}	
 	public Camera(Vector2 pos) {
 		this(pos, 5.0f);
@@ -27,10 +29,49 @@ public class Camera extends GameObject {
 		this(Vector2.zero());
 	}
 		
+	@Override
+	public void update() {
+		translation(speed);
+		slowing();
+	}
+
+	private void slowing() {
+		float xSpeed = 0;
+		if (speed.getX() > 0) {
+			xSpeed = speed.getX() - 0.004f;
+			if (xSpeed <= 0) {
+				xSpeed = 0;
+			}
+		}
+		if (speed.getX() <= 0) {
+			xSpeed = speed.getX() + 0.004f;
+			if (xSpeed >= 0) {
+				xSpeed = 0;
+			}
+		}
+		speed = new Vector2(xSpeed, 0);
+	}
+	private Vector2 speed;
+	private void checkSpeedMax() {
+		float maxSpeed = 0.1f;
+		if (speed.getX() > maxSpeed) {
+			speed = new Vector2(maxSpeed, 0f);
+		} else if (speed.getX() < -maxSpeed) {
+			speed = new Vector2(-maxSpeed, 0f);
+		}
+	}
+	public void pushRight() {
+		speed = speed.add(0.05f, 0);
+		checkSpeedMax();
+	}
+	public void pushLeft() {
+		speed = speed.add(-0.05f, 0);
+		checkSpeedMax();
+	}
 	
 	public void render(ArrayList<GameObject> sceneObjs, Graphics2D graphics) {
 		
-		
+
 
 		for(GameObject obj : sceneObjs) {
 		
@@ -41,8 +82,6 @@ public class Camera extends GameObject {
 			switch(obj.getRenderMode()){
 			
 				
-				
-			
 				case Sprite:
 					DrawSprite(obj, graphics);					
 		    		break;
@@ -57,12 +96,8 @@ public class Camera extends GameObject {
 		//graphics.setColor(Color.black);		
 		//graphics.drawString(  Integer.toString(cnt), 200, 200);
 			}
-		
-			
-			}
-			
-		}
-	
+		}		
+	}
 	
 	void DrawSprite(GameObject obj, Graphics2D graphics) {
 		int screenPixelPerUnit = Constant.screenPixelPerUnit;
@@ -109,8 +144,8 @@ public class Camera extends GameObject {
 		
 		
 		
-		spriteWidth = (int)(screenPixelPerUnit * spr.getWidth()/texturePixelPerUnit);
-		spriteHeight = (int)(screenPixelPerUnit * spr.getHeight()/texturePixelPerUnit);
+		spriteWidth = (int) (screenPixelPerUnit * spr.getWidth()/texturePixelPerUnit);
+		spriteHeight = (int) (screenPixelPerUnit * spr.getHeight()/texturePixelPerUnit);
 		
 		offset = new Vector2( spriteWidth*offset.getX() ,spriteHeight*offset.getY());
 		
@@ -139,7 +174,7 @@ public class Camera extends GameObject {
 				(int)spriteCoord2.getY(), null);	
 	
 	
-	if(Constant.debug_spriteRect) {
+	if (Constant.debug_spriteRect) {
 		graphics.setColor(Color.red);
 		graphics.setStroke(new BasicStroke(2.0f));
         

@@ -1,17 +1,23 @@
 package base;
 
 import java.awt.Image;
+import java.io.Serializable;
 
 /*
 Attention, cette classe sert essentiellement a stocker des valeurs.
 */
 
-final public class Sprite {
+final public class Sprite implements Serializable {
 		
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6434650687280652964L;
+
 	//Texture du sprite
-	private final Image baseImg;
+	private final transient Image baseImg;
 	
 	//Vecteur d'intervalle qui va definir point d'ancrage du sprite [(0.5,0.5) = centré]
 	private final Vector2 anchor;

@@ -1,12 +1,18 @@
 package main;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.Random;
 import ui.UI_Sun;
 import zombies.*;
 import base.Vector2;
 
-public class LevelManager {
+public class LevelManager implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8806885033955141482L;
 
 	private float levelAdvancement = 1; // détermine la puissance des zombies qui vont spawn
 	

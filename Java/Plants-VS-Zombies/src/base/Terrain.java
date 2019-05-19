@@ -41,7 +41,7 @@ public class Terrain extends GameObject {
 	
 	
 	public Terrain(Sprite terrainSprite, EnumTerrain terrainType) {
-		super(Vector2.zero(), RenderMode.Both);
+		super(Vector2.zero(), RenderMode.Both, 0);
 		this.terrainSprite = terrainSprite;
 		sizeX = 9;	
 	
@@ -70,22 +70,22 @@ public class Terrain extends GameObject {
 	boolean checkSquare(Square square, TerrainSearch searchMode) {
 		ArrayList<LivingEntity> ent = square.getContain();
 			
-			switch (searchMode) {
-	
-			case emptySurface:   	   					
-				return (ent.size() == 0 && !square.isInWater()) || (ent.size() == 1 && square.isInWater());			
+		switch (searchMode) {
 
-			case emptyGround:   	   					
-				return (ent.size() == 0 && !square.isInWater());			
+		case emptySurface:   	   					
+			return (ent.size() == 0 && !square.isInWater()) || (ent.size() == 1 && square.isInWater());			
+
+		case emptyGround:   	   					
+			return (ent.size() == 0 && !square.isInWater());			
+		
+		case emptyWater:   	   					
+			return (ent.size() == 0 && square.isInWater());			
 			
-			case emptyWater:   	   					
-				return (ent.size() == 0 && square.isInWater());			
-				
-			case notEmptyPlant:  
-				return (ent.size() > 0);					
-			}
-			
-			return false;	
+		case notEmptyPlant:  
+			return (ent.size() > 0);					
+		}
+		
+		return false;	
 	}
 	
 	
@@ -196,9 +196,8 @@ public class Terrain extends GameObject {
     	} 
 	}
 
-
 	public Vector2 getTerrainSize() {
-	return new Vector2(sizeX, sizeY);
+		return new Vector2(sizeX, sizeY);
 	}
 	
 
