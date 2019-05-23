@@ -5,5 +5,6 @@ public enum EnumTerrain {
 	night_lawn,
 	pool,
 	roof,
+	fog,
 	night_roof
 }

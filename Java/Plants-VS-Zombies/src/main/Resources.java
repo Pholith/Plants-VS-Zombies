@@ -19,9 +19,12 @@ import base.*;
 import enums.TerrainSearch;
 import plants.*;
 import plants.day.*;
+import plants.fog.SeaShroom;
+import plants.fog.SplitPea;
 import plants.night.*;
 import plants.pool.*;
 import plants.roof.CabbagePult;
+import plants.roof.KernelPult;
 import ui.*;
 import zombies.*;
 
@@ -59,6 +62,26 @@ public class Resources implements Serializable {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
 			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
 	};
+    @SuppressWarnings("rawtypes")
+	public Class[] getGroundZombies() {
+		return groundZombies;
+	}
+
+    @SuppressWarnings("rawtypes")
+	private Class[] groundZombies = new Class[] {
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
+	};
+    @SuppressWarnings("rawtypes")
+	public Class[] getWaterZombies() {
+		return waterZombies;
+	}
+
+    @SuppressWarnings("rawtypes")
+	private Class[] waterZombies = new Class[] {
+			SimpleZombie.class
+	};
+
     
     @SuppressWarnings("rawtypes")
 	private Class[] plantsTotalList = new Class[] {
@@ -67,7 +90,8 @@ public class Resources implements Serializable {
 			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
-			CabbagePult.class
+			SeaShroom.class, SplitPea.class ,
+			CabbagePult.class, KernelPult.class
 	};
 
     
@@ -126,6 +150,7 @@ public class Resources implements Serializable {
     	specialSearch.put(Spikeweed.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
+    	specialSearch.put(SeaShroom.class.getSimpleName(), TerrainSearch.emptyWater);
     }
 
 
@@ -163,6 +188,7 @@ public class Resources implements Serializable {
     	loadImageAtPath("poolTerrain.jpg");
     	loadImageAtPath("roofTerrain.jpg");
     	loadImageAtPath("roofTerrainNight.jpg");
+    	loadImageAtPath("fogTerrain.jpg");
     
     	// nombre de colonne puis nombre de ligne
     	cutImage("plants/pea_shooter.png", 13, 3, 64);
@@ -192,6 +218,9 @@ public class Resources implements Serializable {
     	cutImage("plants/TangleKelp.png", 1, 1, new Vector2(0.5f, 0.4f), 180);
     	cutImage("plants/Spikeweed.png", 1, 1, new Vector2(0.5f, 0.2f), 80);
     	cutImage("plants/CabbagePult.png", 33, 1, new Vector2(0.75f, 0.75f), 70);
+    	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
+    	cutImage("plants/SeaShroom.png", 1, 1, new Vector2(0.5f, 0.5f), 220);
+    	cutImage("plants/SplitPea.png", 1, 1, new Vector2(0.75f, 0.75f), 500);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
@@ -210,6 +239,7 @@ public class Resources implements Serializable {
     	cutImage("plants/Fume.png", 1, 1, new Vector2(0.1f, 1.5f), 120);
     	cutImage("plants/FirePea.png", 2, 2, new Vector2(0.5f,2f), 320);
     	cutImage("plants/Cabbage.png", 1, 1,new Vector2(2f, 2f), 70);
+    	cutImage("plants/Corn.png", 1, 1,new Vector2(2f, 2f), 70);
 
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
@@ -246,11 +276,18 @@ public class Resources implements Serializable {
 	    case pool:
 	    	terrainSp = new Sprite(getImageByPath("poolTerrain.jpg"),Vector2.zero(), 85);
 	    break;
-	case night_roof:
+	    case fog:
+	    	terrainSp = new Sprite(getImageByPath("fogTerrain.jpg"),Vector2.zero(), 85);
+	    break;
+	    case night_roof:
+	    	
 		break;
-	case roof:
+		case roof:
+    		terrainSp = new Sprite(getImageByPath("roofTerrain.jpg"),Vector2.zero(), 85);
+
 		break;
-	default:
+		
+		default:
 		break;
     }
     

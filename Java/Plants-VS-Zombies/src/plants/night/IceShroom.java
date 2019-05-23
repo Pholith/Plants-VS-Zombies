@@ -12,7 +12,7 @@ public class IceShroom extends ExplodingShroom {
 	 */
 	private static final long serialVersionUID = -7830252647189491567L;
 	public IceShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.slow, "plants/IceShroom.png", 3f);
+		super(100, position, EnumReloadTime.slow, 75, "plants/IceShroom.png", 3f);
 	}
 	
 	@Override

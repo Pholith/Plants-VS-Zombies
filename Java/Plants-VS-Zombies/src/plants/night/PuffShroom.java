@@ -14,7 +14,7 @@ public class PuffShroom extends AttackingShroom {
 	private static final long serialVersionUID = 3879882259660663122L;
 
 	public PuffShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.fast, "plants/PuffShroom.png", 4f);
+		super(100, position, EnumReloadTime.fast, 0, "plants/PuffShroom.png", 4f);
 	}
 
     @Override

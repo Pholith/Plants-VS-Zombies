@@ -12,13 +12,14 @@ public class Pea extends LineProjectile {
 		this(position, false);
 	}
 
-	public Pea(Vector2 position, boolean burned) {
-		super(position, new Vector2(0.06f, 0), 10, "plants/peash.png", burned);
+	public Pea(Vector2 position, boolean burned, boolean inverted) {
+		super(position, inverted ? new Vector2(-0.06f, 0) : new Vector2(0.06f, 0), 10, "plants/peash.png", burned);
 	}
 
-    /**
-     * Default constructor
-     */
+    public Pea(Vector2 position, boolean burned) {
+		this(position, false, false);
+    }
+
 	@Override
 	public void update() {
 		super.update();

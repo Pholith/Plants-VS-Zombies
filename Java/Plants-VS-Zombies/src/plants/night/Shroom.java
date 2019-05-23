@@ -11,8 +11,8 @@ public abstract class Shroom extends Plant {
 	 */
 	private static final long serialVersionUID = -8129930468465270305L;
 
-	public Shroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, reloadTime, 0,animationPath , animationSpeed);
+	public Shroom(int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {
+		super(health, position, reloadTime, cost, animationPath , animationSpeed);
 	
 		isSleeping = !GameManager.getResources().getGameInfo().isNight();
 		if (isSleeping) {

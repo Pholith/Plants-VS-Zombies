@@ -10,6 +10,8 @@ import java.util.function.Consumer;
 import enums.EnumTerrain;
 import enums.RenderMode;
 import enums.TerrainSearch;
+import main.GameInfo;
+import main.GameManager;
 import ui.UI_Button;
 
 
@@ -45,7 +47,7 @@ public class Terrain extends GameObject {
 		this.terrainSprite = terrainSprite;
 		sizeX = 9;	
 	
-		if (terrainType == EnumTerrain.pool) {
+		if (GameManager.getResources().getGameInfo().isPool()) {
 			sizeY = 6;
 		} else
 			sizeY = 5;
@@ -59,7 +61,7 @@ public class Terrain extends GameObject {
 
 		for(i = 0; i < sizeY; i++) {
 			for(j = 0; j < 9; j++) {
-				listOfSquares[i][j] = new Square(j,i, (terrainType == EnumTerrain.pool && i >= 2 && i < 4)? true : false );
+				listOfSquares[i][j] = new Square(j,i, (GameManager.getResources().getGameInfo().isPool() && i >= 2 && i < 4)? true : false );
 			}	
 		}
 

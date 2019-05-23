@@ -16,23 +16,20 @@ public class LevelManager implements Serializable {
 
 	private float levelAdvancement = 1; // détermine la puissance des zombies qui vont spawn
 	
-	private int counterOfLastZombie = 0;
-	private int counterOfLastWave = 0;
-	private int counterBeforeEnd = 0;
-	private int counterOfSun = 10;
+	private float counterOfLastZombie = 0;
+	private float counterOfLastWave = 0;
+	private float counterBeforeEnd = 0;
+	private float counterOfSun = 10;
 	
 	private double spawnDelay; // temps de spawn en sec
 	private final double waveDelay; // temps entre chaque vague
 	private double sunSpawnDelay; // temps entre chaque soleil
 	private final double levelTimeDelay; // temps d'une partie  
 	
-	@SuppressWarnings("rawtypes")
-	Class[] listOfZombies;
-	
+
 	public LevelManager() {		
 		super();
-		listOfZombies = GameManager.getResources().getGameInfo().getListOfZombies();
-		
+	
 		if (GameManager.getResources().getGameInfo().isNight()) {
 		
 		}
@@ -44,28 +41,24 @@ public class LevelManager implements Serializable {
 
 	}
 
-	private long lastTimeStamp = GameManager.getInstance().getClockMillis()/1000;
-
-	
-	// liste qui contient les classes de zombie 
-	
-	/*
-	Class[] listOfZombies = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			FootballZombie.class, ScreenDoorZombie.class
-	};*/
-	
-	
-	
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private static Class<? extends Zombie> getRandomZombie(Class[] listOfZombies, int coeffDifficulty) {
+	@SuppressWarnings({ "unchecked" })
+	private static Class<? extends Zombie> getRandomGroundZombie(int coeffDifficulty) {
 		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
+		var listOfZombies = GameManager.getResources().getGroundZombies();
 	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
 	    if (new Random().nextBoolean()) {
 			rnd /= 2;
 		}
+	    return listOfZombies[rnd];
+	}
+	
+	@SuppressWarnings({ "unchecked" })
+	private static Class<? extends Zombie> getRandomWaterZombie(int coeffDifficulty) {
+		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
+		var listOfZombies = GameManager.getResources().getWaterZombies();
+	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
 	    return listOfZombies[rnd];
 	}
 	
@@ -75,12 +68,37 @@ public class LevelManager implements Serializable {
 		try {
 		
 			// Prend un type de Zombie aléatoire du tableau
-			Class<? extends Zombie> zombieClass = getRandomZombie(listOfZombies, coeffDifficulty);
-			// Class c1 = Class.forName(zombieClass.getName());
+			Class<? extends Zombie> zombieClass;
+			Vector2 vector2;
+			float randomX = (float) (10 + Math.random()*2);
+			
+			
+			// Piscine avec eau au milieu 
+			if (GameManager.getResources().getGameInfo().isPool()) {
+				
+				if (Math.random() < 0.2) { // Zombie dans l'eau 
+					zombieClass = getRandomWaterZombie(coeffDifficulty);
+					vector2 = new Vector2(randomX, (float) (2f + Math.random() * 2) );
+
+				} else { // Zombie sur le sol
+					if (Math.random() < 0.5) {
+						vector2 = new Vector2(randomX, (float) (Math.random() * 2) ); // les 2 cases en haut
+					} else {
+						vector2 = new Vector2(randomX, (float) (4f + Math.random() * 2) ); // les 2 cases en bas
+					}
+					zombieClass = getRandomGroundZombie(coeffDifficulty);
+				}
+			}
+			// Terrain normal
+			else {
+				zombieClass = getRandomGroundZombie(coeffDifficulty);
+				vector2 = new Vector2(randomX, (float) Math.random() * 5);
+			}
+			
+			
+			
 			// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
 			Constructor<? extends Zombie> constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
-			Vector2 vector2 = new Vector2((float) (10 + Math.random()*2), (float) Math.random() * GameManager.getResources().getTerrain().getTerrainSize().getY());
-
 			constructor.newInstance(new Object[] {vector2});
 
 		} catch (Exception e) {
@@ -95,22 +113,16 @@ public class LevelManager implements Serializable {
 	}
 	
 	// gère les attaques de zombies et les niveaux
-	@SuppressWarnings("static-access")
 	public void levelEvent() {
-		double timeMultiplier = 1d/GameManager.getInstance().getTimeScale();
 
-		// compteur de seconde 
-		long timeStamp = GameManager.getInstance().getClockMillis();	
-		if (timeStamp - lastTimeStamp >= 1000d * timeMultiplier) {
-			// incrémentation de tous les compteurs
-			counterOfLastZombie ++;
-			counterOfLastWave ++;
-			counterBeforeEnd ++;
-			if (!GameManager.getResources().getGameInfo().isNight()) {
-				counterOfSun ++;
-			}
-			lastTimeStamp = timeStamp;
-		}		
+		// incrémentation de tous les compteurs
+		counterOfLastZombie += GameManager.getInstance().getDeltatime();
+		counterOfLastWave += GameManager.getInstance().getDeltatime();
+		counterBeforeEnd += GameManager.getInstance().getDeltatime();
+
+		if (!GameManager.getResources().getGameInfo().isNight()) {
+			counterOfSun += GameManager.getInstance().getDeltatime();
+		}
 		// fin du niveau
 		if (counterBeforeEnd >= levelTimeDelay) {
 			  GameManager.getInstance().endGame(true);
@@ -119,14 +131,14 @@ public class LevelManager implements Serializable {
 		// invocation de soleil aléatoire
 		if (counterOfSun >= sunSpawnDelay) {
 			new UI_Sun(new Vector2((float) Math.random()*5 + 3, (float) Math.random()*4 + 1), func -> { GameManager.getInstance();
-			GameManager.getResources().getASun(); });
+				GameManager.getResources().getASun(); });
 			counterOfSun = 0;
 			sunSpawnDelay ++;
 		}
 		// création d'une vague d'attaque
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;
-			System.out.println("Prochaine vague dans: "+Math.round(waveDelay*timeMultiplier)+" secondes");
+			System.out.println("Prochaine vague dans: "+Math.round(waveDelay)+" secondes");
 
 			createFlagZombie();
 			createFlagZombie();
@@ -139,9 +151,13 @@ public class LevelManager implements Serializable {
 		if (counterOfLastZombie >= spawnDelay) {
 			counterOfLastZombie = 0;
 			levelAdvancement += 0.4;
-			//fonction qui baisse au fur et à mesure la valeur  (non linéaire) 
-			spawnDelay = Math.pow(spawnDelay, 2)/15 +2;
-			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay*timeMultiplier)+" secondes");
+			
+			//fonction qui baisse au fur et à mesure la valeur  (non linéaire)
+			spawnDelay -= spawnDelay / 20;
+			if (spawnDelay <= 2.5) {
+				spawnDelay = 2.5;
+			}
+			System.out.println("Prochain zombie dans: "+Math.round(spawnDelay)+" secondes");
 			createZombie((int) levelAdvancement);
 		}
 	}

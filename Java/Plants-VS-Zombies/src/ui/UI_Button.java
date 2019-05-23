@@ -122,6 +122,7 @@ public class UI_Button extends UI_Element {
 	    		readyToUse = GameManager.getResources().isSelectedUi(null);
 	    		return;
 	    	}
+	    	if (!isVisible()) { return; }
 	    	
 	    	Point2D.Float mousePos = GameManager.getInstance().getClickLocation();
 	    	

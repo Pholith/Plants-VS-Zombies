@@ -35,10 +35,10 @@ public class GameInfo {
 	}
 
 	public boolean isNight() {
-		return selectedTerrain == EnumTerrain.night_lawn || selectedTerrain == EnumTerrain.night_roof;
+		return selectedTerrain == EnumTerrain.night_lawn || selectedTerrain == EnumTerrain.night_roof || selectedTerrain == EnumTerrain.fog;
 	}
 	public boolean isPool() {
-		return selectedTerrain == EnumTerrain.pool;
+		return selectedTerrain == EnumTerrain.pool || selectedTerrain == EnumTerrain.fog;
 	}
 	
 	

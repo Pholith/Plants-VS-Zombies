@@ -16,7 +16,7 @@ public class SunShroom extends Shroom {
 	private static final long serialVersionUID = -4692640622404725591L;
 
 	public SunShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.fast, "plants/SunShroom.png", 4f);
+		super(100, position, EnumReloadTime.fast, 25, "plants/SunShroom.png", 4f);
 		productionDelay = 17;
 		growDelay = 40;
 	}    

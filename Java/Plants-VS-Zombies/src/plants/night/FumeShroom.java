@@ -14,7 +14,7 @@ public class FumeShroom extends AttackingShroom {
 	private static final long serialVersionUID = -7820722405485852686L;
 
 	public FumeShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.medium, "plants/FumeShroom.png", 3f);
+		super(100, position, EnumReloadTime.medium, 75, "plants/FumeShroom.png", 5f);
 	}
 
     @Override
@@ -28,7 +28,7 @@ public class FumeShroom extends AttackingShroom {
     @Override
     public boolean conditionOfAttacking() {
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
-		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f);
+		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 5f);
     }
 
 }

@@ -24,10 +24,18 @@ public final class MainMenu {
 	 
 	 private static void terrain_menu() {
 			GameManager.getInstance().clearScene();
-			new UI_Label(new Vector2(2,1.5f), "Choisissez votre terrain", Color.blue, 5f);
-			new UI_Button(new Vector2(2f, 3f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("lawn.jpg"), 400), func -> { plant_menu(EnumTerrain.lawn);});
-			new UI_Button(new Vector2(2f, 4.5f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("nightTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.night_lawn);});
-			new UI_Button(new Vector2(2f, 6f), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("poolTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.pool);});
+			
+			float yFirstPos = 1.2f;
+			float spaceBetweenY = 1.6f;
+			float spaceBetweenX = 2f;
+
+			new UI_Label(new Vector2(2, 1f), "Choisissez votre terrain", Color.blue, 5f);
+			
+			new UI_Button(new Vector2(2f, yFirstPos + spaceBetweenY * 1), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("lawn.jpg"), 400), func -> { plant_menu(EnumTerrain.lawn);});
+			new UI_Button(new Vector2(2f, yFirstPos + spaceBetweenY * 2), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("nightTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.night_lawn);});
+			new UI_Button(new Vector2(2f, yFirstPos + spaceBetweenY * 3), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("poolTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.pool);});
+			new UI_Button(new Vector2(2f + spaceBetweenX * 2, yFirstPos + spaceBetweenY * 1), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("fogTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.fog);});
+			new UI_Button(new Vector2(2f + spaceBetweenX * 2, yFirstPos + spaceBetweenY * 2), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("roofTerrain.jpg"), 400), func -> { plant_menu(EnumTerrain.roof);});
 		 }
 			
 	private static int selectCnt = 0;

@@ -41,7 +41,7 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     public void destroy() {
     	onDestroy();
     	GameManager.getInstance().removeGameObjectFromScene(this);
-    	System.out.println("Destroyed: "+toString());
+    	System.out.println("Destroyed: "+name());
     }
     
     public void onDestroy() {

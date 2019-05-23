@@ -55,8 +55,7 @@ public class LobProjectile extends GameObject implements Projectile {
     public void update() {
     	super.update();
     	if (speed.getY() >= 0 && target.getPosition().getX() < this.getPosition().getX() + 0.3 ) {
-			destroy();
-			target.takeDammage(dammage);
+    		hit(target);
 		}
     	speed = speed.add(acceleration);
     	translationFixed(speed);
@@ -71,6 +70,6 @@ public class LobProjectile extends GameObject implements Projectile {
     }
 	@Override
 	public boolean canByPassScreenDoor() {
-		return false;
+		return true;
 	}
 }

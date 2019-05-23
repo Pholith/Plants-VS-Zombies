@@ -10,8 +10,8 @@ public abstract class AttackingShroom extends Shroom {
 	 */
 	private static final long serialVersionUID = 3271337480719168226L;
 
-	public AttackingShroom(int health, Vector2 position, float reloadTime, String animationPath, float animationSpeed) {
-		super(health, position, reloadTime, animationPath , animationSpeed);
+	public AttackingShroom(int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {
+		super(health, position, reloadTime, cost, animationPath , animationSpeed);
 	}
 
     private float attackSpeedCount = 0;

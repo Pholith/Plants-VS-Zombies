@@ -15,6 +15,7 @@ public class GameConfig implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -105588413660771305L;
+	
 	private HashMap<String, String> configMap;
 	private JSONObject jsonObject; // HashMap provenant du JSON 
 	

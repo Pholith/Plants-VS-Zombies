@@ -13,7 +13,7 @@ public class ScaredyShroom extends AttackingShroom {
 	 */
 	private static final long serialVersionUID = 2173676450217102004L;
 	public ScaredyShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.fast, "plants/ScaredyShroom.png", 4f);
+		super(100, position, EnumReloadTime.fast, 25, "plants/ScaredyShroom.png", 4f);
 		hidden = false;
 	}
 

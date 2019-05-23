@@ -13,7 +13,7 @@ public class DoomShroom extends ExplodingShroom {
 	 */
 	private static final long serialVersionUID = -8892382443880564271L;
 	public DoomShroom(Vector2 position) {
-		super(100, position, EnumReloadTime.very_slow, "plants/DoomShroom.png", 3f);
+		super(100, position, EnumReloadTime.very_slow, 125, "plants/DoomShroom.png", 3f);
 	}
 	
 	@Override
