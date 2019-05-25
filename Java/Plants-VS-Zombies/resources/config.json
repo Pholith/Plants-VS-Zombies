@@ -2,11 +2,13 @@
 	"spawnDelay": "18",
 	"waveDelay": "80",
 	"sunSpawnDelay": "18",
-	"levelTimeDelay": "300",
+	"levelTimeDelay": "3000",
 	
 	"numberOfPlantSelectable": "6",
 
-	"zombieSpeedCoeff": "1"
+	"zombieSpeedCoeff": "1",
+
+	"maxFPS": "60"
 }
 
 

@@ -22,18 +22,24 @@ public abstract class ProtectedZombie extends Zombie {
 		
 		if (p != null && haveScreenDoor() &&  p.canByPassScreenDoor()) {
 			return dammage;
+			
 		} else {
 			
 			if (healthOfProtection <= 0) {
 				return dammage;
 			}
 			healthOfProtection -= dammage;
-			if (healthOfProtection <= 0) {
+			if (healthOfProtection <= 0) { // Si la protection se casse
+				doOnLoseProtection();
 				return Math.abs(healthOfProtection - dammage);
 			}
 		}
 		return 0;
 	}
+	
+	public void doOnLoseProtection() {
+	}
+	
 	@Override
 	public void update() {
 		super.update();

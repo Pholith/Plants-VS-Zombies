@@ -1,8 +1,10 @@
-package zombies;
+package zombies.ground;
 
 import base.LivingEntity;
 import base.Vector2;
 import main.GameManager;
+import plants.pool.TallNut;
+import zombies.Zombie;
 
 public class PoleVaulterZombie extends Zombie {
 
@@ -29,7 +31,9 @@ public class PoleVaulterZombie extends Zombie {
 	    	LivingEntity firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
 	    	// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
 	    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
-	    		this.translationFixed(-0.5f, 0); // translation de une case vers la gauche
+	    		if (!(firstEnemy instanceof TallNut)) {
+		    		this.translationFixed(-0.5f, 0); // translation de une case vers la gauche
+	    		}
 	    		canVault = false;
 	    		this.addSpeed(-0.5f);
 	    	}

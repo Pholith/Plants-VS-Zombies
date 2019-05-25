@@ -125,5 +125,8 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     	// dans le cas plant et zombie OU si l'un des objects est neutre
     	return false;
     }
+	public boolean isTargetable() {
+		return true;
+	}
 
 }

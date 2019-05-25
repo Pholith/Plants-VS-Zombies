@@ -1,13 +1,16 @@
 package main;
 
+import java.util.ArrayList;
+
 import enums.EnumTerrain;
+import zombies.Zombie;
 
 public class GameInfo {
 
 	@SuppressWarnings("rawtypes")
 	private final Class[] listOfPlants; 
-	@SuppressWarnings("rawtypes")
-	private final Class[] listOfZombies; 
+	private final ArrayList<Class<? extends Zombie>> listOfGroundZombies; 
+	private final ArrayList<Class<? extends Zombie>> listOfWaterZombies; 
 	private final EnumTerrain selectedTerrain;
 	
 	
@@ -17,9 +20,11 @@ public class GameInfo {
 		return listOfPlants;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public Class[] getListOfZombies() {
-		return listOfZombies;
+	public ArrayList<Class<? extends Zombie>> getListOfWaterZombies() {
+		return listOfWaterZombies;
+	}
+	public ArrayList<Class<? extends Zombie>> getListOfGroundZombies() {
+		return listOfGroundZombies;
 	}
 	
 	public EnumTerrain getSelectedTerrain() {
@@ -27,10 +32,11 @@ public class GameInfo {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public GameInfo(Class[] listOfPlants, Class[] listOfZombies, EnumTerrain selectedTerrain) {
+	public GameInfo(Class[] listOfPlants, ArrayList<Class<? extends Zombie>> listOfGroundZombies, ArrayList<Class<? extends Zombie>> listOfWaterZombies, EnumTerrain selectedTerrain) {
 		super();
 		this.listOfPlants = listOfPlants;
-		this.listOfZombies = listOfZombies;
+		this.listOfGroundZombies = listOfGroundZombies;
+		this.listOfWaterZombies = listOfWaterZombies;
 		this.selectedTerrain = selectedTerrain;
 	}
 

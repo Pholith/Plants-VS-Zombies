@@ -1,7 +1,8 @@
-package zombies;
+package zombies.ground;
 
 
 import base.Vector2;
+import zombies.ProtectedZombie;
 
 public class ScreenDoorZombie extends ProtectedZombie {
 

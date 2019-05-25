@@ -81,7 +81,7 @@ import fr.umlv.zen5.KeyboardKey;
 	    private float timeScale;	//Vitesse génerale du jeu
 	    
 	    private int gameWait;
-	    private final int maxFps = 90;
+	    private int maxFps;
 	  
 	    private int utilityObjectCount= 0;
 	    
@@ -107,7 +107,6 @@ import fr.umlv.zen5.KeyboardKey;
 	    	gameStarted = val;
 	    	if(val) {
 	    	levelManager = new LevelManager();
-	    	
 	    	
 	    	
 			Consumer<Integer> resume =  (x) -> { pauseMenu.hide(); timeScale = 1f; };
@@ -146,7 +145,8 @@ import fr.umlv.zen5.KeyboardKey;
 	       	////////////////////////////////////////// Initialisations génerale des resources 
 	    	
 	    	RESOURCES.loadResources();
-	    		    	
+	    	maxFps = RESOURCES.getGameConfig().getConfigInt("maxFPS");
+
 	    	//////////////////////////////////////// Démarage de la boucle principale
 	    	 
 			Application.run(Color.WHITE,context -> {			      
@@ -295,7 +295,12 @@ import fr.umlv.zen5.KeyboardKey;
 	        if (key == KeyboardKey.U) {
 	        	System.out.println("Speed changed to fast");
 	        	timeScale = 5f;
-	        	}
+	        }
+	        
+	        if (key == KeyboardKey.Y) {
+	        	System.out.println("Speed changed to super-fast");
+	        	timeScale = 20f;
+	       }
 	       
 	        
 	    
@@ -430,7 +435,7 @@ import fr.umlv.zen5.KeyboardKey;
 			GameObject firstEnemy = null;
 			for (GameObject gameObject : sceneContent) {
 								
-				if(gameObject.isZombie() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
+				if(gameObject.isZombie() && gameObject.isTargetable() && gameObject.isOnSameRow(o) && gameObject.getPosition().getX() > o.getPosition().getX()) {
 					if (firstEnemy == null) firstEnemy = gameObject;
 
 					// si firstEnemy n'est pas null on compare les distances

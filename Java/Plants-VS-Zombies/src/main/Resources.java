@@ -19,14 +19,12 @@ import base.*;
 import enums.TerrainSearch;
 import plants.*;
 import plants.day.*;
-import plants.fog.SeaShroom;
-import plants.fog.SplitPea;
+import plants.fog.*;
 import plants.night.*;
 import plants.pool.*;
-import plants.roof.CabbagePult;
-import plants.roof.KernelPult;
+import plants.roof.*;
 import ui.*;
-import zombies.*;
+import zombies.ground.*;
 
 //Les resources ont une visibilités de "package"
 public class Resources implements Serializable {
@@ -57,29 +55,17 @@ public class Resources implements Serializable {
 		return zombiesTotalList;
 	}
     
+    /*@SuppressWarnings("rawtypes")
+	private Class[] zombiesTotalList = new Class[] {
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
+			FootballZombie.class, ScreenDoorZombie.class, NewspaperZombie.class, DiscoZombie.class, 
+			DuckZombie.class, SnorkelZombie.class, DolphinRiderZombie.class
+	};*/
+
     @SuppressWarnings("rawtypes")
 	private Class[] zombiesTotalList = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
-	};
-    @SuppressWarnings("rawtypes")
-	public Class[] getGroundZombies() {
-		return groundZombies;
-	}
-
-    @SuppressWarnings("rawtypes")
-	private Class[] groundZombies = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			FootballZombie.class, ScreenDoorZombie.class, /* FlagZombie.class pas lui */
-	};
-    @SuppressWarnings("rawtypes")
-	public Class[] getWaterZombies() {
-		return waterZombies;
-	}
-
-    @SuppressWarnings("rawtypes")
-	private Class[] waterZombies = new Class[] {
-			SimpleZombie.class
+			DiggerZombie.class
 	};
 
     
@@ -124,22 +110,22 @@ public class Resources implements Serializable {
     
 
     
-    private  UI_PlantButton[] plantButtonList;  
+    private UI_PlantButton[] plantButtonList;  
     
  
-    private  Sprite[] errorAnim;   
+    private Sprite[] errorAnim;   
     
     
     public Sprite getErrorSprite() {
 		return errorAnim[0];
 	}
     
-    Resources()  {
+    Resources() {
     	loadedImages = new HashMap<String, Image>(); 
     	loadedAnimation = new HashMap<String, Sprite[]>();
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
-    	money = 100;
+    	money = 10000;
     	
     	gameConfig = new GameConfig();
     	
@@ -220,7 +206,7 @@ public class Resources implements Serializable {
     	cutImage("plants/CabbagePult.png", 33, 1, new Vector2(0.75f, 0.75f), 70);
     	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
     	cutImage("plants/SeaShroom.png", 1, 1, new Vector2(0.5f, 0.5f), 220);
-    	cutImage("plants/SplitPea.png", 1, 1, new Vector2(0.75f, 0.75f), 500);
+    	cutImage("plants/SplitPea.png", 1, 1, new Vector2(0.5f, 0.75f), 95);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
@@ -232,14 +218,23 @@ public class Resources implements Serializable {
     	cutImage("zombies/BucketHeadZombie.png", 1, 1, 450);
     	cutImage("zombies/FootballZombie.png", 2, 1, 80);
     	cutImage("zombies/ScreenDoorZombie.png", 1, 1, 320);
+    	cutImage("zombies/NewspaperZombie.png", 1, 1, 360);
+    	cutImage("zombies/JacksonZombie.png", 1, 1, 140);
+    	cutImage("zombies/DiscoZombie.png", 1, 1, 140);
+    	cutImage("zombies/DolphinRiderZombie.png", 1, 1, new Vector2(0.5f, 0.4f), 150);
+    	cutImage("zombies/DuckZombie.png", 1, 1, 90);
+    	cutImage("zombies/SnorkelZombie.png", 1, 1, new Vector2(0.5f, 0.4f), 120);
+    	cutImage("zombies/DiggerZombie.png", 1, 1, 90);
+    	cutImage("zombies/DiggerZombie2.png", 1, 1, new Vector2(0.5f, 0.8f), 150);
 
+    	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/snowpeash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
     	cutImage("plants/Bubble.png", 1, 1, new Vector2(0.5f, 1.25f), 120);
     	cutImage("plants/Fume.png", 1, 1, new Vector2(0.1f, 1.5f), 120);
     	cutImage("plants/FirePea.png", 2, 2, new Vector2(0.5f,2f), 320);
-    	cutImage("plants/Cabbage.png", 1, 1,new Vector2(2f, 2f), 70);
-    	cutImage("plants/Corn.png", 1, 1,new Vector2(2f, 2f), 70);
+    	cutImage("plants/Cabbage.png", 1, 1, new Vector2(2f, 2f), 70);
+    	cutImage("plants/Corn.png", 1, 1, new Vector2(2f, 2f), 70);
 
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
@@ -431,7 +426,9 @@ public class Resources implements Serializable {
     }
     
       
-    
+    public Vector2 getTerrainSize() {
+    	return actTerrain.getTerrainSize();
+    }
     private void removeTerrainButtons() {
     	   for(int i = 0; i < terrainButtonList.size(); i++)
     		   terrainButtonList.get(i).destroy();

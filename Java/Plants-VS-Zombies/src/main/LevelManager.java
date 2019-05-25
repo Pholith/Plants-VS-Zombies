@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.util.Random;
 import ui.UI_Sun;
 import zombies.*;
+import zombies.ground.FlagZombie;
 import base.Vector2;
 
 public class LevelManager implements Serializable {
@@ -43,23 +44,21 @@ public class LevelManager implements Serializable {
 
 	
 	// Choisi un zombie aléatoire de la liste en prenant une difficulté
-	@SuppressWarnings({ "unchecked" })
 	private static Class<? extends Zombie> getRandomGroundZombie(int coeffDifficulty) {
 		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
-		var listOfZombies = GameManager.getResources().getGroundZombies();
-	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
+		var listOfZombies = GameManager.getResources().getGameInfo().getListOfGroundZombies();
+	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.size();
 	    if (new Random().nextBoolean()) {
 			rnd /= 2;
 		}
-	    return listOfZombies[rnd];
+	    return listOfZombies.get(rnd);
 	}
 	
-	@SuppressWarnings({ "unchecked" })
 	private static Class<? extends Zombie> getRandomWaterZombie(int coeffDifficulty) {
 		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
-		var listOfZombies = GameManager.getResources().getWaterZombies();
-	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.length;
-	    return listOfZombies[rnd];
+		var listOfZombies = GameManager.getResources().getGameInfo().getListOfWaterZombies();
+	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.size();
+	    return listOfZombies.get(rnd);
 	}
 	
 

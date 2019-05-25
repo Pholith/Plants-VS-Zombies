@@ -27,7 +27,6 @@ public class TangleKelp extends Plant {
 			new Explosion(getPosition());
 			destroy();
     	}
-				
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Color;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -11,6 +12,7 @@ import enums.EnumTerrain;
 import ui.UI_Button;
 import ui.UI_Label;
 import ui.UI_Sprite;
+import zombies.Zombie;
 
 public final class MainMenu {
 	
@@ -66,7 +68,7 @@ public final class MainMenu {
 		return listOfZombies;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unused" })
+	@SuppressWarnings({ "rawtypes", "unused", "unchecked" })
 	private static void plant_menu(EnumTerrain terrain) {
 		GameManager.getInstance().clearScene();
 		new UI_Label(new Vector2(1.5f, 1.5f), "Choisissez vos plantes", Color.green, 4f);
@@ -81,13 +83,41 @@ public final class MainMenu {
 		
 		Class[] listOfZombies = selectZombies();
 		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
+
+		
+		// On construit et détruit des zombies pour les ranger dans l'eau ou non 
+		
+		ArrayList<Class<? extends Zombie>> groundZombies = new ArrayList<Class<? extends Zombie>>();
+		ArrayList<Class<? extends Zombie>> waterZombies = new ArrayList<Class<? extends Zombie>>();
+		
+		for (Class zombieClass : totalZombies) {
+			
+			Constructor<? extends Zombie> constructor;
+			
+			try {
+				
+				constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
+				Zombie instance = constructor.newInstance(new Object[] {new Vector2(5, 5)});
+				if (instance.isWaterZombie()) {
+					waterZombies.add(zombieClass);
+				} else {
+					groundZombies.add(zombieClass);
+				}
+				instance.destroy();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
 		
 		var numberOfPlantSelectable = GameManager.getResources().getGameConfig().getConfigDouble("numberOfPlantSelectable");
 
 		for(i = 0; i < totalplants.length; i++) {
 			int b = i; // obligé
 			listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/" + totalplants[i].getSimpleName() +"_icon.png"), 75), func -> {
-					selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, listOfZombies, terrain));} );}));			
+					selectButtonList(listButtons, listOfPlants, totalplants, b, fonc -> {GameManager.getResources().startGame(new GameInfo(listOfPlants, groundZombies, waterZombies, terrain));} );}));			
 		}
 		listButtons.add(new UI_Button(new Vector2(1.5f+ (i%5) *1.5f, 2.5f + 1f* (i/5)), 1f, Color.black, new Sprite(GameManager.getResources().getImageByPath("cards/shovel_icon.png"), 75), func -> {selectButtonList(listButtons, listOfPlants, totalplants, -1, fonc -> {});}));			
 		

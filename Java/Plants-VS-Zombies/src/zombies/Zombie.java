@@ -13,18 +13,25 @@ public abstract class Zombie extends LivingEntity {
 	private static final long serialVersionUID = -1527264097639594956L;
 
 
-	public Zombie(int health, Vector2 position, String animationPath, float animSpeed, float speed) {
+	public Zombie(int health, Vector2 position, String animationPath, float animSpeed, float speed, boolean inWater) {
 		super(health, position, animationPath, animSpeed + (float)Math.random());
 		this.speed = -speed/400 * GameManager.getResources().getGameConfig().getConfigFloat("zombieSpeedCoeff"); // pour avoir une petite vitesse sans avoir des 0.00002f
-	
+		this.inWater = inWater;
 	}
-
+	public Zombie(int health, Vector2 position, String animationPath, float animSpeed, float speed) {
+		this(health, position, animationPath, animSpeed, speed, false);
+	}
+		
     private float speed;
     private int dammage = 25;
-    
-        
+    private boolean inWater;
+       
     @Override
     public String name() {return "Zombie";}
+    
+    public boolean isWaterZombie() {
+    	return inWater;
+    }
     
     @Override
     public void start() {
@@ -34,6 +41,11 @@ public abstract class Zombie extends LivingEntity {
     public boolean isZombie() {
     	return !hypnotised;
     }
+    @Override
+    public boolean isTargetable() {
+    	return true;
+    }
+    
     private float eatCouldown = 0;
 
     public void addSpeed(float f) {
@@ -59,6 +71,42 @@ public abstract class Zombie extends LivingEntity {
     public boolean isHypnotised() {
     	return hypnotised;
     }
+    public void onEating() {}; // Pour le zombie plongeur
+    
+    // Renvoie vrai si les conditions pour manger sont remplies
+    protected boolean conditionToEat(LivingEntity firstEnemy) {
+    	return (!hypnotised && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5 || (hypnotised && firstEnemy.getPosition().getX() < this.getPosition().getX() + 0.5));
+    }
+    
+    
+    // Retourne faux si le zombie ne mange pas
+    protected LivingEntity findEnemy() {
+    	LivingEntity enemy;
+    	if (hypnotised) {
+    		enemy = (LivingEntity) GameManager.getInstance().getFirstZombie(this);
+		} else {
+			enemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
+		}
+    	return enemy;
+    }
+    protected boolean eat() {
+    	
+    	// si le zombie rencontre une plante devant lui et assez proche, il la mange
+    	
+    	var enemy = findEnemy();
+    	
+    	if (enemy != null && conditionToEat(enemy)) {
+        	
+    		eatCouldown += GameManager.getInstance().getDeltatime();
+    		onEating();
+    		if (eatCouldown >= 2f) {
+    			enemy.takeDammage(dammage);
+        		eatCouldown = 0;
+			}
+    		return true;
+    	}
+		return false;
+    }
     @Override
     public void update() {
     	super.update();
@@ -77,25 +125,9 @@ public abstract class Zombie extends LivingEntity {
 			}
 		}
 
-    	LivingEntity firstEnemy;
-    	if (hypnotised) {
-        	firstEnemy = (LivingEntity) GameManager.getInstance().getFirstZombie(this);
-		} else {
-			firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
-		}
-    	// si le zombie rencontre une plante devant lui et assez proche, il la mange
-    	if (firstEnemy != null && (!hypnotised && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5 || (hypnotised && firstEnemy.getPosition().getX() < this.getPosition().getX() + 0.5))) {
-    	
-    		eatCouldown += GameManager.getInstance().getDeltatime();
+    	if (eat()) {
     		
-    		if (eatCouldown >= 2f) {
-        		firstEnemy.takeDammage(dammage);
-        		eatCouldown = 0;
-			}
-    		
-    		
-    	}
-    	else {
+    	} else {
     		if (slowed) {
     			this.translation(new Vector2(speed / 3, 0f));
 			}
