@@ -4,6 +4,12 @@ package base;
 import java.io.Serializable;
 import java.util.*;
 
+import plants.AttackingPlant;
+import plants.night.AttackingShroom;
+import plants.night.ExplodingShroom;
+import plants.night.Shroom;
+import plants.pool.LilyPad;
+
 public class Square implements Serializable {
 
 	/**
@@ -51,8 +57,25 @@ public class Square implements Serializable {
     		contain.get(contain.size()-1).destroy();	
     	
     }
-  
+    public boolean hasShroom() {
+		for (LivingEntity livingEntity : contain) {
+			var superClazz = livingEntity.getClass().getSuperclass(); // TODO rendre plus générique
+			if (superClazz == Shroom.class || superClazz == ExplodingShroom.class || superClazz == AttackingShroom.class) {
+				return true;
+			}
+		}
+		return false;
+    }
     
+    public boolean hasLilyPad() {
+		for (LivingEntity livingEntity : contain) {
+			if (livingEntity.getClass() == LilyPad.class) {
+				return true;
+			}
+		}
+		return false;
+    	
+    }
     
 	public ArrayList<LivingEntity> getContain() {
 		return contain;

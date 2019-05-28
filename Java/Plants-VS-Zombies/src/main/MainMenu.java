@@ -3,7 +3,9 @@ package main;
 import java.awt.Color;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import base.Constant;
 import base.Sprite;
@@ -43,10 +45,27 @@ public final class MainMenu {
 	private static int selectCnt = 0;
 	private static int actCnt = 0;
 	
+	
+	// Sélectionne aléatoirement les zombies du jeu selon le terrain puis créé l'interface
 	@SuppressWarnings("rawtypes")
-	private static Class[] selectZombies() {
-		Class[] listOfZombies = new Class[6];
-		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
+	private static Class[] selectZombies(EnumTerrain terrain) {
+		
+		int numberOfZombieType = GameManager.getResources().getGameConfig().getConfigInt("numberOfZombieType");
+		
+		Class[] listOfZombies = new Class[numberOfZombieType];
+		
+		
+		Class[] totalZombies;
+
+		if (GameInfo.isPool(terrain)) {
+			
+			totalZombies = Stream.concat(Arrays.stream(GameManager.getResources().getZombiesTotalList()), Arrays.stream(GameManager.getResources().getZombiesWaterList()))
+                    .toArray(Class[]::new);
+			
+		} else {
+			totalZombies = GameManager.getResources().getZombiesTotalList();
+		}
+
 
 		new UI_Label(new Vector2(8,1.5f), "Ces Zombies vont vous attaquer", Color.red, 4f);
 
@@ -55,19 +74,20 @@ public final class MainMenu {
 		listOfZombies[1] = totalZombies[1];
 		
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 2; i < numberOfZombieType; i++) {
 			int rand = (int) (Math.random() * totalZombies.length); // à optimiser 
 
-			listOfZombies[2 + i] = totalZombies[rand];
+			listOfZombies[i] = totalZombies[rand];
 		}
 		
 		for (int j = 0; j < listOfZombies.length; j++) {
-			new UI_Sprite(new Vector2(9.5f+ (j % 3) *1f, 4f + 2f* (j / 3)), GameManager.getResources().getAnimationByPath("zombies/" + listOfZombies[j].getSimpleName() +".png")[0]);
+			new UI_Sprite(new Vector2(9.5f+ (j % 3) *1f, 4f + 1.6f* (j / 3)), GameManager.getResources().getAnimationByPath("zombies/" + listOfZombies[j].getSimpleName() +".png")[0]);
 		}
 
 		return listOfZombies;
 	}
 	
+	// constuit le menu de sélection des plantes
 	@SuppressWarnings({ "rawtypes", "unused", "unchecked" })
 	private static void plant_menu(EnumTerrain terrain) {
 		GameManager.getInstance().clearScene();
@@ -81,16 +101,16 @@ public final class MainMenu {
 		Class[] listOfPlants = new Class[selectCnt];
 		Class[] totalplants = GameManager.getResources().getPlantsTotalList();
 		
-		Class[] listOfZombies = selectZombies();
-		Class[] totalZombies = GameManager.getResources().getZombiesTotalList();
-
+		Class[] listOfZombies = selectZombies(terrain);
+		
+		
 		
 		// On construit et détruit des zombies pour les ranger dans l'eau ou non 
 		
 		ArrayList<Class<? extends Zombie>> groundZombies = new ArrayList<Class<? extends Zombie>>();
 		ArrayList<Class<? extends Zombie>> waterZombies = new ArrayList<Class<? extends Zombie>>();
 		
-		for (Class zombieClass : totalZombies) {
+		for (Class zombieClass : listOfZombies) {
 			
 			Constructor<? extends Zombie> constructor;
 			

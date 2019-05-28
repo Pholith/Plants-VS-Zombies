@@ -57,7 +57,12 @@ public class LevelManager implements Serializable {
 	private static Class<? extends Zombie> getRandomWaterZombie(int coeffDifficulty) {
 		// Choisir un nombre random inclus dans la liste, puis le réduire un peu pour ne pas avoir trop de difficulté
 		var listOfZombies = GameManager.getResources().getGameInfo().getListOfWaterZombies();
-	    int rnd = new Random().nextInt(coeffDifficulty) % listOfZombies.size();
+
+		int rnd = new Random().nextInt(coeffDifficulty);
+		if (listOfZombies.size() >= 1) {
+			rnd = rnd % listOfZombies.size();
+
+		}
 	    return listOfZombies.get(rnd);
 	}
 	
@@ -115,9 +120,9 @@ public class LevelManager implements Serializable {
 	public void levelEvent() {
 
 		// incrémentation de tous les compteurs
-		counterOfLastZombie += GameManager.getInstance().getDeltatime();
-		counterOfLastWave += GameManager.getInstance().getDeltatime();
-		counterBeforeEnd += GameManager.getInstance().getDeltatime();
+		counterOfLastZombie 	+= GameManager.getInstance().getDeltatime();
+		counterOfLastWave 		+= GameManager.getInstance().getDeltatime();
+		counterBeforeEnd		+= GameManager.getInstance().getDeltatime();
 
 		if (!GameManager.getResources().getGameInfo().isNight()) {
 			counterOfSun += GameManager.getInstance().getDeltatime();

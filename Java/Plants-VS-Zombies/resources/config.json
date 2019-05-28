@@ -7,6 +7,7 @@
 	"numberOfPlantSelectable": "6",
 
 	"zombieSpeedCoeff": "1",
+	"numberOfZombieType": "9",
 
 	"maxFPS": "60"
 }

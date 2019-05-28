@@ -25,6 +25,9 @@ import plants.pool.*;
 import plants.roof.*;
 import ui.*;
 import zombies.ground.*;
+import zombies.water.DolphinRiderZombie;
+import zombies.water.DuckZombie;
+import zombies.water.SnorkelZombie;
 
 //Les resources ont une visibilités de "package"
 public class Resources implements Serializable {
@@ -37,6 +40,7 @@ public class Resources implements Serializable {
     private ArrayList<UI_Button> terrainButtonList;
     private UI_Element selectedUi;
     private float plantSpawnCounter;
+    
     @SuppressWarnings("unused")
 	private Dimension screenSize;
     
@@ -54,6 +58,10 @@ public class Resources implements Serializable {
 	public Class[] getZombiesTotalList() {
 		return zombiesTotalList;
 	}
+    @SuppressWarnings("rawtypes")
+	public Class[] getZombiesWaterList() {
+		return zombiesWaterList;
+	}
     
     /*@SuppressWarnings("rawtypes")
 	private Class[] zombiesTotalList = new Class[] {
@@ -65,7 +73,11 @@ public class Resources implements Serializable {
     @SuppressWarnings("rawtypes")
 	private Class[] zombiesTotalList = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			DiggerZombie.class
+			DiggerZombie.class, DiscoZombie.class, FootballZombie.class, NewspaperZombie.class, ScreenDoorZombie.class
+	};
+	@SuppressWarnings("rawtypes")
+	private Class[] zombiesWaterList = new Class[] {
+			DolphinRiderZombie.class, DuckZombie.class, SnorkelZombie.class
 	};
 
     
@@ -137,6 +149,7 @@ public class Resources implements Serializable {
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(SeaShroom.class.getSimpleName(), TerrainSearch.emptyWater);
+
     }
 
 
@@ -443,10 +456,16 @@ public class Resources implements Serializable {
     	// Renvoie les données de la plante pour générer les bonnes cases    
     	if(shovelMode) {
     		actTerrain.generateButtons(terrainButtonList, buttonFunc, TerrainSearch.notEmptyPlant);
-    	}else {
-    		actTerrain.generateButtons(terrainButtonList, buttonFunc, ((specialSearch.containsKey(gameInfo.getListOfPlants()[selectedPlant].getSimpleName()  ))? specialSearch.get(gameInfo.getListOfPlants()[selectedPlant].getSimpleName()) :TerrainSearch.emptySurface));
+    	} else {
+    		
+    		TerrainSearch searchMode;
+    		if (specialSearch.containsKey(gameInfo.getListOfPlants()[selectedPlant].getSimpleName())) {
+    			searchMode = specialSearch.get(gameInfo.getListOfPlants()[selectedPlant].getSimpleName());
+			} else {
+				searchMode = TerrainSearch.emptySurface;
+			}
+    		actTerrain.generateButtons(terrainButtonList, buttonFunc, searchMode);
     	}
-    	
     	
 	    if(terrainButtonList.size() == 0)
     		selectedPlant = -1;

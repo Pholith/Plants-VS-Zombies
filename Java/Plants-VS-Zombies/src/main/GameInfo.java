@@ -46,6 +46,9 @@ public class GameInfo {
 	public boolean isPool() {
 		return selectedTerrain == EnumTerrain.pool || selectedTerrain == EnumTerrain.fog;
 	}
+	public static boolean isPool(EnumTerrain terrain) {
+		return terrain == EnumTerrain.pool || terrain == EnumTerrain.fog;
+	}
 	
 	
 	

@@ -75,7 +75,7 @@ public class Terrain extends GameObject {
 		switch (searchMode) {
 
 		case emptySurface:   	   					
-			return (ent.size() == 0 && !square.isInWater()) || (ent.size() == 1 && square.isInWater());			
+			return (ent.size() == 0 && !square.isInWater()) || (square.hasLilyPad() && ent.size() == 1 && square.isInWater());			
 
 		case emptyGround:   	   					
 			return (ent.size() == 0 && !square.isInWater());			
@@ -84,7 +84,20 @@ public class Terrain extends GameObject {
 			return (ent.size() == 0 && square.isInWater());			
 			
 		case notEmptyPlant:  
-			return (ent.size() > 0);					
+			return (ent.size() > 0);
+			
+			// TODO 
+		case graveStone:
+			
+			break;
+		case roof:
+			
+			break;
+		case shroom:
+			return square.hasShroom();			
+
+default:
+			break;					
 		}
 		
 		return false;	
