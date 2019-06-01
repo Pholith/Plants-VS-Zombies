@@ -37,7 +37,7 @@ import fr.umlv.zen5.KeyboardKey;
 		private static final long serialVersionUID = 5825660919828564296L;
 
 		private static final GameManager SINGLE_INSTANCE = new GameManager();
-	    public static GameManager getInstance() { return SINGLE_INSTANCE;  }
+	    public static GameManager getInstance() { return SINGLE_INSTANCE; }
 	    
 	    private GameManager() //Ne pas initialiser de game object dans cette partie du code  
 	    { 
@@ -487,6 +487,9 @@ import fr.umlv.zen5.KeyboardKey;
 		
 		public void endGame(boolean win) {
 
+			
+			System.out.println("Partie terminé");
+			
 			clearScene();
 			
 			

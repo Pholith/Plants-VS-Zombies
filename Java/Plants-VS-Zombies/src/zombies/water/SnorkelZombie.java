@@ -1,5 +1,6 @@
 package zombies.water;
 
+import base.LivingEntity;
 import base.Vector2;
 import zombies.Zombie;
 
@@ -26,8 +27,11 @@ public class SnorkelZombie extends Zombie {
 		return !isUnderWater;
 	}
 	private boolean isUnderWater;
+
 	@Override
-	public void onEating() {
+	protected void eatPlant(LivingEntity enemy) {
+		super.eatPlant(enemy);
 		isUnderWater = false;
+
 	}
 }

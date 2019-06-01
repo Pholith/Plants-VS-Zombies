@@ -3,6 +3,7 @@ package base;
 
 import main.GameManager;
 import projectiles.Projectile;
+import zombies.Zombie;
 
 
 public abstract class LivingEntity extends GameObject {
@@ -64,7 +65,7 @@ public abstract class LivingEntity extends GameObject {
      * Renvoie vrai si les dégats ont tué l'entité vivante
      */
     public boolean takeDammage(int dammage) {
-    	return takeDammage(dammage, null);
+    	return takeDammage(dammage, (Projectile) null);
     }
     public boolean takeDammage(int dammage, Projectile lobProjectile) {
     	health -= onTakeDammage(dammage, lobProjectile);
@@ -74,11 +75,23 @@ public abstract class LivingEntity extends GameObject {
     	}
     	return false;
     }
+    public boolean takeDammage(int dammage, Zombie zombie) {
+    	health -= onTakeDammage(dammage, zombie);
+    	if (health <= 0) {
+    		destroy();
+    		return true;
+    	}
+    	return false;
+    }
     // cette méthode sert pour les zombies qui encaissent des dégats via leurs outils
     public int onTakeDammage(int dammage) {
-    	return onTakeDammage(dammage, null);
+    	return onTakeDammage(dammage, (Zombie) null);
     }
     public int onTakeDammage(int dammage, Projectile p) {
+    	return dammage;
+    }
+    
+    public int onTakeDammage(int dammage, Zombie z) {
     	return dammage;
     }
     

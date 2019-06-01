@@ -27,7 +27,7 @@ public class Jalapeno extends Plant {
 			
 			@Override
 			public Boolean apply(GameObject t) {
-				if (t.isZombie() && (t.getPosition().isOnSameCol(getPosition()) || t.getPosition().isOnSameRow(getPosition()))) {
+				if (t.isZombie() && t.getPosition().isOnSameRow(getPosition())) {
 					return Boolean.valueOf(true);
 				}
 				return Boolean.valueOf(false);

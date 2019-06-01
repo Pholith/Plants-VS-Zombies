@@ -1,6 +1,8 @@
 package zombies;
 
+
 import base.LivingEntity;
+import base.Terrain;
 import base.Vector2;
 import main.GameManager;
 
@@ -23,7 +25,7 @@ public abstract class Zombie extends LivingEntity {
 	}
 		
     private float speed;
-    private int dammage = 25;
+    private int dammage = 20;
     private boolean inWater;
        
     @Override
@@ -46,7 +48,9 @@ public abstract class Zombie extends LivingEntity {
     	return true;
     }
     
-    private float eatCouldown = 0;
+    
+    private float eatDelay = 2f;
+    private float eatCouldown = eatDelay;
 
     public void addSpeed(float f) {
     	speed += -f/400;
@@ -71,7 +75,23 @@ public abstract class Zombie extends LivingEntity {
     public boolean isHypnotised() {
     	return hypnotised;
     }
-    public void onEating() {}; // Pour le zombie plongeur
+	public void changeRow() {
+		var position = Terrain.positionToCase(getPosition());
+		Vector2 translationV;
+		
+		if (position.getY() > GameManager.getResources().getTerrainSize().getY() - 2) {
+			translationV = new Vector2(0, -1);
+			
+		} else if (position.getY() < 1) {
+			translationV = new Vector2(0, 1);
+		
+		} else {
+			translationV = new Vector2(0, 1);
+		}
+
+		translationFixed(translationV);
+		
+	}
     
     // Renvoie vrai si les conditions pour manger sont remplies
     protected boolean conditionToEat(LivingEntity firstEnemy) {
@@ -89,7 +109,14 @@ public abstract class Zombie extends LivingEntity {
 		}
     	return enemy;
     }
-    protected boolean eat() {
+
+    // Inflige des dégats ou autre sur la plante
+    protected void eatPlant(LivingEntity enemy) {
+		enemy.takeDammage(dammage, this);
+    }
+    
+
+    protected boolean eating() {
     	
     	// si le zombie rencontre une plante devant lui et assez proche, il la mange
     	
@@ -98,9 +125,8 @@ public abstract class Zombie extends LivingEntity {
     	if (enemy != null && conditionToEat(enemy)) {
         	
     		eatCouldown += GameManager.getInstance().getDeltatime();
-    		onEating();
-    		if (eatCouldown >= 2f) {
-    			enemy.takeDammage(dammage);
+    		if (eatCouldown >= eatDelay) {
+    			eatPlant(enemy);
         		eatCouldown = 0;
 			}
     		return true;
@@ -125,7 +151,7 @@ public abstract class Zombie extends LivingEntity {
 			}
 		}
 
-    	if (eat()) {
+    	if (eating()) {
     		
     	} else {
     		if (slowed) {

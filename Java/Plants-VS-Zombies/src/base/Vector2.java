@@ -85,8 +85,7 @@ public class Vector2 implements Serializable {
 	    
 	    // Possibilité de le changer quand on aura un getRow
 	    public boolean isOnSameRow(Vector2 v) { // TO UPDATE
-	    	float distanceBen = 0.45f;
-	    	return (y < v.y+distanceBen && y > v.y- distanceBen);
+	    	return Terrain.positionToCase(new Vector2(x, 0)).getY() == Terrain.positionToCase(new Vector2(v.getY(), 0)).getY();
 	    }
 	    public boolean isOnSameCol(Vector2 v) {
 	    	return Terrain.positionToCase(new Vector2(x, 0)).getX() == Terrain.positionToCase(new Vector2(v.getX(), 0)).getX();

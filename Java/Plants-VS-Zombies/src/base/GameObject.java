@@ -38,6 +38,11 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     }
     
     /* Détruit un gameObject */
+    public void forcedDestruction() {
+    	GameManager.getInstance().removeGameObjectFromScene(this);
+    	System.out.println("Destroyed (forced): "+name());
+    }
+    
     public void destroy() {
     	onDestroy();
     	GameManager.getInstance().removeGameObjectFromScene(this);

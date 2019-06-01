@@ -73,7 +73,10 @@ public class Resources implements Serializable {
     @SuppressWarnings("rawtypes")
 	private Class[] zombiesTotalList = new Class[] {
 			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
-			DiggerZombie.class, DiscoZombie.class, FootballZombie.class, NewspaperZombie.class, ScreenDoorZombie.class
+			FootballZombie.class, NewspaperZombie.class, ScreenDoorZombie.class,
+			Zombonie.class, DiggerZombie.class, DiscoZombie.class,
+			
+			GargantuarZombie.class,
 	};
 	@SuppressWarnings("rawtypes")
 	private Class[] zombiesWaterList = new Class[] {
@@ -88,8 +91,8 @@ public class Resources implements Serializable {
 			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
-			SeaShroom.class, SplitPea.class ,
-			CabbagePult.class, KernelPult.class
+			SeaShroom.class, SplitPea.class , Starfruit.class,
+			CabbagePult.class, KernelPult.class, Garlic.class,
 	};
 
     
@@ -220,6 +223,10 @@ public class Resources implements Serializable {
     	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
     	cutImage("plants/SeaShroom.png", 1, 1, new Vector2(0.5f, 0.5f), 220);
     	cutImage("plants/SplitPea.png", 1, 1, new Vector2(0.5f, 0.75f), 95);
+    	cutImage("plants/Starfruit.png", 1, 1, new Vector2(0.5f, 0.5f), 140);
+    	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
+    	cutImage("plants/Garlic.png", 9, 2, new Vector2(0.5f, 0.6f), 70);
+    	cutImage("plants/Garlic_cracked.png", 1, 1, 100);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
@@ -239,6 +246,9 @@ public class Resources implements Serializable {
     	cutImage("zombies/SnorkelZombie.png", 1, 1, new Vector2(0.5f, 0.4f), 120);
     	cutImage("zombies/DiggerZombie.png", 1, 1, 90);
     	cutImage("zombies/DiggerZombie2.png", 1, 1, new Vector2(0.5f, 0.8f), 150);
+    	cutImage("zombies/GargantuarZombie.png", 1, 1, 200);
+    	cutImage("zombies/Zombonie.png", 1, 1, 520);
+    	cutImage("zombies/ImpZombie.png", 19, 1, 80);
 
     	
     	cutImage("plants/peash.png", 1, 1, new Vector2(0.5f,2.75f), 100);
@@ -248,6 +258,7 @@ public class Resources implements Serializable {
     	cutImage("plants/FirePea.png", 2, 2, new Vector2(0.5f,2f), 320);
     	cutImage("plants/Cabbage.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Corn.png", 1, 1, new Vector2(2f, 2f), 70);
+    	cutImage("plants/Star.png", 1, 1, new Vector2(0.4f, 0.4f), 70);
 
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
@@ -322,10 +333,10 @@ public class Resources implements Serializable {
 		try {
 			// créé des plantes et les détruits juste ensuite pour accéder aux champs plutôt que de faire plein de réflexion statique qu'il fait 
 			Constructor<? extends Plant> constructor = plants[i].getDeclaredConstructor(new Class[] {Vector2.class});
-			Plant plant = constructor.newInstance(new Object[] { new Vector2(1, 1) });
+			Plant plant = constructor.newInstance(new Object[] { new Vector2(-1, -1) });
 			reloadTime = plant.getReloadTime();
 			listOfCosts[i] = plant.getCost();
-			plant.destroy();
+			plant.forcedDestruction();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
