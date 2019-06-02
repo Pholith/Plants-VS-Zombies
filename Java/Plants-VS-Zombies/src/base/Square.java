@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import plants.AttackingPlant;
+import plants.fog.Pumpkin;
 import plants.night.AttackingShroom;
 import plants.night.ExplodingShroom;
 import plants.night.Shroom;
@@ -67,14 +68,45 @@ public class Square implements Serializable {
 		return false;
     }
     
+    /* Renvoie vraie si une plante normal peut être posée sur la case
+     * 
+     */
+    public boolean canBePlacedNewGroundPlant() {
+    	// bloc d'eau
+    	if (inWater) {
+    		if (hasLilyPad()) {
+    			
+				if (hasPumpkin()) {
+					return contain.size() < 3;
+				}
+				return contain.size() < 2;
+
+			}
+			return false;
+    	}
+    	// bloc normal
+    	if (hasPumpkin()) {
+			return contain.size() < 2;
+		}
+		return contain.size() < 1;
+    	
+    }
+    public boolean hasPumpkin() {
+		for (LivingEntity livingEntity : contain) {
+			if (livingEntity.getClass() == Pumpkin.class) {
+				return true;
+			}
+		}
+		return false;
+    }
+    
     public boolean hasLilyPad() {
 		for (LivingEntity livingEntity : contain) {
 			if (livingEntity.getClass() == LilyPad.class) {
 				return true;
 			}
 		}
-		return false;
-    	
+		return false;	
     }
     
 	public ArrayList<LivingEntity> getContain() {

@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import enums.EnumTerrain;
 import enums.RenderMode;
@@ -71,11 +72,11 @@ public class Terrain extends GameObject {
 	
 	boolean checkSquare(Square square, TerrainSearch searchMode) {
 		ArrayList<LivingEntity> ent = square.getContain();
-			
+
 		switch (searchMode) {
 
 		case emptySurface:   	   					
-			return (ent.size() == 0 && !square.isInWater()) || (square.hasLilyPad() && ent.size() == 1 && square.isInWater());			
+			return square.canBePlacedNewGroundPlant();			
 
 		case emptyGround:   	   					
 			return (ent.size() == 0 && !square.isInWater());			
@@ -86,6 +87,9 @@ public class Terrain extends GameObject {
 		case notEmptyPlant:  
 			return (ent.size() > 0);
 			
+		case possibleTerrain: // pour la citrouille
+			return (square.canBePlacedNewGroundPlant() || ent.size() > 0) && !square.hasPumpkin();
+
 			// TODO 
 		case graveStone:
 			
@@ -96,7 +100,7 @@ public class Terrain extends GameObject {
 		case shroom:
 			return square.hasShroom();			
 
-default:
+		default:
 			break;					
 		}
 		

@@ -36,6 +36,15 @@ public abstract class ProtectedZombie extends Zombie {
 		}
 		return 0;
 	}
+	@Override
+	public boolean takeMetalProtection() {
+		if (healthOfProtection <= 0) {
+			return false;
+		}
+		System.out.println("A protection was took by a MagnetShroom");
+		healthOfProtection = 0;
+		return true;
+	}
 	
 	public void doOnLoseProtection() {
 	}

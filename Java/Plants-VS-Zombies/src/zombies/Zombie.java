@@ -165,4 +165,7 @@ public abstract class Zombie extends LivingEntity {
 			GameManager.getInstance().endGame(false);
 		}
     }
+	public boolean takeMetalProtection() {
+		return false;
+	}
 }

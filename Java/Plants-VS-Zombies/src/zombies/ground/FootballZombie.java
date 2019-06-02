@@ -14,5 +14,7 @@ public class FootballZombie extends ProtectedZombie {
 		super(100, position, "zombies/FootballZombie.png", 5f, 1.5f, 300);
 
 	}
+	@Override
+    public String name() {return "FootballZombie";}
 
 }

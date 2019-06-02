@@ -33,6 +33,7 @@ import zombies.water.SnorkelZombie;
 public class Resources implements Serializable {
 	
 	private static final long serialVersionUID = -719443022268576451L;
+	
 	private final Map<String,Image> loadedImages;
     private final Map<String,Sprite[]> loadedAnimation;
     private Terrain actTerrain;
@@ -91,7 +92,7 @@ public class Resources implements Serializable {
 			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
-			SeaShroom.class, SplitPea.class , Starfruit.class,
+			SeaShroom.class, SplitPea.class , Starfruit.class, Pumpkin.class, MagnetShroom.class,
 			CabbagePult.class, KernelPult.class, Garlic.class,
 	};
 
@@ -152,6 +153,7 @@ public class Resources implements Serializable {
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(SeaShroom.class.getSimpleName(), TerrainSearch.emptyWater);
+    	specialSearch.put(Pumpkin.class.getSimpleName(), TerrainSearch.possibleTerrain);
 
     }
 
@@ -227,6 +229,10 @@ public class Resources implements Serializable {
     	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
     	cutImage("plants/Garlic.png", 9, 2, new Vector2(0.5f, 0.6f), 70);
     	cutImage("plants/Garlic_cracked.png", 1, 1, 100);
+    	cutImage("plants/Pumpkin1.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
+    	cutImage("plants/Pumpkin2.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
+    	cutImage("plants/Pumpkin3.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
+    	cutImage("plants/MagnetShroom.png", 1, 1, new Vector2(0.5f, 0.6f), 160);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
