@@ -93,7 +93,7 @@ public class Resources implements Serializable {
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
 			SeaShroom.class, SplitPea.class , Starfruit.class, Pumpkin.class, MagnetShroom.class,
-			CabbagePult.class, KernelPult.class, Garlic.class,
+			CabbagePult.class, KernelPult.class, Garlic.class, Plantern.class
 	};
 
     
@@ -265,7 +265,10 @@ public class Resources implements Serializable {
     	cutImage("plants/Cabbage.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Corn.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Star.png", 1, 1, new Vector2(0.4f, 0.4f), 70);
+     	cutImage("plants/plantern.png", 2, 1, new Vector2(0.55f, 0.8f), 200);
 
+     	
+     	
     	
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
