@@ -104,6 +104,7 @@ public class Camera extends GameObject implements Serializable {
 		float texturePixelPerUnit;
 
 		  
+
 		
 		Sprite spr;
 	
@@ -120,6 +121,11 @@ public class Camera extends GameObject implements Serializable {
 		
 		float spriteWidth, spriteHeight;
 
+		
+		
+		if(!obj.isRenderActive())
+			return;
+		
 		
 		spr = obj.display();
 

@@ -1,6 +1,7 @@
 package base;
 
 
+import enums.RenderMode;
 import main.GameManager;
 import projectiles.Projectile;
 import zombies.Zombie;
@@ -21,7 +22,7 @@ public abstract class LivingEntity extends GameObject {
     
 
 	public LivingEntity(int health, Vector2 position, Sprite[] animationSprite, float animSpeed) {
-		super(Terrain.caseToPosition(position));
+		super(Terrain.caseToPosition(position), RenderMode.Sprite, 10);
 		this.health = health;
 		this.animationSprite = animationSprite;
 		
@@ -134,6 +135,10 @@ public abstract class LivingEntity extends GameObject {
   	   return null;
     }
     
+    
+    public float getLightRange() {
+    	return -1f;
+    }
     
     
 }

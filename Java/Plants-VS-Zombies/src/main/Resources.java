@@ -93,7 +93,7 @@ public class Resources implements Serializable {
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
 			SeaShroom.class, SplitPea.class , Starfruit.class, Pumpkin.class, MagnetShroom.class,
-			CabbagePult.class, KernelPult.class, Garlic.class, Plantern.class
+			CabbagePult.class, KernelPult.class, Garlic.class, Plantern.class, GraveBuster.class
 	};
 
     
@@ -154,7 +154,9 @@ public class Resources implements Serializable {
     	specialSearch.put(TangleKelp.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(SeaShroom.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(Pumpkin.class.getSimpleName(), TerrainSearch.possibleTerrain);
+    	specialSearch.put(GraveBuster.class.getSimpleName(), TerrainSearch.graveStone);
 
+    	
     }
 
 
@@ -266,6 +268,10 @@ public class Resources implements Serializable {
     	cutImage("plants/Corn.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Star.png", 1, 1, new Vector2(0.4f, 0.4f), 70);
      	cutImage("plants/plantern.png", 2, 1, new Vector2(0.55f, 0.8f), 200);
+    	cutImage("plants/GraveBuster.png", 1, 1, new Vector2(0.5f, 0.5f), 70);
+
+     	
+     	cutImage("props/gravestone.png", 1, 1, new Vector2(0.5f, 0.6f), 170);
 
      	
      	
@@ -279,10 +285,16 @@ public class Resources implements Serializable {
     	
     	cutImage("particles/end_anim_defeat.png", 5, 12,new Vector2(0.5f,0), (int)(60f / (screenSize.height/900f)) ); 
     	cutImage("particles/end_anim_victory.png", 19, 2,new Vector2(0.5f,0), (int)(35f / (screenSize.height/900f)) ); 
-    	
+    	cutImage("particles/baldi.gif", 1, 107,new Vector2(0.5f,0), (int)(80f / (screenSize.height/900f)) ); 
+    	cutImage("particles/fog.png", 7, 1, new Vector2(-0.2f, 0.5f), 10);
+
     	
     	cutImage("titlepage2.jpg", 1, 1,new Vector2(0.5f,0f), (int)(120f/ (screenSize.height/900f)));    	
 
+    	
+    	
+    	
+    	
     }
     
     
@@ -306,17 +318,21 @@ public class Resources implements Serializable {
 	    break;
 	    case fog:
 	    	terrainSp = new Sprite(getImageByPath("fogTerrain.jpg"),Vector2.zero(), 85);
+	    	
 	    break;
 	    case night_roof:
 	    	
 		break;
 		case roof:
     		terrainSp = new Sprite(getImageByPath("roofTerrain.jpg"),Vector2.zero(), 85);
-
 		break;
+		
+		
+		
 		
 		default:
 		break;
+
     }
     
 	actTerrain = new Terrain(terrainSp, game.getSelectedTerrain());

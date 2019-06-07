@@ -1,10 +1,10 @@
 package plants.pool;
 
-import base.Explosion;
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
+import props.Explosion;
 import zombies.Zombie;
 
 public class Squash extends Plant {

@@ -499,9 +499,12 @@ public final class GameManager implements Serializable {
 
 		clearScene();
 
-		if (win)
-			new UI_AnimatedSprite(new Vector2((resolutionX / Constant.screenPixelPerUnit) / 2f, 0),
+		if (win) {
+			new UI_AnimatedSprite(new Vector2((resolutionX / Constant.screenPixelPerUnit) / 2f, 0),		
 					"particles/end_anim_victory.png", 1.2f, false);
+			new UI_AnimatedSprite(new Vector2( 3+ (resolutionX / Constant.screenPixelPerUnit) / 2f, 3f),
+					"particles/baldi.gif", 0.8f, false);
+	}
 
 		new UI_Label(new Vector2(1f, 1f), (win) ? "Partie gagnée !" : "Partie perdue !",
 				(win) ? Color.green : Color.red, 5f);

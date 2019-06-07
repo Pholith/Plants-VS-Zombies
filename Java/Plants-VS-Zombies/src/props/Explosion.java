@@ -1,4 +1,8 @@
-package base;
+package props;
+
+import base.LivingEntity;
+import base.Terrain;
+import base.Vector2;
 
 public class Explosion extends LivingEntity {
 

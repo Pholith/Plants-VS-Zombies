@@ -1,9 +1,9 @@
 package plants.night;
 
-import base.Explosion;
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
+import props.Explosion;
 import zombies.Zombie;
 
 public class DoomShroom extends ExplodingShroom {

@@ -46,9 +46,21 @@ public class GameInfo {
 	public boolean isPool() {
 		return selectedTerrain == EnumTerrain.pool || selectedTerrain == EnumTerrain.fog;
 	}
-	public static boolean isPool(EnumTerrain terrain) {
-		return terrain == EnumTerrain.pool || terrain == EnumTerrain.fog;
+	public boolean isFog() {
+		return selectedTerrain == EnumTerrain.fog;
 	}
+	
+	
+	public static boolean isNight(EnumTerrain sel) {
+		return sel == EnumTerrain.night_lawn || sel == EnumTerrain.night_roof || sel == EnumTerrain.fog;
+	}
+	public static boolean isPool(EnumTerrain sel) {
+		return sel == EnumTerrain.pool || sel == EnumTerrain.fog;
+	}
+	public static boolean isFog(EnumTerrain sel) {
+		return sel == EnumTerrain.fog;
+	}
+	
 	
 	
 	

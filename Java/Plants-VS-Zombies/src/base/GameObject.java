@@ -20,6 +20,9 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     }
 	private Vector2 position;
 	private final RenderMode renderMode;
+	private boolean renderAcive;
+	
+	
 	  	
 	//Lors de la creation d'un objet, celui-ci est directement ajouté à la scene
     //grace à la fonction "addGameObjectToScene" du GameManager    
@@ -29,6 +32,7 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     	GameManager.getInstance().addGameObjectToScene(this);
     	System.out.println("Created: " + name());
     	this.layer = layer;
+    	renderAcive = true;
     }   
     
     
@@ -134,4 +138,15 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
 		return true;
 	}
 
+	
+	public void setRenderActive(boolean value) {
+		renderAcive = value;
+	}
+	
+	public boolean isRenderActive() {
+		return renderAcive ;
+	}
+	
+	
+	
 }

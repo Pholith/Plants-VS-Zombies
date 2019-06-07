@@ -13,6 +13,7 @@ import enums.RenderMode;
 import enums.TerrainSearch;
 import main.GameInfo;
 import main.GameManager;
+import props.Gravestone;
 import ui.UI_Button;
 
 
@@ -59,13 +60,34 @@ public class Terrain extends GameObject {
 		int i, j;
 	
 		
+		GameInfo inf = GameManager.getResources().getGameInfo();
 
 		for(i = 0; i < sizeY; i++) {
 			for(j = 0; j < 9; j++) {
-				listOfSquares[i][j] = new Square(j,i, (GameManager.getResources().getGameInfo().isPool() && i >= 2 && i < 4)? true : false );
+				listOfSquares[i][j] = new Square(j,i, (inf.isPool() && i >= 2 && i < 4)? true : false,  inf.isFog() && j >= 4 );
 			}	
 		}
-
+		
+	
+		
+		if(terrainType == EnumTerrain.night_lawn) {
+			
+			Vector2 rand;
+			Square sqr;
+			int graveX, graveY;
+			
+			
+    	for(i = 0; i < 5 + Math.random()*2; i++) {
+      		graveX = (int) (Math.random()*sizeX);
+      		graveY = (int) (Math.random()*sizeY);
+    		
+    		 sqr = listOfSquares[graveY][graveX];
+    		
+    		if(sqr.canBePlacedNewGroundPlant()) {
+    			sqr.addContain(new Gravestone(new Vector2(graveX, graveY) ));
+    		}
+    	}
+		}
 		
 	}
 	
@@ -90,10 +112,11 @@ public class Terrain extends GameObject {
 		case possibleTerrain: // pour la citrouille
 			return (square.canBePlacedNewGroundPlant() || ent.size() > 0) && !square.hasPumpkin();
 
-			// TODO 
+
 		case graveStone:
+			return (square.hasGravestone());
+	
 			
-			break;
 		case roof:
 			
 			break;
@@ -145,7 +168,17 @@ public class Terrain extends GameObject {
 	    		System.err.println("Impossible de suprimer l'entité position("+x+" ,"+y+" ) dans la matrice de jeu.");
 	    		return;
 	    	}
+		  	
+		  	
+		  	LivingEntity obj = listOfSquares[y][x].getLast();
+			
 		  	listOfSquares[y][x].destroyLast();
+			
+			if(obj != null && obj.getLightRange() > 0){
+	    		updateFog();
+	    	}
+			
+		  
 	   }
 
     
@@ -158,8 +191,64 @@ public class Terrain extends GameObject {
     	}
     	
     	listOfSquares[y][x].addContain(ent);  
+    	
+    	
+    	if(ent.getLightRange() > 0){
+    		updateFog();
+    	}
+
+
+
     	return listOfSquares[y][x];
     }
+    
+    
+    private void updateFog() {
+    	int i,j,h;
+    	ArrayList<LivingEntity> caseContain;
+    	ArrayList<LivingEntity> lightList = new ArrayList<LivingEntity>();
+    	
+    	Vector2 lampPosition;
+    	float lampRange;
+    	
+
+  
+    	
+  	for(i = 0; i < sizeX; i++) {    		
+    	  	for(j = 0; j < sizeY; j++) {
+    	  		listOfSquares[j][i].setActiveFog(true, true);
+    	  		caseContain = listOfSquares[j][i].getContain();
+    	  	 	
+    	  		if(caseContain == null)
+    	  			continue;
+    	  		
+    	  		for(h = 0; h< caseContain.size(); h++) {
+    	  			if(caseContain.get(h).getLightRange() > 0)    	  				
+    	  				lightList.add(caseContain.get(h));
+    	  	 	}  	  		
+    	}
+  	}
+  	
+  	
+  	
+  	for( i = 0; i < sizeX; i++) {    		
+	  	for( j = 0; j < sizeY; j++) {
+	  		
+	  		for(h = 0; h< lightList.size(); h++) {
+	  		lampPosition = lightList.get(h).getPosition();
+	  		lampRange = lightList.get(h).getLightRange();
+	  		
+	  		listOfSquares[j][i].setActiveFog(( Vector2.distance(lampPosition, Terrain.caseToPosition(i, j)) > lampRange ), false);
+	  		}
+    
+  	}
+    }
+  	
+  	
+    }
+    
+    
+    
     
     
     @Override

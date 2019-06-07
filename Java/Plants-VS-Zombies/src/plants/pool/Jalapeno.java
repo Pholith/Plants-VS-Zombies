@@ -2,12 +2,12 @@ package plants.pool;
 
 import java.util.function.Function;
 
-import base.Explosion;
 import base.GameObject;
 import base.Vector2;
 import enums.EnumReloadTime;
 import main.GameManager;
 import plants.Plant;
+import props.Explosion;
 import zombies.Zombie;
 
 public class Jalapeno extends Plant {

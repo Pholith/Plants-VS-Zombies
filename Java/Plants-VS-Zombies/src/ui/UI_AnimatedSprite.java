@@ -3,6 +3,7 @@ package ui;
 import base.GameObject;
 import base.Sprite;
 import base.Vector2;
+import enums.RenderMode;
 import main.GameManager;
 
 public class UI_AnimatedSprite extends GameObject {
@@ -16,8 +17,8 @@ public class UI_AnimatedSprite extends GameObject {
 	private long timeLoopAnimation;
 	private boolean destroyAfter;
 	
-	public UI_AnimatedSprite(Vector2 pos, String animation, float speed, boolean destroyAfter) {
-		super(pos);
+	public UI_AnimatedSprite(Vector2 pos, String animation, float speed, boolean destroyAfter, int layer) {
+		super(pos, RenderMode.Sprite , layer);
 		this.destroyAfter = destroyAfter;
 		animationSprite = GameManager.getResources().getAnimationByPath(animation);
 		lastFrameUpdate = GameManager.getInstance().getClockMillis();
@@ -28,6 +29,10 @@ public class UI_AnimatedSprite extends GameObject {
 		timeLoopAnimation= (long)(1000.0/speed*5f);
 		
 	}
+	public UI_AnimatedSprite(Vector2 pos, String animation, float speed, boolean destroyAfter) {
+		this(pos, animation, speed, destroyAfter, 90);		
+	}
+	
 	
 
     @Override

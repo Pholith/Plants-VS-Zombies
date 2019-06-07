@@ -128,7 +128,7 @@ public class LevelManager implements Serializable {
 			counterOfSun += GameManager.getInstance().getDeltatime();
 		}
 		// fin du niveau
-		if (counterBeforeEnd >= levelTimeDelay) {
+		if (counterBeforeEnd >=  levelTimeDelay) {
 			  GameManager.getInstance().endGame(true);
 			  return;
 		}

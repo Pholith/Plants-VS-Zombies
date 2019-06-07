@@ -10,6 +10,9 @@ import plants.night.AttackingShroom;
 import plants.night.ExplodingShroom;
 import plants.night.Shroom;
 import plants.pool.LilyPad;
+import props.Fog;
+import props.Gravestone;
+import ui.UI_Sprite;
 
 public class Square implements Serializable {
 
@@ -28,15 +31,23 @@ public class Square implements Serializable {
 	
 	private ArrayList<LivingEntity> contain;
 	
+	private Fog fog;
 	
-    public Square(int x, int y, boolean inWater) {
+	
+	
+    public Square(int x, int y, boolean inWater, boolean inFog) {
     pos = Terrain.caseToPosition(x,y);    
     this.inWater = inWater;
     contain = new ArrayList<LivingEntity>();
+    if(inFog) {
+    	fog = new Fog(pos);
     }
     
+    }
+    
+    
     public Square(int x, int y) {
-    	this(x, y, false);
+    	this(x, y, false, false);
     }
     
     
@@ -51,6 +62,20 @@ public class Square implements Serializable {
     		contain.remove(plant);    		
     	}
     }
+    
+
+    
+    
+    public void setActiveFog(boolean val, boolean set) {    	
+    	if(fog == null)
+    		return;    	
+    	if(set)
+    	fog.setRenderActive(val);   
+    	else
+    	fog.setRenderActive(val && fog.isRenderActive() );	
+    		
+    }
+    
     
     
     public void destroyLast() {
@@ -109,6 +134,16 @@ public class Square implements Serializable {
 		return false;	
     }
     
+    public boolean hasGravestone() {
+		for (LivingEntity livingEntity : contain) {
+			if (livingEntity.getClass() == Gravestone.class) {
+				return true;
+			}
+		}
+		return false;	
+    }
+    
+    
 	public ArrayList<LivingEntity> getContain() {
 		return contain;
 	}
@@ -116,6 +151,10 @@ public class Square implements Serializable {
     public Vector2 getPos() {
 		return pos;
 	}
-    
+    public LivingEntity getLast() {
+    	if(contain.size() > 0) 
+    		return contain.get(contain.size()-1);	
+    	return null;
+    }
 
 }
