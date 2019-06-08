@@ -76,7 +76,7 @@ public abstract class LivingEntity extends GameObject{
     
     public boolean takeDammage(int dammage, Projectile lobProjectile) {
     	health -= onTakeDammage(dammage, lobProjectile);
-    	addHitMarker();
+    	addHitMarker(false);
      	if (health <= 0) {
     		destroy();
     		return true;
@@ -86,7 +86,7 @@ public abstract class LivingEntity extends GameObject{
     
     public boolean takeDammage(int dammage, Zombie zombie) {
     	health -= onTakeDammage(dammage, zombie);
-    	addHitMarker();
+    	addHitMarker(true);
     	if (health <= 0) {
     		destroy();
     		return true;
@@ -107,8 +107,8 @@ public abstract class LivingEntity extends GameObject{
     
     
 	//Particules d'impact 
-    private void addHitMarker() {
-    	new UI_AnimatedSprite(getPosition().add(Vector2.randomVector().multiply(0.3f)).add(new Vector2(0,-0.15f)), "particles/sparks.png", 6f, true);
+    private void addHitMarker(boolean red) {
+    	new UI_AnimatedSprite(getPosition().add(Vector2.randomVector().multiply(0.3f)).add(new Vector2(0,-0.15f)), "particles/"+((red)?"sparks_red.png":"sparks.png"), 6f, true);
     }
 
    

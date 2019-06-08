@@ -308,6 +308,7 @@ public class Resources implements Serializable {
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
     	cutImage("particles/sun2.png", 1, 1, new Vector2(0.5f,0.5f), 150);   
     	cutImage("particles/sparks.png", 4, 2, new Vector2(0.5f,0.5f), 100);   
+       	cutImage("particles/sparks_red.png", 4, 2, new Vector2(0.5f,0.5f), 100);   
     	
     	
     	
