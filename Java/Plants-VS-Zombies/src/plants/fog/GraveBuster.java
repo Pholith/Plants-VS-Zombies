@@ -10,24 +10,33 @@ public class GraveBuster extends Plant {
 
 	public GraveBuster( Vector2 position) {
 		super(100, position, 1f, 75 , "plants/GraveBuster.png", 1f);
-		baseY = position.getY();	
 		linkedGrave = (Gravestone)GameManager.getResources().searchClassInTerrain((int)position.getX(), (int)position.getY(), Gravestone.class);
-		if(linkedGrave == null)
-			System.out.println("EEEEEEEEEERRRRRRRRRRRRRRRRRRRR");
+		CalcTargetDir();
 	}
 	
 	private Gravestone linkedGrave;
 	private float waitTime;	
-	private float baseY;
+	private float animCounter = 1f;	
+	private Vector2 targetDir;
+
 	
+	private void CalcTargetDir() {
+		targetDir = new Vector2( getPosition().getX() - linkedGrave.getPosition().getX(), getPosition().getY()-  linkedGrave.getPosition().getY() ).add(Vector2.randomVector().multiply(0.1f));
+
+	}
 	
 	
 	@Override
 	public void update() {
 		waitTime+= GameManager.getInstance().getDeltatime();
-				
-		translationFixed(new Vector2(0,(float) Math.cos(waitTime*5)*0.02f ) );
+		animCounter += GameManager.getInstance().getDeltatime();
 		
+		translationFixed(targetDir.multiply(Math.min(-0.01f / Vector2.distance(linkedGrave.getPosition(), getPosition()), 0.05f)   ) );
+		
+		if(animCounter > 0.5f) {
+			animCounter = 0;
+			CalcTargetDir();
+			}
 		
 		if(waitTime >= 10f) {
 			destroy();
