@@ -1,17 +1,20 @@
 package main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import enums.EnumTerrain;
+import plants.Plant;
 import zombies.Zombie;
 
-public class GameInfo {
+public class GameInfo implements Serializable{
 
 	@SuppressWarnings("rawtypes")
-	private final Class[] listOfPlants; 
+	private final Class<? extends Plant>[] listOfPlants; 
 	private final ArrayList<Class<? extends Zombie>> listOfGroundZombies; 
 	private final ArrayList<Class<? extends Zombie>> listOfWaterZombies; 
 	private final EnumTerrain selectedTerrain;
+	
 	
 	
 	

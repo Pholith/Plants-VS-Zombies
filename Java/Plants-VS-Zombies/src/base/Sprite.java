@@ -1,7 +1,11 @@
 package base;
 
 import java.awt.Image;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+
+import main.GameManager;
 
 /*
 Attention, cette classe sert essentiellement a stocker des valeurs.
@@ -17,7 +21,11 @@ final public class Sprite implements Serializable {
 	private static final long serialVersionUID = -6434650687280652964L;
 
 	//Texture du sprite
-	private final transient Image baseImg;
+	private transient Image baseImg;
+	//Chemin court du sprite
+	private final String path;
+	
+	
 	
 	//Vecteur d'intervalle qui va definir point d'ancrage du sprite [(0.5,0.5) = centré]
 	private final Vector2 anchor;
@@ -42,9 +50,19 @@ final public class Sprite implements Serializable {
 		this.topRightCorner = topRightCorner;
 		this.anchor = anchor; 
 		this.pixelPerUnit = pixelPerUnit;
+		this.path = GameManager.getResources().getImagePath(baseImg);
+	
 		width = (int)topRightCorner.getX() - (int)bottomLeftCorner.getX();
 		height = (int)topRightCorner.getY() - (int)bottomLeftCorner.getY();
 	}
+	
+	
+	public void UpdateSprite() {
+	
+		this.baseImg = GameManager.getResources().getImageByPath(path);
+	}
+	
+	
 	
 	
 	public Sprite(Image baseImg, Vector2 bottomLeftCorner, Vector2 topRightCorner, int pixelPerUnit) {
@@ -96,6 +114,10 @@ final public class Sprite implements Serializable {
 		return pixelPerUnit;
 	}
 
+	private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException{
+		in.defaultReadObject();
+		UpdateSprite();		
+	}
 
 
 }

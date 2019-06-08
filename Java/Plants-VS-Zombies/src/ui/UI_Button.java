@@ -35,10 +35,7 @@ public class UI_Button extends UI_Element {
 	private boolean disabled; 
 	
 	private boolean readyToUse;
-	/*
-	protected boolean isSelected() {
-		return selected;
-	}*/
+
 	
 	private Vector2 screenPosition;
 	private Vector2 lastPosition;
@@ -50,14 +47,13 @@ public class UI_Button extends UI_Element {
 	
     
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, float rectWidth, float rectHeight, Vector2 offset, Consumer simpleFunction) {
-		super(pos, renderScale, renderColor, RenderMode.Both );
+		super(pos, renderScale, renderColor, RenderMode.Both, 93 );
 	
 		this.simpleFunction = simpleFunction;
 		
 		this.rectHeight = rectHeight;
 		this.rectWidth = rectWidth;
-		this.sprite = null;
-		
+		this.sprite = null;		
 		this.offset = offset = new Vector2( rectWidth*offset.getX() ,rectHeight*offset.getY());
 		
 		
@@ -66,7 +62,7 @@ public class UI_Button extends UI_Element {
 		}
 		
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, Sprite sprite, Consumer simpleFunction) {
-			super(pos, renderScale, renderColor, RenderMode.Both );
+			super(pos, renderScale, renderColor, RenderMode.Both, 93 );
 
 			this.simpleFunction = simpleFunction;
 			

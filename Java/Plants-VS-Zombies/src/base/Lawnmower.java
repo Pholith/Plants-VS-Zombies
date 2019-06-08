@@ -10,20 +10,21 @@ public class Lawnmower extends GameObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 885593557573489144L;
-	private Sprite[] sprite;
+	private Sprite sprite;
 	private float speed;
 	
 	public Lawnmower(Vector2 pos) {
 		super(pos, RenderMode.Sprite, 1);
 		
-		sprite = GameManager.getResources().getAnimationByPath("Lawnmower.png");
+		sprite = GameManager.getResources().getAnimationByPath("Lawnmower.png")[0];
 		speed = 0.01f;
 	}
 
 	@Override
 	public	Sprite display() {
-		return sprite[0];
+		return sprite;
 	}
+
 
     @Override
 	public String name() {return "Lawnmower";}

@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 public class Vector2 implements Serializable {
 
-		/**
-	 * 
-	 */
+		
 	private static final long serialVersionUID = -269571007417092821L;
 		private final float x;
 		private final float y;
@@ -95,6 +93,13 @@ public class Vector2 implements Serializable {
 	    public static Vector2 randomStartVector() {
 	    	return new Vector2((float) (10 + Math.random()*2), (float) Math.random()*5);
 	    }
+	    
+	    public static Vector2 randomVector() {
+	    	float rd = (float) (Math.random()*2f*Math.PI);	    	
+	    	return new Vector2((float)Math.cos(rd), (float)Math.sin(rd) );
+	    }
+	    
+	    
 	    public static float distance(Vector2 vec1, Vector2 vec2) {
 	    	return (float) Math.sqrt(   Math.pow(vec1.getX()- vec2.getX(),2)+ Math.pow( vec1.getY()- vec2.getY(), 2f) );
 	    }

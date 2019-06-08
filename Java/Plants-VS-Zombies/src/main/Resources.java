@@ -2,12 +2,19 @@
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +42,10 @@ public class Resources implements Serializable {
 	private static final long serialVersionUID = -719443022268576451L;
 	
 	private final Map<String,Image> loadedImages;
+	private final Map<Image, String> imageByPath;
+	
     private final Map<String,Sprite[]> loadedAnimation;
+    
     private Terrain actTerrain;
     private int selectedPlant;
     private ArrayList<UI_Button> terrainButtonList;
@@ -49,6 +59,8 @@ public class Resources implements Serializable {
     
     
     private GameInfo gameInfo;
+     
+
     
     
     @SuppressWarnings("rawtypes")
@@ -107,11 +119,18 @@ public class Resources implements Serializable {
     
     private UI_Label moneyRender;
     
+    private Font mainFont;
+    
+    
+    public Font getMainFont() {
+    return mainFont;	
+    }
+    
     public GameInfo getGameInfo() {
 		return gameInfo;
 	}
     
-    GameConfig gameConfig;// Fichier de config
+    private GameConfig gameConfig;// Fichier de config
     public GameConfig getGameConfig() {
 		return gameConfig;
 	}
@@ -139,6 +158,8 @@ public class Resources implements Serializable {
     Resources() {
     	loadedImages = new HashMap<String, Image>(); 
     	loadedAnimation = new HashMap<String, Sprite[]>();
+    	imageByPath = new HashMap<Image, String>(); 
+    	
     	terrainButtonList = new ArrayList<UI_Button>();
     	selectedPlant = -1;
     	money = 10000;
@@ -148,6 +169,8 @@ public class Resources implements Serializable {
     	listOfCosts = new int [gameConfig.getConfigInt("numberOfPlantSelectable")]; 
 
     	specialSearch = new HashMap<String, TerrainSearch>();
+    	
+    	
     	specialSearch.put(PotatoMine.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(Spikeweed.class.getSimpleName(), TerrainSearch.emptyGround);
     	specialSearch.put(LilyPad.class.getSimpleName(), TerrainSearch.emptyWater);
@@ -156,10 +179,15 @@ public class Resources implements Serializable {
     	specialSearch.put(Pumpkin.class.getSimpleName(), TerrainSearch.possibleTerrain);
     	specialSearch.put(GraveBuster.class.getSimpleName(), TerrainSearch.graveStone);
 
-    	
     }
 
 
+    public Square addEntityToTerrain(LivingEntity ent) {
+    	Vector2 v2 = Terrain.positionToCase(ent.getPosition());
+    	
+    	return addEntityToTerrain((int)v2.getX(), (int)v2.getY(), ent);    	
+    }
+    
     public Square addEntityToTerrain(int x, int y, LivingEntity ent) {
     	return actTerrain.addEntity(x, y, ent);    	
     }
@@ -271,7 +299,7 @@ public class Resources implements Serializable {
     	cutImage("plants/GraveBuster.png", 1, 1, new Vector2(0.5f, 0.5f), 70);
 
      	
-     	cutImage("props/gravestone.png", 1, 1, new Vector2(0.5f, 0.6f), 170);
+     	cutImage("props/gravestone.png", 1, 1, new Vector2(0.4f, 0.6f), 170);
 
      	
      	
@@ -279,6 +307,8 @@ public class Resources implements Serializable {
     	cutImage("particles/explosion.png", 4, 4, new Vector2(0.5f,0.5f), 30);   
     	cutImage("particles/sun.png", 1, 1, new Vector2(0.5f,0.5f), 80);   
     	cutImage("particles/sun2.png", 1, 1, new Vector2(0.5f,0.5f), 150);   
+    	cutImage("particles/sparks.png", 4, 2, new Vector2(0.5f,0.5f), 100);   
+    	
     	
     	
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -291,6 +321,28 @@ public class Resources implements Serializable {
     	
     	cutImage("titlepage2.jpg", 1, 1,new Vector2(0.5f,0f), (int)(120f/ (screenSize.height/900f)));    	
 
+    	
+ 
+  
+    Path fontPath = Paths.get(Constant.fontPath + "SERIO___.TTF");
+    
+    		try(InputStream mainFontIn =  Files.newInputStream(fontPath);) {
+    			
+  
+    			mainFont = Font.createFont(Font.TRUETYPE_FONT,mainFontIn);
+    			mainFont = mainFont.deriveFont(11f);
+    			
+    			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+    			
+    			ge.registerFont(mainFont);
+
+    		} catch (IOException | FontFormatException e) {
+    			e.printStackTrace();
+    			System.exit(-1);
+    		}
+    	
+    	 
+    	
     	
     	
     	
@@ -332,17 +384,22 @@ public class Resources implements Serializable {
 		
 		default:
 		break;
-
     }
+    
+    
     
 	actTerrain = new Terrain(terrainSp, game.getSelectedTerrain());
     
  	Sprite emptyField = new Sprite(getImageByPath("cards/emptyfield.png"), 75);
  	new UI_Sprite(new Vector2(1.5f, 0.3f), emptyField);
 
+ 	
+ 	
  	// Les tondeuses
+	if(!GameManager.getInstance().IsPlayingASave()) {
 	for (int i = 0; i < actTerrain.getTerrainSize().getY(); i++) {
-		new Lawnmower(Terrain.caseToPosition(-1, i));		
+		new Lawnmower(Terrain.caseToPosition(-1, i));
+	}
 	}
 
 	// Les boutons des plantes
@@ -370,6 +427,7 @@ public class Resources implements Serializable {
    	new UI_PlantButton(new Vector2(1.5f, 1f + 0.9f * i), new Sprite(getImageByPath("cards/shovel_icon.png"), 75), func -> {selectShovel();}, 1f);
 
 		
+   	
 	/*
 	
 	{
@@ -401,9 +459,11 @@ public class Resources implements Serializable {
     public void getASun() {
     	getASun(50);
     }
+    public GameObject searchClassInTerrain(int x, int y, Class searchedClass) {
+    	return actTerrain.getTerrainContent(x,y, searchedClass);   	
+    }
     
-    
-    
+
     
     void updateResources() {
     	
@@ -583,14 +643,23 @@ public class Resources implements Serializable {
  	   File file = new File(Constant.texturePath + spritePath);
  	   Image img = ImageIO.read(file);    
  	  loadedImages.put(spritePath, img);
+ 	  imageByPath.put(img, spritePath);
     }
+    
+    public String getImagePath(Image img ) {
+    	
+    	if(imageByPath.containsKey(img))
+    		return imageByPath.get(img);
+    	return Constant.errorTexture;
+     }
+    
     
     
  
     public Image getImageByPath(String spritePath ){
 	 		if(loadedImages.containsKey(spritePath))
 	     		return loadedImages.get(spritePath);
-	 		System.out.println("error when loading sprite "+spritePath);
+	 		System.out.println("Cannot get path of sprite :"+spritePath);
 	     	return loadedImages.get(Constant.errorTexture);
     }
  
@@ -601,7 +670,18 @@ public class Resources implements Serializable {
 	 			
 	     	return errorAnim;
     }
+    
+    
+    
+    public void continueGame(SaveInstance toLoad) {
+    	startGame(toLoad.getInfo());
+    	money = toLoad.getMoney();
+    }
 
+    public int getMoney() {
+		return money;
+	}
+    
  }
  
  

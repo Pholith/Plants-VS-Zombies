@@ -9,22 +9,16 @@ import java.util.ArrayList;
 
 public class Camera extends GameObject implements Serializable {
 
-	/**
-	 * 
-	 */
+	private Vector2 speed;
 	private static final long serialVersionUID = -6148888095804149524L;
-	@SuppressWarnings("unused")
-	private float renderSize = 5.0f;//pas encore utilisé
-
 	
-	public Camera(Vector2 pos,  float renderSize) {
-		super(pos);
-		this.renderSize = renderSize;
-		speed = Vector2.zero();
-	}	
+	
+	
 	public Camera(Vector2 pos) {
-		this(pos, 5.0f);
+		super(pos);
+		speed = Vector2.zero();
 	}
+	
 	public Camera() {
 		this(Vector2.zero());
 	}
@@ -34,6 +28,7 @@ public class Camera extends GameObject implements Serializable {
 		translation(speed);
 		slowing();
 	}
+	
 
 	private void slowing() {
 		float xSpeed = 0;
@@ -51,7 +46,7 @@ public class Camera extends GameObject implements Serializable {
 		}
 		speed = new Vector2(xSpeed, 0);
 	}
-	private Vector2 speed;
+	
 	private void checkSpeedMax() {
 		float maxSpeed = 0.1f;
 		if (speed.getX() > maxSpeed) {

@@ -68,27 +68,49 @@ public class Terrain extends GameObject {
 			}	
 		}
 		
+		
+		
+		if(GameManager.getInstance().IsPlayingASave())
+			return;
 	
+		
 		
 		if(terrainType == EnumTerrain.night_lawn) {
 			
 			Vector2 rand;
-			Square sqr;
+		
 			int graveX, graveY;
-			
-			
+						
+				
     	for(i = 0; i < 5 + Math.random()*2; i++) {
       		graveX = (int) (Math.random()*sizeX);
       		graveY = (int) (Math.random()*sizeY);
     		
-    		 sqr = listOfSquares[graveY][graveX];
+    	
     		
-    		if(sqr.canBePlacedNewGroundPlant()) {
-    			sqr.addContain(new Gravestone(new Vector2(graveX, graveY) ));
+    		if(listOfSquares[graveY][graveX].canBePlacedNewGroundPlant()) {
+    		
+    			addEntity(graveX, graveY, new Gravestone(new Vector2(graveX, graveY), listOfSquares[graveY][graveX]));
+    	
+    			} 
     		}
-    	}
 		}
 		
+	}
+	
+	
+	public GameObject getTerrainContent(int x,int y, Class classSearch) {
+		if(isInside(x, y) && listOfSquares[y][x].getContain() != null) {
+			var lst = listOfSquares[y][x].getContain();
+			
+			for(var obj : lst) {
+				if(obj.getClass().equals(classSearch) ) {
+					return obj;
+				}
+			}
+			
+		}		
+		return null;
 	}
 	
 	
@@ -110,7 +132,7 @@ public class Terrain extends GameObject {
 			return (ent.size() > 0);
 			
 		case possibleTerrain: // pour la citrouille
-			return (square.canBePlacedNewGroundPlant() || ent.size() > 0) && !square.hasPumpkin();
+			return (square.canBePlacedNewGroundPlant() || ent.size() > 0) && !square.hasPumpkin() && !square.hasGravestone();
 
 
 		case graveStone:

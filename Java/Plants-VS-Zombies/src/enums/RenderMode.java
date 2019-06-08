@@ -1,5 +1,6 @@
 package enums;
 
-public enum RenderMode {
+
+public enum RenderMode{
 	Sprite, Self, Both
 }

@@ -1,35 +1,57 @@
 package main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import base.Constant;
 import base.GameObject;
+import base.Terrain;
+import base.UI_Element;
+import ui.UI_Button;
 
 public class SaveManager {
 
 	ObjectOutputStream objectOutputStream;
 
-	public static void save(ArrayList<GameObject> gameContent) { // TO CHANGE gamecontent
+	public static void save(SaveInstance toSave) { // TO CHANGE gamecontent
 
-		;
+
 		ObjectOutputStream oos = null;
 		try {
-			final FileOutputStream fichier = new FileOutputStream("resources/save.ser");
+			final FileOutputStream fichier = new FileOutputStream(Constant.savePath + "save_"+GameManager.getInstance().getClockMillis()+".ser");
 			oos = new ObjectOutputStream(fichier);
 			try {
-				for (GameObject gameObject : gameContent) {
-					System.out.println("Saving " + gameObject.name()+"...");
-					oos.writeObject(gameContent);
-				}
+				
+				/*
+				 //Pour tester les gameObjects serialisables :
+				for (var obj : gameContent) {					 
+					System.out.println("Saving " + obj.name() + "...");
+					if (!(obj instanceof UI_Button))
+						oos.writeObject(obj);
+					else
+						System.out.println("Skipped");
+				}	*/
+				
+				oos.writeObject(toSave);
+				
+				
 
 			} catch (Exception e) {
-				System.out.println("FORCED STOP OF SAVING");
+				System.out.println("SAVING WAS CANCELED !");
 				System.out.println(e);
 			}
 			oos.flush();
-			
+
 		} catch (final java.io.IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -37,11 +59,43 @@ public class SaveManager {
 				if (oos != null) {
 					oos.flush();
 					oos.close();
+					System.out.println("Saved !");
 				}
 			} catch (final IOException ex) {
 				ex.printStackTrace();
 			}
-		
+
 		}
 	}
+	
+
+    
+	
+	public static SaveInstance load(String saveName) {
+        FileInputStream fis;        
+        SaveInstance sp = null;
+        
+        if(saveName == null)
+        	return null;
+        
+        Path pt = Paths.get(saveName);
+        
+        System.out.println("Loading save at path "+pt);
+       
+		try (InputStream str = Files.newInputStream(pt);
+        ObjectInputStream in=new ObjectInputStream(str)) {
+			
+         sp=(SaveInstance)in.readObject();
+
+         
+		} catch (Exception e) {
+			System.out.println("Error : Cannot read this save "+pt);
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+        return sp;		
+	}
+	
 }

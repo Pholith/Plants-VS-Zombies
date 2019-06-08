@@ -6,19 +6,23 @@ import java.awt.Graphics2D;
 import base.Constant;
 import base.UI_Element;
 import base.Vector2;
+import enums.RenderMode;
 
 public class UI_Label extends UI_Element {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 6050818849520792063L;
 	private String objectText;
 	
 	
-	public UI_Label(Vector2 pos, String objectText, Color renderColor ,float renderScale) {
-		super(pos, renderScale, renderColor);
+	public UI_Label(Vector2 pos, String objectText, Color renderColor ,float renderScale, int layer) {
+		super(pos, renderScale, renderColor, RenderMode.Self, layer);
 		this.objectText = objectText;
+	}
+	
+	
+	public UI_Label(Vector2 pos, String objectText, Color renderColor ,float renderScale) {
+		this(pos, objectText, renderColor ,renderScale, 95);
 	}
 	
 	public UI_Label(Vector2 pos, String objectText,  Color renderColor) {

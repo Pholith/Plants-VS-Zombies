@@ -12,15 +12,13 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
 
 	private static final long serialVersionUID = -7807705176476327139L;
 	
-	private final int layer; // Pour l'ordre d'affichage ( ENTRE 1 ET 100 )
+	private final int layer; // Pour l'ordre d'affichage ( ENTRE 1 ET 1000 )
 	protected int getLayer() { return layer; } // permet de modifier le layer comme en protected
-    @Override
-	public int compareTo(GameObject o) {
-    	return getLayer() - o.getLayer();
-    }
+
 	private Vector2 position;
 	private final RenderMode renderMode;
 	private boolean renderAcive;
+	
 	
 	
 	  	
@@ -31,7 +29,7 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
     	this.renderMode = renderMode;
     	GameManager.getInstance().addGameObjectToScene(this);
     	System.out.println("Created: " + name());
-    	this.layer = layer;
+    	this.layer = (layer * 10) + (int)pos.getY();
     	renderAcive = true;
     }   
     
@@ -81,7 +79,7 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
 
 
     public void start() {
-        // TODO implement here
+    	
     }
 
     public void update() {
@@ -146,6 +144,12 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
 	public boolean isRenderActive() {
 		return renderAcive ;
 	}
+	
+	
+    @Override
+	public int compareTo(GameObject o) {
+    	return getLayer() - o.getLayer();
+    }
 	
 	
 	

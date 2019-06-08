@@ -1,10 +1,16 @@
 package main;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import base.Constant;
@@ -16,15 +22,122 @@ import ui.UI_Label;
 import ui.UI_Sprite;
 import zombies.Zombie;
 
+
+//////Le menu principal :
+
 public final class MainMenu {
 	
 	 static void start_menu() {
-			//new UI_Label(new Vector2(2,1.5f), "Plant VS zombies", Color.blue, 5f);
+
+		 
+		 
 		 new UI_Sprite(new Vector2( (GameManager.getInstance().getResolutionX()/Constant.screenPixelPerUnit)/2f, 0), GameManager.getResources().getAnimationByPath("titlepage2.jpg")[0]);
-			new UI_Button(new Vector2(3f, 3f),1f,Color.white, 200f,60f, new Vector2(0,0.7f), func -> {terrain_menu();});	
-			new UI_Label(new Vector2(3f, 3f), "Commencer", Color.black,3f);
+			new UI_Button(new Vector2(3f, 3f),1f,Color.white, 350f,60f, new Vector2(0,0.7f), func -> {terrain_menu();});	
+			new UI_Label(new Vector2(3.3f, 3f), "Nouvelle partie", Color.black,3f);
+			
+			
+			new UI_Button(new Vector2(3f, 4f),1f,Color.white, 350f,60f, new Vector2(0,0.7f), func -> {load_save();});	
+			new UI_Label(new Vector2(3.1f, 4f), "Charger une partie", Color.black,3f);
+			
+			
+			new UI_Button(new Vector2(3f, 5f),1f,Color.white, 350f,60f, new Vector2(0,0.7f), func -> { GameManager.getInstance().exitGame();});	
+			new UI_Label(new Vector2(3.8f, 5f), "Quitter", Color.black,3f);
+			
+		 }
+	 
+	 
+	 
+	 
+//////Le menu de chargement des sauvegardes :
+	 
+		static private List<String> saveList;
+		static private int selectedSave;
+		
+		
+	 private static void load_save() {
+		
+
+		 GameManager.getInstance().clearScene();
+		 saveList = new ArrayList<String>();
+		 selectedSave = 0;
+		 
+				try (Stream<Path> walk = Files.walk(Paths.get(Constant.savePath))) {
+
+					saveList = walk.filter(Files::isRegularFile)
+							.map(x -> x.toString()).collect(Collectors.toList());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			load_generate_buttons();				 	
+				
+ }
+	 
+	 
+	 
+	 private static void load_generate_buttons() {		 
+		 
+		 float centerX = -1f + (GameManager.getInstance().getResolutionX() /Constant.screenPixelPerUnit)/2f;
+		 
+		 
+			new UI_Button(new Vector2(centerX, 4.5f),1f,new Color(0.9f,0.9f,0.9f,1f), 360f,60f, new Vector2(0,0.7f), func -> {GameManager.getInstance().backToMainMenu();});	
+			new UI_Label(new Vector2(centerX + 0.4f, 4.5f), "Back to menu", Color.black,3f);
+			
+		 
+		 if(saveList.size() != 0) {
+		 	GameManager.getInstance().loadScene(saveList.get(selectedSave), true);
+			new UI_Button(new Vector2(centerX, 4f),1f,Color.white, 360f,60f, new Vector2(0,0.7f), func -> {load_button_play();});	
+			new UI_Label(new Vector2(centerX + 0.3f, 4f), "Select this save", Color.black,3f);		 
+		 }else {
+			new UI_Label(new Vector2(centerX, 4f), "No saves were found !", Color.black,3f);		
+			return;
 		 }
 		 
+	
+		
+			
+			new UI_Button(new Vector2(centerX-0.5f, 4f),1f,Color.white, 50f,60f, new Vector2(0,0.7f), func -> {load_other_save(-1);});	
+			new UI_Label(new Vector2(centerX - 0.4f, 4f), "C-", Color.black,3f)   ;
+			
+			new UI_Button(new Vector2(centerX + 2.9f, 4f),1f,Color.white, 50f,60f, new Vector2(0,0.7f), func -> {load_other_save(1);});	
+			new UI_Label(new Vector2(centerX + 3f, 4f), "-D", Color.black,3f);
+			 
+			new UI_Button(new Vector2(centerX, 6f),1f,Color.white, 360f,60f, new Vector2(0,0.7f), func -> {load_remove_save();});	
+			new UI_Label(new Vector2(centerX + 0.4f, 6f), "Remove this save", Color.black,3f);
+	 }
+	 
+	 private static void load_remove_save() {		 
+		 
+		 try {
+			Files.delete(Paths.get( saveList.get(selectedSave)));
+			 saveList.remove(selectedSave);		 
+			 load_other_save(0); 
+		} catch (IOException e) {
+			System.out.println("Cannot remove file : "+ saveList.get(selectedSave));
+		}
+		 
+	 }
+	 
+	 
+	 	 
+	 private static void load_button_play() {
+		 GameManager.getInstance().loadScene(saveList.get(selectedSave), false);
+	 }
+	 
+	 private static void load_other_save(int dir) {
+		 GameManager.getInstance().clearScene();
+	
+		 if(saveList.size() > 0)
+		 selectedSave =  (selectedSave + dir + saveList.size())%saveList.size();
+		 load_generate_buttons();
+		 
+	 }
+	 
+	 
+	 
+	 
+//////Les menus de démarage d'une partie :
+	 
 	 
 	 private static void terrain_menu() {
 			GameManager.getInstance().clearScene();

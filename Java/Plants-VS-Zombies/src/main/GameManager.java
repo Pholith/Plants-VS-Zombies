@@ -15,6 +15,7 @@ import java.util.function.Function;
 import base.Camera;
 import base.Constant;
 import base.GameObject;
+import base.LivingEntity;
 import base.Terrain;
 import base.Vector2;
 import fr.umlv.zen5.Application;
@@ -22,6 +23,7 @@ import fr.umlv.zen5.ApplicationContext;
 import fr.umlv.zen5.Event;
 import fr.umlv.zen5.ScreenInfo;
 import ui.UI_AnimatedSprite;
+import ui.UI_Button;
 import ui.UI_Label;
 import zombies.Zombie;
 import fr.umlv.zen5.Event.Action;
@@ -46,6 +48,7 @@ public final class GameManager implements Serializable {
 		sceneContent = new ArrayList<GameObject>();
 		objectsInQueue = new ArrayList<GameObject>();
 		objectsToRemoveQueue = new ArrayList<GameObject>();
+		constantObjects = new ArrayList<GameObject>();
 		deltaTime = 1f;
 		timeScale = 1f;
 		savedFps = 60;
@@ -72,6 +75,9 @@ public final class GameManager implements Serializable {
 	public float getResolutionX() {
 		return resolutionX;
 	}
+	public float getResolutionY() {
+		return resolutionY;
+	}
 
 	private final Clock clock; // Horloge temps reel
 	private int currentFps; // Compteur de fps
@@ -91,7 +97,8 @@ public final class GameManager implements Serializable {
 	private final ArrayList<GameObject> sceneContent;
 	private final ArrayList<GameObject> objectsInQueue;
 	private final ArrayList<GameObject> objectsToRemoveQueue;
-	// private final ArrayList<<Vector2,Vector2>> linesToDraw;
+	 private final ArrayList<GameObject> constantObjects;
+	 
 	private Camera mainCamera;
 	private LevelManager levelManager;
 	private UI_Label fpsBox;
@@ -100,14 +107,26 @@ public final class GameManager implements Serializable {
 
 	private boolean gameEnded;
 	private boolean gameStarted;
-
+	private boolean isPlayingASave;
+	
+	
+	
+	
 	PauseMenu pauseMenu;
 	ApplicationContext context;
 
+	
+	
+	public boolean IsPlayingASave(){
+		return isPlayingASave;
+	}
+	
 	void setGameStarted(boolean val) {
 
 		gameStarted = val;
-
+		gameEnded = false;
+		
+		
 		if (val) {
 			levelManager = new LevelManager();
 
@@ -116,12 +135,13 @@ public final class GameManager implements Serializable {
 				timeScale = 1f;
 			};
 			Consumer<Integer> save = (x) -> {
-				SaveManager.save(sceneContent);
+				saveScene();
 			};
 			Consumer<Integer> load = (x) -> {
+				backToMainMenu();
 			};
 			Consumer<Void> exit = (x) -> {
-				context.exit(0);
+				exitGame();
 			};
 
 			pauseMenu = new PauseMenu(resolutionX, resolutionY, resume, save, load, exit) {
@@ -132,6 +152,89 @@ public final class GameManager implements Serializable {
 			clearScene();
 		}
 	}
+	
+	
+	public void exitGame() {	
+	context.exit(0);
+	}
+	
+	public void backToMainMenu() {	
+		clearScene();
+		setGameStarted(false);
+		MainMenu.start_menu();
+		
+	}
+		
+	
+	
+	
+	public void saveScene() {	
+	 SaveManager.save(new SaveInstance(sceneContent, RESOURCES.getMoney(), RESOURCES.getGameInfo(), levelManager));
+	}
+	
+	
+	
+	public void loadScene(String path, boolean onlyPreview) {
+		SaveInstance save = SaveManager.load(path);
+		
+		if(save == null)
+			return;
+			
+		loadFromSave(save, onlyPreview);
+	}
+
+	
+	
+	public void loadFromSave(SaveInstance toLoad, boolean onlyPreview) {
+		
+
+		
+		if(toLoad == null)
+			return;
+		
+		
+		clearScene();
+		
+		isPlayingASave = true;
+
+		
+		if(!onlyPreview) {//Si on commence une partie à partir d'une save
+		RESOURCES.continueGame(toLoad);
+		timeScale = 1;				
+		levelManager = toLoad.getLevelManage();		
+
+		}
+		
+		ArrayList<GameObject> objs = toLoad.getGameContent();
+		
+		
+		for(var obj : objs) {
+			
+			if(!onlyPreview ) {
+				
+					if(obj.getClass() == Terrain.class) {//si il y a un terrain enregistré, on le détruit car il est géré avec le début de partie
+						obj.destroy();
+						continue;
+					}		
+			
+			
+			if(obj instanceof LivingEntity)
+				RESOURCES.addEntityToTerrain((LivingEntity)obj);
+			}
+			
+			addGameObjectToScene(obj);
+			
+		}
+		
+		
+		
+		if(onlyPreview) {
+			timeScale = 0;		
+			return;
+		}	
+	}
+	
+	
 
 	public boolean getGameStarted() {
 
@@ -161,14 +264,17 @@ public final class GameManager implements Serializable {
 			screenInfo = context.getScreenInfo();
 			resolutionX = screenInfo.getWidth();
 			resolutionY = screenInfo.getHeight();
-
+			isPlayingASave = false;
+							
 			if (this.context == null) {
 				this.context = context;
 			}
 
 			System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
 
+				
 			MainMenu.start_menu();
+			
 
 			while (true) {
 
@@ -188,6 +294,8 @@ public final class GameManager implements Serializable {
 		mainCamera = new Camera();
 		fpsBox = new UI_Label(new Vector2(0.05f, 7f), "FPS..", Color.black, 3f);
 		utilityObjectCount = objectsInQueue.size();
+		constantObjects.add(mainCamera);		
+		constantObjects.add(fpsBox);		
 	}
 
 	private void updateGameObjects() {
@@ -213,6 +321,10 @@ public final class GameManager implements Serializable {
 	private void render(ApplicationContext context) {
 
 		context.renderFrame(graphics -> {
+			
+			
+			graphics.setFont(RESOURCES.getMainFont());
+			
 			// clear les graphics
 			graphics.setColor(Color.WHITE);
 			graphics.fill(new Rectangle2D.Float(0, 0, resolutionX, resolutionY));
@@ -254,11 +366,10 @@ public final class GameManager implements Serializable {
 			return;
 		}
 
-		if (gameEnded)
-			return;
 
-		if (gameStarted) {
 
+		if (gameStarted && !gameEnded) {	
+			
 			if (key == KeyboardKey.P) {
 
 				if (!pauseMenu.isVisible()) {
@@ -309,6 +420,8 @@ public final class GameManager implements Serializable {
 			}
 		}
 
+		
+		
 		if (action != Action.POINTER_DOWN) {
 			clickLocation = null;
 			return;
@@ -318,21 +431,13 @@ public final class GameManager implements Serializable {
 	}
 
 	public void addGameObjectToScene(GameObject obj) {
+		
 		if (!sceneContent.contains(obj) && !objectsInQueue.contains(obj))
 			objectsInQueue.add(obj);
 
 		obj.start();
 	}
-	/*
-	 * //inverse les 2 dernier objet de la liste des GameObjects a ajouter (utile si
-	 * l'on veut determiner l'ordre d'affichage de certain objets). public void
-	 * invertLastGameObjectQueue() { //Collections.reverse(ojbectsInQueue);
-	 * 
-	 * if(ojbectsInQueue.size() >= 2) { GameObject obj =
-	 * ojbectsInQueue.get(ojbectsInQueue.size()-2);
-	 * ojbectsInQueue.set(ojbectsInQueue.size()-2,ojbectsInQueue.get(ojbectsInQueue.
-	 * size()-1)); ojbectsInQueue.set(ojbectsInQueue.size()-1, obj); } }
-	 */
+
 
 	public void removeGameObjectFromScene(GameObject obj) {
 		if (obj != null && !objectsToRemoveQueue.contains(obj))
@@ -487,8 +592,10 @@ public final class GameManager implements Serializable {
 		// supresssion de tout les objets de la scene (on épargne les objets
 		// utilitaires)
 
-		for (int i = utilityObjectCount; i < sceneContent.size(); i++) {
-			sceneContent.get(i).destroy();
+		for (var obj : sceneContent) {
+			if(constantObjects.contains(obj))
+				continue;
+			obj.destroy();
 		}
 
 	}
@@ -506,12 +613,17 @@ public final class GameManager implements Serializable {
 					"particles/baldi.gif", 0.8f, false);
 	}
 
-		new UI_Label(new Vector2(1f, 1f), (win) ? "Partie gagnée !" : "Partie perdue !",
+		new UI_Label(new Vector2(1f, 1f), (win) ? "Partie gagnee !" : "Partie perdue !",
 				(win) ? Color.green : Color.red, 5f);
+		
 
+		new UI_Button(new Vector2(2.3f, 2f),1f, new Color(0.9f,0.9f,0.9f,1f), 350f,60f, new Vector2(0.5f,0.5f), func -> { backToMainMenu(); });	
+		new UI_Label(new Vector2(1.25f, 2.1f), "Retour au menu", Color.black,3f);
+		
+		
 		if (!win) {
 			new UI_AnimatedSprite(new Vector2((resolutionX / Constant.screenPixelPerUnit) / 2f, 0),
-					"particles/end_anim_defeat.png", 1.2f, true);
+					"particles/end_anim_defeat.png", 1.2f, true, 110);
 
 		}
 

@@ -1,11 +1,17 @@
 package main;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.Random;
+
+import ui.UI_Label;
 import ui.UI_Sun;
+import ui.UI_WaveTitle;
 import zombies.*;
 import zombies.ground.FlagZombie;
+import base.Constant;
+import base.UI_Element;
 import base.Vector2;
 
 public class LevelManager implements Serializable {
@@ -22,15 +28,20 @@ public class LevelManager implements Serializable {
 	private float counterBeforeEnd = 0;
 	private float counterOfSun = 10;
 	
+	
 	private double spawnDelay; // temps de spawn en sec
 	private final double waveDelay; // temps entre chaque vague
 	private double sunSpawnDelay; // temps entre chaque soleil
 	private final double levelTimeDelay; // temps d'une partie  
 	
+	private int waveCnt = 0;//vague Actuelle
+
 
 	public LevelManager() {		
 		super();
 	
+		new UI_WaveTitle("Les zombies arrivent !");
+		
 		if (GameManager.getResources().getGameInfo().isNight()) {
 		
 		}
@@ -39,7 +50,8 @@ public class LevelManager implements Serializable {
 		waveDelay = GameManager.getResources().getGameConfig().getConfigDouble("waveDelay"); 
 		sunSpawnDelay = GameManager.getResources().getGameConfig().getConfigDouble("sunSpawnDelay");
 		levelTimeDelay = GameManager.getResources().getGameConfig().getConfigDouble("levelTimeDelay"); 
-
+		
+	
 	}
 
 	
@@ -143,7 +155,10 @@ public class LevelManager implements Serializable {
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;
 			System.out.println("Prochaine vague dans: "+Math.round(waveDelay)+" secondes");
-
+			
+			waveCnt++;
+			new UI_WaveTitle("Vague "+waveCnt);
+			
 			createFlagZombie();
 			createFlagZombie();
 			
@@ -165,4 +180,13 @@ public class LevelManager implements Serializable {
 			createZombie((int) levelAdvancement);
 		}
 	}
+	
+	
+
+	
+
+
+    
+    
+    
 }

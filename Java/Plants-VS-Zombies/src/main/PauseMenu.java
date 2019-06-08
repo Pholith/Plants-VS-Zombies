@@ -45,7 +45,7 @@ public class PauseMenu implements Serializable {
 
 		// BOUTON CHARGER
 		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 3 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), loadFunc ));
-		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 3 ), "Charger", Color.black, 3f));
+		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 3 ), "Menu", Color.black, 3f));
 
 		// BOUTON QUITTER
 		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 4 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), exitFunc ));

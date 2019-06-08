@@ -46,10 +46,17 @@ public abstract class UI_Element extends GameObject {
 	}
 	
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor, RenderMode rendMode) {
-		super(pos, rendMode, 90);
+		this( pos,  renderScale,  renderColor, rendMode, 90 );
+	}
+	
+	public UI_Element(Vector2 pos, float renderScale, Color renderColor, RenderMode rendMode, int layer) {
+		super(pos, rendMode, layer);
 		this.renderColor = renderColor;
 		this.renderScale = renderScale;
 	}
+	
+	
+	
 	
     @Override
     public String name() {return "UI_Element";}

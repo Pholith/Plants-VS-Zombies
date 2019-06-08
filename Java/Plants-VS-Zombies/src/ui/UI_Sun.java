@@ -37,7 +37,8 @@ public class UI_Sun extends UI_Button {
 	}
 	
 	@Override
-	protected int getLayer() { return 10; }
+	protected int getLayer() { return 800; }
+	
 	@Override
     public String name() {return "UI_Sun";}
 
