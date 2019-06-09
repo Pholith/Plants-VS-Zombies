@@ -25,6 +25,7 @@ import fr.umlv.zen5.ScreenInfo;
 import ui.UI_AnimatedSprite;
 import ui.UI_Button;
 import ui.UI_Label;
+import ui.UI_TremblingLabel;
 import zombies.Zombie;
 import fr.umlv.zen5.Event.Action;
 import fr.umlv.zen5.KeyboardKey;
@@ -116,6 +117,10 @@ public final class GameManager implements Serializable {
 	ApplicationContext context;
 
 	
+	public boolean IsPausedGame(){
+		return (pauseMenu != null && pauseMenu.isVisible());
+	}
+	
 	
 	public boolean IsPlayingASave(){
 		return isPlayingASave;
@@ -135,7 +140,16 @@ public final class GameManager implements Serializable {
 				timeScale = 1f;
 			};
 			Consumer<Integer> save = (x) -> {
-				saveScene();
+				Vector2 centerPos = new Vector2( -2f + (GameManager.getInstance().getResolutionX() /Constant.screenPixelPerUnit)/2f,
+						  (GameManager.getInstance().getResolutionY() /Constant.screenPixelPerUnit)/2f);
+						
+				if(saveScene()) {
+					new UI_TremblingLabel(centerPos, "game saved !", Color.green, 6, 1.5f, new Vector2(1f, 0), true, 98);
+					new UI_TremblingLabel(centerPos.add(Vector2.one().multiply(0.05f)), "game saved !", Color.black, 6, 1.5f, new Vector2(1f, 0), true, 97);
+				}else {
+					new UI_TremblingLabel(centerPos, "Error during saving !", Color.red, 6, 1.5f, new Vector2(1f, 0), true,98);
+					new UI_TremblingLabel(centerPos.add(Vector2.one().multiply(0.05f)), "Error during saving !", Color.black, 6, 1.5f, new Vector2(1f, 0), true,97);
+				}
 			};
 			Consumer<Integer> load = (x) -> {
 				backToMainMenu();
@@ -168,8 +182,8 @@ public final class GameManager implements Serializable {
 	
 	
 	
-	public void saveScene() {	
-	 SaveManager.save(new SaveInstance(sceneContent, RESOURCES.getMoney(), RESOURCES.getGameInfo(), levelManager));
+	public boolean saveScene() {	
+	 return SaveManager.save(new SaveInstance(sceneContent, RESOURCES.getMoney(), RESOURCES.getGameInfo(), levelManager));
 	}
 	
 	
@@ -466,6 +480,11 @@ public final class GameManager implements Serializable {
 		return deltaTime * timeScale;
 	}
 
+	public float getTrueDeltatime() {
+		return deltaTime;
+	}
+
+	
 	public float getTimeScale() {
 		return timeScale;
 	}

@@ -45,12 +45,11 @@ public class UI_Button extends UI_Element {
 	}
 	private Vector2 offset;
 	
-    
-		public UI_Button(Vector2 pos, float renderScale, Color renderColor, float rectWidth, float rectHeight, Vector2 offset, Consumer simpleFunction) {
-		super(pos, renderScale, renderColor, RenderMode.Both, 93 );
 	
-		this.simpleFunction = simpleFunction;
-		
+	public UI_Button(Vector2 pos, float renderScale, Color renderColor, float rectWidth, float rectHeight, Vector2 offset, Consumer simpleFunction, int layer) {
+		super(pos, renderScale, renderColor, RenderMode.Both, layer );
+	
+		this.simpleFunction = simpleFunction;		
 		this.rectHeight = rectHeight;
 		this.rectWidth = rectWidth;
 		this.sprite = null;		
@@ -59,6 +58,13 @@ public class UI_Button extends UI_Element {
 		
 		///Calcul de positions :
 		CalcPosition();
+		}
+		
+	
+	
+    
+		public UI_Button(Vector2 pos, float renderScale, Color renderColor, float rectWidth, float rectHeight, Vector2 offset, Consumer simpleFunction) {
+		this(pos, renderScale, renderColor,rectWidth,  rectHeight,offset,   simpleFunction, 93 );
 		}
 		
 		public UI_Button(Vector2 pos, float renderScale, Color renderColor, Sprite sprite, Consumer simpleFunction) {

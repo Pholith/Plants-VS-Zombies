@@ -36,20 +36,20 @@ public class PauseMenu implements Serializable {
 		// TODO 
 		
 		// BOUTON REPRENDRE
-		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 1 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), resumeFunc ));
-		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 1 ), "Reprendre", Color.black, 3f));
+		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 1 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), resumeFunc, 95 ));
+		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 1 ), "Reprendre", Color.black, 3f, 96));
 
 		// BOUTON SAUVEGARDER
-		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 2 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), saveFunc ));
-		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 2 ), "Sauvegarder", Color.black, 3f));
+		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 2 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), saveFunc, 95 ));
+		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 2 ), "Sauvegarder", Color.black, 3f, 96));
 
 		// BOUTON CHARGER
-		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 3 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), loadFunc ));
-		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 3 ), "Menu", Color.black, 3f));
+		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 3 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), loadFunc, 95 ));
+		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 3 ), "Menu", Color.black, 3f, 96));
 
 		// BOUTON QUITTER
-		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 4 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), exitFunc ));
-		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 4 ), "Quitter", Color.black, 3f));
+		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 4 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), exitFunc, 95 ));
+		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 4 ), "Quitter", Color.black, 3f, 96));
 
 		for (UI_Element ui_Element : elements) {
 			ui_Element.hide();

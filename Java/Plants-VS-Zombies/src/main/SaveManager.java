@@ -23,9 +23,9 @@ public class SaveManager {
 
 	ObjectOutputStream objectOutputStream;
 
-	public static void save(SaveInstance toSave) { // TO CHANGE gamecontent
+	public static boolean save(SaveInstance toSave) { // TO CHANGE gamecontent
 
-
+		boolean end = true;
 		ObjectOutputStream oos = null;
 		try {
 			final FileOutputStream fichier = new FileOutputStream(Constant.savePath + "save_"+GameManager.getInstance().getClockMillis()+".ser");
@@ -49,11 +49,13 @@ public class SaveManager {
 			} catch (Exception e) {
 				System.out.println("SAVING WAS CANCELED !");
 				System.out.println(e);
+				end = false;
 			}
 			oos.flush();
 
 		} catch (final java.io.IOException e) {
 			e.printStackTrace();
+			end = false;
 		} finally {
 			try {
 				if (oos != null) {
@@ -64,8 +66,9 @@ public class SaveManager {
 			} catch (final IOException ex) {
 				ex.printStackTrace();
 			}
-
 		}
+		
+		return end;
 	}
 	
 

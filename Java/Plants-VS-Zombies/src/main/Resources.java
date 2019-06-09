@@ -481,8 +481,14 @@ public class Resources implements Serializable {
 	        		but.setRenderColor(new Color(0, 165, 255, 200 + (int)(50d*Math.cos( GameManager.getInstance().getClockMillis()/250d)) ));
     	}
     		
-    	
     	//Gestion du mode debug
+    	if(GameManager.getInstance().IsPausedGame()) {
+    		selectedPlant = -1;
+    		removeTerrainButtons();
+    	}
+    	
+    	
+    	//Gestion du mode debug [DEPRACATED]
 		if (GameManager.getInstance().isDebugMode()) {
 		
 						
@@ -515,12 +521,16 @@ public class Resources implements Serializable {
     
     
     private void selectShovel() {  
+
+    	
     	shovelMode = true; 
 	    drawTerrainButtons(-1);
     }
     
     
     private void selectPlantOfType(int value) {
+ 
+    	
     	shovelMode = false;
     	System.out.println(value);
  
