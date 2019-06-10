@@ -7,11 +7,19 @@ import plants.Plant;
 
 public class Pumpkin extends Plant {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4775095359451648278L;
+
 	public Pumpkin(Vector2 position) {
 		super(500, position, EnumReloadTime.slow, 125, "plants/Pumpkin1.png", 1f);
 
 	}
-
+	@Override
+	protected int getLayer() {
+		return super.getLayer()+1;
+	}
 	@Override
     public String name() {return "Pumpkin";}
 

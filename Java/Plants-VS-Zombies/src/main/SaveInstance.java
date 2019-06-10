@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import base.GameObject;
-import base.Terrain;
 import ui.UI_Button;
 import ui.UI_Label;
 import ui.UI_Sprite;
 
 //Classe à serialiser, qui comporte toute les informations du jeux a enregistrer.
 public class SaveInstance implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4772128883088207847L;
 
 	//Resources
 	private final int money;

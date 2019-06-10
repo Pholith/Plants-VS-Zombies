@@ -1,17 +1,17 @@
 package main;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.util.Random;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
-import ui.UI_Label;
 import ui.UI_Sun;
 import ui.UI_WaveTitle;
 import zombies.*;
 import zombies.ground.FlagZombie;
-import base.Constant;
-import base.UI_Element;
+import base.GameObject;
+import base.Terrain;
 import base.Vector2;
 
 public class LevelManager implements Serializable {
@@ -27,7 +27,6 @@ public class LevelManager implements Serializable {
 	private float counterOfLastWave = 0;
 	private float counterBeforeEnd = 0;
 	private float counterOfSun = 10;
-	
 	
 	private double spawnDelay; // temps de spawn en sec
 	private final double waveDelay; // temps entre chaque vague
@@ -81,38 +80,40 @@ public class LevelManager implements Serializable {
 
 	// créé un zombie aléatoirement en utilisant la liste des classes
 	private void createZombie(int coeffDifficulty) {
-		try {
 		
-			// Prend un type de Zombie aléatoire du tableau
-			Class<? extends Zombie> zombieClass;
-			Vector2 vector2;
-			float randomX = (float) (10 + Math.random()*2);
+		// Prend un type de Zombie aléatoire du tableau
+		Class<? extends Zombie> zombieClass;
+		Vector2 vector2;
+		float randomX = (float) (10 + Math.random()*2);
+		
+		
+		// Piscine avec eau au milieu 
+		if (GameManager.getResources().getGameInfo().isPool()) {
 			
-			
-			// Piscine avec eau au milieu 
-			if (GameManager.getResources().getGameInfo().isPool()) {
-				
-				if (Math.random() < 0.2) { // Zombie dans l'eau 
-					zombieClass = getRandomWaterZombie(coeffDifficulty);
-					vector2 = new Vector2(randomX, (float) (2f + Math.random() * 2) );
+			if (Math.random() < 0.2) { // Zombie dans l'eau 
+				zombieClass = getRandomWaterZombie(coeffDifficulty);
+				vector2 = new Vector2(randomX, (float) (2f + Math.random() * 2) );
 
-				} else { // Zombie sur le sol
-					if (Math.random() < 0.5) {
-						vector2 = new Vector2(randomX, (float) (Math.random() * 2) ); // les 2 cases en haut
-					} else {
-						vector2 = new Vector2(randomX, (float) (4f + Math.random() * 2) ); // les 2 cases en bas
-					}
-					zombieClass = getRandomGroundZombie(coeffDifficulty);
+			} else { // Zombie sur le sol
+				if (Math.random() < 0.5) {
+					vector2 = new Vector2(randomX, (float) (Math.random() * 2) ); // les 2 cases en haut
+				} else {
+					vector2 = new Vector2(randomX, (float) (4f + Math.random() * 2) ); // les 2 cases en bas
 				}
-			}
-			// Terrain normal
-			else {
 				zombieClass = getRandomGroundZombie(coeffDifficulty);
-				vector2 = new Vector2(randomX, (float) Math.random() * 5);
 			}
-			
-			
-			
+		}
+		// Terrain normal
+		else {
+			zombieClass = getRandomGroundZombie(coeffDifficulty);
+			vector2 = new Vector2(randomX, (float) Math.random() * 5);
+		}
+		instanceZombie(zombieClass, vector2);
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void instanceZombie(Class zombieClass, Vector2 vector2) {
+		try {
 			// Cherche le constructeur avec un Vector2 de ce zombie et l'instancie
 			Constructor<? extends Zombie> constructor = zombieClass.getDeclaredConstructor(new Class[] {Vector2.class});
 			constructor.newInstance(new Object[] {vector2});
@@ -123,12 +124,13 @@ public class LevelManager implements Serializable {
 		}
 	}
 	
-		// créé un zombie de vague
+	// créé un zombie de vague
 	private void createFlagZombie() {
 		new FlagZombie(Vector2.randomStartVector());
 	}
 	
 	// gère les attaques de zombies et les niveaux
+	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 	public void levelEvent() {
 
 		// incrémentation de tous les compteurs
@@ -154,7 +156,21 @@ public class LevelManager implements Serializable {
 		// création d'une vague d'attaque
 		if (counterOfLastWave >= waveDelay) {
 			counterOfLastWave = 0;
-			System.out.println("Prochaine vague dans: "+Math.round(waveDelay)+" secondes");
+			
+			if (waveCnt%2 == 0) { // Toutes les vagues pairs
+				
+				Function f = new Function<Vector2, Boolean>() {
+					@Override
+					public Boolean apply(Vector2 v) {
+						System.out.println(v);
+						instanceZombie(getRandomGroundZombie(3), v);
+						return true;
+					}
+				};
+				GameManager.getResources().getTerrain().doThisIfGraveStone(f);
+
+			}
+			System.out.println("Prochaine vague dans: " + Math.round(waveDelay)+" secondes");
 			
 			waveCnt++;
 			new UI_WaveTitle("Vague "+waveCnt);
@@ -180,13 +196,7 @@ public class LevelManager implements Serializable {
 			createZombie((int) levelAdvancement);
 		}
 	}
-	
-	
-
-	
-
-
-    
+   
     
     
 }

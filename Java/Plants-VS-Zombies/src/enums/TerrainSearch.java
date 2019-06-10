@@ -7,7 +7,7 @@ public enum TerrainSearch {
 	emptyWater,
 	graveStone,
 	shroom,
-	roof,
+	directRoof,
 	possibleTerrain,
 	notEmptyPlant
 }

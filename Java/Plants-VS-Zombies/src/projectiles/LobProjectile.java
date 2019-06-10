@@ -17,10 +17,12 @@ public class LobProjectile extends GameObject implements Projectile {
 	private static final long serialVersionUID = 6384191522990649520L;
 	private Sprite defaultSprite;
 	
-    public LobProjectile(Vector2 position, Vector2 speed, int dammage, String texturePath, Zombie target) {
+    public LobProjectile(Vector2 position, int dammage, String texturePath, Zombie target) {
 		super(position);
-		this.speed = speed;
+		
+		this.speed = new Vector2((target.getPosition().getX()-position.getX() - 0.3f) / 100, -0.05f);
 		this.dammage = dammage;
+		
 		Sprite[] sprts = GameManager.getResources().getAnimationByPath(texturePath);
 		if(sprts.length == 0)
 			sprts = GameManager.getResources().getAnimationByPath(Constant.errorTexture);
@@ -50,7 +52,10 @@ public class LobProjectile extends GameObject implements Projectile {
 		z.takeDammage(dammage, this);
 		destroy();
     }
-
+    @Override
+    protected int getLayer() {
+    	return super.getLayer() + 10;
+    }
     @Override
     public void update() {
     	super.update();

@@ -41,5 +41,10 @@ public class Torchwood extends Plant {
 	}
 	@Override
 	public String name() {return "Torchwood"; }
+    
+	@Override
+    public float getLightRange() {
+    	return 1f;
+    }
 
 }

@@ -2,7 +2,6 @@ package base;
 
 import java.awt.Image;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import main.GameManager;

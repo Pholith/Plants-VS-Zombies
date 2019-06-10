@@ -23,6 +23,14 @@ public class DiggerZombie extends Zombie {
 	}
 	
 	@Override
+	protected int getLayer() {
+		if (isDigging) {
+			return 9;
+		}
+		return super.getLayer();
+	}
+	
+	@Override
 	public boolean isTargetable() {
 		return !isDigging;
 	}

@@ -1,8 +1,6 @@
 package main;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,13 +9,7 @@ import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-
 import base.Constant;
-import base.GameObject;
-import base.Terrain;
-import base.UI_Element;
-import ui.UI_Button;
 
 public class SaveManager {
 

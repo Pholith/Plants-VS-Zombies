@@ -9,6 +9,10 @@ import main.GameManager;
 public class UI_WaveTitle extends UI_Label {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3527904433676889794L;
 	private float counter = 0;
 	private float centerY;
 	private final float coefSpeed;

@@ -16,10 +16,6 @@ public class SnowPea extends LineProjectile {
 		this(position, false);
 	}
 
-	@Override
-	public void update() {
-		super.update();
-	}
     @Override
     public String name() {
     	return "SnowPeash";

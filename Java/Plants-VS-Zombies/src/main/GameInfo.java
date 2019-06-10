@@ -9,6 +9,10 @@ import zombies.Zombie;
 
 public class GameInfo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8106369629273399594L;
 	@SuppressWarnings("rawtypes")
 	private final Class<? extends Plant>[] listOfPlants; 
 	private final ArrayList<Class<? extends Zombie>> listOfGroundZombies; 
@@ -51,6 +55,9 @@ public class GameInfo implements Serializable{
 	}
 	public boolean isFog() {
 		return selectedTerrain == EnumTerrain.fog;
+	}
+	public boolean isRoof() {
+		return selectedTerrain == EnumTerrain.roof;
 	}
 	
 	

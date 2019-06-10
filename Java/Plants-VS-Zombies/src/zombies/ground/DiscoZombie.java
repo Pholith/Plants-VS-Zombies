@@ -22,6 +22,7 @@ public class DiscoZombie extends Zombie {
 	private float dance = 0f;
 	private int danced = 0;
 	
+	@Override
 	public void update() {
 		super.update();
 		if ( (getPosition().getX() <= 10f && danced == 0) || (getPosition().getX() <= 8f && danced == 1) ) {

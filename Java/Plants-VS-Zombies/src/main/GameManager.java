@@ -160,7 +160,11 @@ public final class GameManager implements Serializable {
 
 			pauseMenu = new PauseMenu(resolutionX, resolutionY, resume, save, load, exit) {
 
+				/**
+				 * 
+				 */
 				private static final long serialVersionUID = 9127473762164938994L;
+
 			};
 
 			clearScene();
@@ -375,8 +379,6 @@ public final class GameManager implements Serializable {
 		KeyboardKey key = event.getKey();
 
 		if (key == KeyboardKey.UNDEFINED) {// action == Action.KEY_PRESSED || action == Action.KEY_RELEASED) {
-			System.out.println("abort abort !");
-			context.exit(0);
 			return;
 		}
 

@@ -6,8 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
-
+import java.util.function.Function;
 import enums.EnumTerrain;
 import enums.RenderMode;
 import enums.TerrainSearch;
@@ -77,14 +76,12 @@ public class Terrain extends GameObject {
 		
 		if(terrainType == EnumTerrain.night_lawn) {
 			
-			Vector2 rand;
-		
 			int graveX, graveY;
 						
 				
-    	for(i = 0; i < 5 + Math.random()*2; i++) {
-      		graveX = (int) (Math.random()*sizeX);
-      		graveY = (int) (Math.random()*sizeY);
+    	for(i = 0; i < 6 + Math.random()*2; i++) {
+      		graveX = (int) (6 + Math.random()* (sizeX - 6));
+      		graveY = (int) (Math.random()* (sizeY));
     		
     	
     		
@@ -139,9 +136,12 @@ public class Terrain extends GameObject {
 			return (square.hasGravestone());
 	
 			
-		case roof:
+		case directRoof:
+			if (!GameManager.getResources().getGameInfo().isRoof()) {
+				return false;
+			}
+			return ent.size() < 1;
 			
-			break;
 		case shroom:
 			return square.hasShroom();			
 
@@ -153,8 +153,16 @@ public class Terrain extends GameObject {
 	}
 	
 	
-	
- 
+	public void doThisIfGraveStone(Function<Vector2, Boolean> func) {
+		for (Square[] squares : listOfSquares) {
+			for (Square square : squares) {
+				if (square.hasGravestone()) {
+					func.apply(Terrain.positionToCase(square.getPos()));
+				}
+			}
+		}
+	}
+	 
 	public void generateButtons(ArrayList<UI_Button> lst, Consumer<Integer[]> function, TerrainSearch searchMode) {
     	int x,y;
   

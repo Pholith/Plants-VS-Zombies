@@ -4,15 +4,15 @@ package base;
 import java.io.Serializable;
 import java.util.*;
 
-import plants.AttackingPlant;
+import main.GameManager;
 import plants.fog.Pumpkin;
 import plants.night.AttackingShroom;
 import plants.night.ExplodingShroom;
 import plants.night.Shroom;
 import plants.pool.LilyPad;
+import plants.roof.FlowerPot;
 import props.Fog;
 import props.Gravestone;
-import ui.UI_Sprite;
 
 public class Square implements Serializable {
 
@@ -98,6 +98,16 @@ public class Square implements Serializable {
      */
     public boolean canBePlacedNewGroundPlant() {
     	// bloc d'eau
+    	if (GameManager.getResources().getGameInfo().isRoof()) {
+			if (!hasFlowerPot()) {
+				return false;
+			}
+			if (hasPumpkin()) {
+				return contain.size() < 3;
+			}
+			return contain.size() < 2;
+
+		}
     	if (inWater) {
     		if (hasLilyPad()) {
     			
@@ -116,7 +126,17 @@ public class Square implements Serializable {
 		return contain.size() < 1;
     	
     }
-    public boolean hasPumpkin() {
+    private boolean hasFlowerPot() {
+		for (LivingEntity livingEntity : contain) {
+			if (livingEntity.getClass() == FlowerPot.class) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	public boolean hasPumpkin() {
 		for (LivingEntity livingEntity : contain) {
 			if (livingEntity.getClass() == Pumpkin.class) {
 				return true;

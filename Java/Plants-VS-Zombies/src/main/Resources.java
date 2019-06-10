@@ -99,13 +99,13 @@ public class Resources implements Serializable {
     
     @SuppressWarnings("rawtypes")
 	private Class[] plantsTotalList = new Class[] {
-			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class,
+			Peashooter.class, Sunflower.class, WallNut.class, CherryBomb.class, 
 			Chomper.class, FreezePeaShooter.class, PotatoMine.class, LilyPad.class, Repeater.class,
-			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class,
+			PuffShroom.class, SunShroom.class, ScaredyShroom.class, FumeShroom.class, IceShroom.class, DoomShroom.class, HypnoShroom.class, GraveBuster.class,
 			TallNut.class, Threepeater.class, Torchwood.class, Jalapeno.class, Squash.class, TangleKelp.class, Spikeweed.class,
 			
-			SeaShroom.class, SplitPea.class , Starfruit.class, Pumpkin.class, MagnetShroom.class,
-			CabbagePult.class, KernelPult.class, Garlic.class, Plantern.class, GraveBuster.class
+			SeaShroom.class, SplitPea.class , Starfruit.class, Pumpkin.class, MagnetShroom.class, Plantern.class, 
+			CabbagePult.class, KernelPult.class, Garlic.class,  MelonPult.class, FlowerPot.class,
 	};
 
     
@@ -178,6 +178,7 @@ public class Resources implements Serializable {
     	specialSearch.put(SeaShroom.class.getSimpleName(), TerrainSearch.emptyWater);
     	specialSearch.put(Pumpkin.class.getSimpleName(), TerrainSearch.possibleTerrain);
     	specialSearch.put(GraveBuster.class.getSimpleName(), TerrainSearch.graveStone);
+    	specialSearch.put(FlowerPot.class.getSimpleName(), TerrainSearch.directRoof);
 
     }
 
@@ -257,12 +258,16 @@ public class Resources implements Serializable {
     	cutImage("plants/SplitPea.png", 1, 1, new Vector2(0.5f, 0.75f), 95);
     	cutImage("plants/Starfruit.png", 1, 1, new Vector2(0.5f, 0.5f), 140);
     	cutImage("plants/KernelPult.png", 13, 2, new Vector2(0.6f, 0.75f), 70);
+    	cutImage("plants/MelonPult.png", 7, 3, new Vector2(0.6f, 0.75f), 70);
     	cutImage("plants/Garlic.png", 9, 2, new Vector2(0.5f, 0.6f), 70);
     	cutImage("plants/Garlic_cracked.png", 1, 1, 100);
-    	cutImage("plants/Pumpkin1.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
-    	cutImage("plants/Pumpkin2.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
-    	cutImage("plants/Pumpkin3.png", 1, 1, new Vector2(0.5f, 0.6f), 100);
+    	cutImage("plants/Pumpkin1.png", 1, 1, new Vector2(0.5f, 0.6f), 120);
+    	cutImage("plants/Pumpkin2.png", 1, 1, new Vector2(0.5f, 0.6f), 120);
+    	cutImage("plants/Pumpkin3.png", 1, 1, new Vector2(0.5f, 0.6f), 120);
     	cutImage("plants/MagnetShroom.png", 1, 1, new Vector2(0.5f, 0.6f), 160);
+     	cutImage("plants/plantern.png", 2, 1, new Vector2(0.55f, 0.8f), 200);
+    	cutImage("plants/GraveBuster.png", 1, 1, new Vector2(0.5f, 0.5f), 70);
+    	cutImage("plants/FlowerPot.png", 1, 1, new Vector2(0.4f, 0.5f), 120);
 
     	cutImage("Lawnmower.png", 1, 1, 60);
 
@@ -295,8 +300,7 @@ public class Resources implements Serializable {
     	cutImage("plants/Cabbage.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Corn.png", 1, 1, new Vector2(2f, 2f), 70);
     	cutImage("plants/Star.png", 1, 1, new Vector2(0.4f, 0.4f), 70);
-     	cutImage("plants/plantern.png", 2, 1, new Vector2(0.55f, 0.8f), 200);
-    	cutImage("plants/GraveBuster.png", 1, 1, new Vector2(0.5f, 0.5f), 70);
+    	cutImage("plants/Melon.png", 1, 1, new Vector2(1.5f, 1.5f), 70);
 
      	
      	cutImage("props/gravestone.png", 1, 1, new Vector2(0.4f, 0.6f), 170);
