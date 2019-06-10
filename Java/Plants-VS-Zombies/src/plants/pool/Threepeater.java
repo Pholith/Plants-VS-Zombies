@@ -19,8 +19,8 @@ public class Threepeater extends AttackingPlant {
 
 	}
 
-    @Override
-    public String name() {return "Threepeater";}
+	@Override
+	public String name() {return "Threepeater";}
 
 	@Override
 	public void attack(Vector2 position, Zombie zombie) {
@@ -29,12 +29,12 @@ public class Threepeater extends AttackingPlant {
 		new Pea(newPosition.add(0,  1));
 		new Pea(newPosition.add(0, -1));
 	}
-	
+
 	@Override
 	public boolean conditionToAttack() {
 		return super.conditionToAttack() 
-			|| GameManager.getInstance().isZombieOnRow( (int) Terrain.positionToCase(getPosition()).getY() + 1)
-			|| GameManager.getInstance().isZombieOnRow( (int) Terrain.positionToCase(getPosition()).getY() - 1);
+				|| GameManager.getInstance().isZombieOnRow( (int) Terrain.positionToCase(getPosition()).getY() + 1)
+				|| GameManager.getInstance().isZombieOnRow( (int) Terrain.positionToCase(getPosition()).getY() - 1);
 	}
 	@Override
 	public void update() {

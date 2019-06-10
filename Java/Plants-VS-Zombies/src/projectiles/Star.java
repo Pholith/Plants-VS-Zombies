@@ -15,9 +15,9 @@ public class Star extends LineProjectile {
 	}
 
 
-    @Override
-    public String name() {
-    	return "Star";
-    }
+	@Override
+	public String name() {
+		return "Star";
+	}
 
 }

@@ -19,6 +19,6 @@ public class FlowerPot extends Plant {
 		super(50, position, EnumReloadTime.very_fast, 25, "plants/FlowerPot.png", 1f);
 	}
 
-    @Override
-    public String name() {return "FlowerPot";}
+	@Override
+	public String name() {return "FlowerPot";}
 }

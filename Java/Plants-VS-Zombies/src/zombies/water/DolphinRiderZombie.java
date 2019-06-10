@@ -18,24 +18,24 @@ public class DolphinRiderZombie extends Zombie {
 
 	}
 	@Override
-    public String name() {return "DolphinRiderZombie";}
+	public String name() {return "DolphinRiderZombie";}
 
 	private boolean canJump = true;
-	
+
 	@Override
 	public void update() {
 		super.update();
-		
+
 		if (canJump) {
-	    	LivingEntity firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
-	    	// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
-	    	if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
-	    		if (!(firstEnemy instanceof TallNut)) {
-		    		this.translationFixed(-0.5f, 0); // translation de une case vers la gauche
-	    		}
-	    		canJump = false;
-	    		this.addSpeed(-0.5f);
-	    	}
+			LivingEntity firstEnemy = (LivingEntity) GameManager.getInstance().getFirstPlant(this);
+			// si le zombie rencontre une plante devant lui et assez proche, il s'arr�te pour la manger
+			if (firstEnemy != null && firstEnemy.getPosition().getX() > this.getPosition().getX() - 0.5) {
+				if (!(firstEnemy instanceof TallNut)) {
+					this.translationFixed(-0.5f, 0); // translation de une case vers la gauche
+				}
+				canJump = false;
+				this.addSpeed(-0.5f);
+			}
 		}
 	}
 

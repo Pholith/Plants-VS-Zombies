@@ -6,7 +6,7 @@ import base.Vector2;
 import zombies.Zombie;
 
 public class GargantuarZombie extends Zombie {
-	
+
 	/**
 	 * 
 	 */
@@ -17,7 +17,7 @@ public class GargantuarZombie extends Zombie {
 	}
 
 	@Override
-    public String name() {return "GargantuarZombie";}
+	public String name() {return "GargantuarZombie";}
 
 	@Override
 	protected void eatPlant(LivingEntity enemy) {

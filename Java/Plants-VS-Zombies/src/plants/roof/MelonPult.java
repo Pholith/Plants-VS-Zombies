@@ -7,14 +7,14 @@ import projectiles.Melon;
 import zombies.Zombie;
 
 public class MelonPult extends AttackingPlant {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2529851896405838807L;
 
 	public MelonPult(Vector2 position) {
-		super(100, position, EnumReloadTime.fast, 300, "plants/MelonPult.png", 1.2f);
+		super(100, position, EnumReloadTime.fast, 300, "plants/MelonPult.png", 1.2f, 1.6);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class MelonPult extends AttackingPlant {
 		new Melon(getPosition().add(-0.2f, 0), zombie);
 	}
 
-    @Override
+	@Override
 	public String name() { return "MelonPult"; }
 
 }

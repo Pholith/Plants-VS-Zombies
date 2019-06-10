@@ -7,7 +7,7 @@ import projectiles.SnowPea;
 import zombies.Zombie;
 
 public class FreezePeaShooter extends AttackingPlant {
-    
+
 	/**
 	 * 
 	 */
@@ -18,7 +18,7 @@ public class FreezePeaShooter extends AttackingPlant {
 
 	}
 	@Override
-    public String name() {return "FreezePeaShooter";}
+	public String name() {return "FreezePeaShooter";}
 
 	@Override
 	public void attack(Vector2 position, Zombie zombie) {

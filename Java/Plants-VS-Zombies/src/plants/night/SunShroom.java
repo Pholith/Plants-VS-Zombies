@@ -9,8 +9,8 @@ import ui.UI_Sun;
 
 public class SunShroom extends Shroom {
 
-    
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4692640622404725591L;
@@ -20,40 +20,40 @@ public class SunShroom extends Shroom {
 		productionDelay = 17;
 		growDelay = 40;
 	}    
-	
-    private int productionDelay;
-	private int growDelay;
-	
+
+	private final int productionDelay;
+	private final int growDelay;
+
 	private float grow = 0;
-    private float production = 10;  // La sunflower produit son premier soleil plus rapidement
+	private float production = 10;  // La sunflower produit son premier soleil plus rapidement
 
-    @Override
-    public String name() {return "SunShroom";}
-
-    
-    private boolean isBig() {
-    	return (grow >= growDelay);
-    }
-
-    
 	@Override
-    public void update() {
-    	super.update();
-    	if (!isSleeping()) {
-	
-	    	if(production >= productionDelay) {
-	    		if (isBig()) {
-		        	new UI_Sun(getPosition(), func -> { GameManager.getResources().getASun(50);} );     	
+	public String name() {return "SunShroom";}
+
+
+	private boolean isBig() {
+		return grow >= growDelay;
+	}
+
+
+	@Override
+	public void update() {
+		super.update();
+		if (!isSleeping()) {
+
+			if(production >= productionDelay) {
+				if (isBig()) {
+					new UI_Sun(getPosition(), func -> { GameManager.getResources().getASun(50);} );     	
 				} else {
-		        	new UI_LittleSun(getPosition(), func -> { GameManager.getResources().getASun(25);} );     	
+					new UI_LittleSun(getPosition(), func -> { GameManager.getResources().getASun(25);} );     	
 				}
-	        	production = 0;
-	    	}
-	    	if (!isBig()) {
+				production = 0;
+			}
+			if (!isBig()) {
 				grow += GameManager.getInstance().getDeltatime();
 			}
-	    	production += GameManager.getInstance().getDeltatime();
-    	}
-    	
-    }
+			production += GameManager.getInstance().getDeltatime();
+		}
+
+	}
 }

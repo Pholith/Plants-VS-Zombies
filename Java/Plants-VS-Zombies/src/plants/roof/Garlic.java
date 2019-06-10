@@ -17,7 +17,7 @@ public class Garlic extends Plant {
 	}
 
 	@Override
-    public String name() {return "Garlic";}
+	public String name() {return "Garlic";}
 
 	boolean changed = false;
 	@Override

@@ -15,7 +15,7 @@ public class SnorkelZombie extends Zombie {
 		isUnderWater = true;
 	}
 	@Override
-    public String name() {return "SnorkelZombie";}
+	public String name() {return "SnorkelZombie";}
 
 	@Override
 	public void update() {

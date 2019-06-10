@@ -18,24 +18,24 @@ public class Repeater extends AttackingPlant {
 		super(100, position, EnumReloadTime.fast, 200, "plants/Repeater.png", 1.75f);
 	}
 
-    @Override
-    public String name() {return "Repeater";}
+	@Override
+	public String name() {return "Repeater";}
 
 
-    private float secondShootDelay = 0.2f;
-    private float secondShoot = -1f;
+	private final float secondShootDelay = 0.2f;
+	private float secondShoot = -1f;
 
-    @Override
-    public void update() {
-    	super.update();
-    	if (secondShoot != -1) {
-        	secondShoot += GameManager.getInstance().getDeltatime();
+	@Override
+	public void update() {
+		super.update();
+		if (secondShoot != -1) {
+			secondShoot += GameManager.getInstance().getDeltatime();
 		}
-    	if (secondShoot > secondShootDelay) {
+		if (secondShoot > secondShootDelay) {
 			attack(this.getPosition());
 			secondShoot = -1;
 		}
-    }
+	}
 	@Override
 	public void attack(Vector2 position, Zombie zombie) {
 		new Pea(position.add(0.2f, 0.1f));

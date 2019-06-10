@@ -16,23 +16,23 @@ public class Pea extends LineProjectile {
 		super(position, inverted ? new Vector2(-0.06f, 0) : new Vector2(0.06f, 0), 10, "plants/peash.png", burned);
 	}
 
-    public Pea(Vector2 position, boolean burned) {
+	public Pea(Vector2 position, boolean burned) {
 		this(position, false, false);
-    }
+	}
 
 	@Override
 	public void update() {
 		super.update();
 	}
-    @Override
-    public String name() {
-    	return "Peash";
-    }
-    @Override
-    public void onBurn() {
-    	super.onBurn();
-    	new FirePea(getPosition());
-    	destroy();
-    }
+	@Override
+	public String name() {
+		return "Peash";
+	}
+	@Override
+	public void onBurn() {
+		super.onBurn();
+		new FirePea(getPosition());
+		destroy();
+	}
 
 }

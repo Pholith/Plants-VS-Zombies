@@ -15,26 +15,26 @@ public abstract class ExplodingShroom extends Shroom {
 	}
 
 	private float timeExplode = 0;
-		
+
 	public void onExplosion() {
 		destroy();
 	}
 
-	
+
 	@Override
 	public void update() {
 
-    	if (!isSleeping()) {
-	
+		if (!isSleeping()) {
+
 			if (timeExplode > 1f) {
 				onExplosion();
 			}
 			timeExplode += GameManager.getInstance().getDeltatime();
-    	}
+		}
 	}
-	
 
-    @Override
+
+	@Override
 	public String name() {return "ExplodingShroom";}
 
 }

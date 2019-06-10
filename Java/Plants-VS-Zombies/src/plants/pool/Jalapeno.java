@@ -24,7 +24,7 @@ public class Jalapeno extends Plant {
 	private float timeExplode = 0;	
 	public void onExplosion() {
 		var allZombies = GameManager.getInstance().getGameObjectArround(this, 20, new Function<GameObject, Boolean>() {
-			
+
 			@Override
 			public Boolean apply(GameObject t) {
 				if (t.isZombie() && t.getPosition().isOnSameRow(getPosition())) {
@@ -48,7 +48,7 @@ public class Jalapeno extends Plant {
 		}
 		timeExplode += GameManager.getInstance().getDeltatime();
 	}
-	
+
 	@Override
 	public String name() {return "Jalapeno"; }
 

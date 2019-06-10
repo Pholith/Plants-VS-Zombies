@@ -98,8 +98,8 @@ public final class GameManager implements Serializable {
 	private final ArrayList<GameObject> sceneContent;
 	private final ArrayList<GameObject> objectsInQueue;
 	private final ArrayList<GameObject> objectsToRemoveQueue;
-	 private final ArrayList<GameObject> constantObjects;
-	 
+	private final ArrayList<GameObject> constantObjects;
+
 	private Camera mainCamera;
 	private LevelManager levelManager;
 	private UI_Label fpsBox;
@@ -109,29 +109,29 @@ public final class GameManager implements Serializable {
 	private boolean gameEnded;
 	private boolean gameStarted;
 	private boolean isPlayingASave;
-	
-	
-	
-	
+
+
+
+
 	PauseMenu pauseMenu;
 	ApplicationContext context;
 
-	
+
 	public boolean IsPausedGame(){
-		return (pauseMenu != null && pauseMenu.isVisible());
+		return pauseMenu != null && pauseMenu.isVisible();
 	}
-	
-	
+
+
 	public boolean IsPlayingASave(){
 		return isPlayingASave;
 	}
-	
+
 	void setGameStarted(boolean val) {
 
 		gameStarted = val;
 		gameEnded = false;
-		
-		
+
+
 		if (val) {
 			levelManager = new LevelManager();
 
@@ -140,9 +140,9 @@ public final class GameManager implements Serializable {
 				timeScale = 1f;
 			};
 			Consumer<Integer> save = (x) -> {
-				Vector2 centerPos = new Vector2( -2f + (GameManager.getInstance().getResolutionX() /Constant.screenPixelPerUnit)/2f,
-						  (GameManager.getInstance().getResolutionY() /Constant.screenPixelPerUnit)/2f);
-						
+				Vector2 centerPos = new Vector2( -2f + GameManager.getInstance().getResolutionX() /Constant.screenPixelPerUnit/2f,
+						GameManager.getInstance().getResolutionY() /Constant.screenPixelPerUnit/2f);
+
 				if(saveScene()) {
 					new UI_TremblingLabel(centerPos, "game saved !", Color.green, 6, 1.5f, new Vector2(1f, 0), true, 98);
 					new UI_TremblingLabel(centerPos.add(Vector2.one().multiply(0.05f)), "game saved !", Color.black, 6, 1.5f, new Vector2(1f, 0), true, 97);
@@ -170,89 +170,92 @@ public final class GameManager implements Serializable {
 			clearScene();
 		}
 	}
-	
-	
+
+
 	public void exitGame() {	
-	context.exit(0);
+		context.exit(0);
 	}
-	
+
 	public void backToMainMenu() {	
 		clearScene();
 		setGameStarted(false);
 		MainMenu.start_menu();
-		
+
 	}
-		
-	
-	
-	
+
+
+
+
 	public boolean saveScene() {	
-	 return SaveManager.save(new SaveInstance(sceneContent, RESOURCES.getMoney(), RESOURCES.getGameInfo(), levelManager));
+		return SaveManager.save(new SaveInstance(sceneContent, RESOURCES.getMoney(), RESOURCES.getGameInfo(), levelManager));
 	}
-	
-	
-	
+
+
+
 	public void loadScene(String path, boolean onlyPreview) {
 		SaveInstance save = SaveManager.load(path);
-		
-		if(save == null)
+
+		if(save == null) {
 			return;
-			
+		}
+
 		loadFromSave(save, onlyPreview);
 	}
 
-	
-	
-	public void loadFromSave(SaveInstance toLoad, boolean onlyPreview) {
-		
 
-		
-		if(toLoad == null)
+
+	public void loadFromSave(SaveInstance toLoad, boolean onlyPreview) {
+
+
+
+		if(toLoad == null) {
 			return;
-		
-		
+		}
+
+
 		clearScene();
-		
+
 		isPlayingASave = true;
 
-		
+
 		if(!onlyPreview) {//Si on commence une partie à partir d'une save
-		RESOURCES.continueGame(toLoad);
-		timeScale = 1;				
-		levelManager = toLoad.getLevelManage();		
+			RESOURCES.continueGame(toLoad);
+			timeScale = 1;				
+			levelManager = toLoad.getLevelManage();		
 
 		}
-		
+
 		ArrayList<GameObject> objs = toLoad.getGameContent();
-		
-		
+
+
 		for(var obj : objs) {
-			
+
 			if(!onlyPreview ) {
-				
-					if(obj.getClass() == Terrain.class) {//si il y a un terrain enregistré, on le détruit car il est géré avec le début de partie
-						obj.destroy();
-						continue;
-					}		
-			
-			
-			if(obj instanceof LivingEntity)
-				RESOURCES.addEntityToTerrain((LivingEntity)obj);
+
+				if(obj.getClass() == Terrain.class) {//si il y a un terrain enregistré, on le détruit car il est géré avec le début de partie
+					obj.destroy();
+					continue;
+				}		
+
+
+				if(obj instanceof LivingEntity) {
+					RESOURCES.addEntityToTerrain((LivingEntity)obj);
+				}
 			}
-			
+
 			addGameObjectToScene(obj);
-			
+
 		}
-		
-		
-		
+
+
+
 		if(onlyPreview) {
 			timeScale = 0;		
 			return;
 		}	
 	}
-	
-	
+
+
 
 	public boolean getGameStarted() {
 
@@ -283,21 +286,22 @@ public final class GameManager implements Serializable {
 			resolutionX = screenInfo.getWidth();
 			resolutionY = screenInfo.getHeight();
 			isPlayingASave = false;
-							
+
 			if (this.context == null) {
 				this.context = context;
 			}
 
 			System.out.println("size of the screen (" + resolutionX + " x " + resolutionY + ")");
 
-				
+
 			MainMenu.start_menu();
-			
+
 
 			while (true) {
 
-				if (gameStarted && !gameEnded)
+				if (gameStarted && !gameEnded) {
 					levelManager.levelEvent();
+				}
 				updateGameObjects();
 				RESOURCES.updateResources();
 				inputCheck(context);
@@ -339,10 +343,10 @@ public final class GameManager implements Serializable {
 	private void render(ApplicationContext context) {
 
 		context.renderFrame(graphics -> {
-			
-			
+
+
 			graphics.setFont(RESOURCES.getMainFont());
-			
+
 			// clear les graphics
 			graphics.setColor(Color.WHITE);
 			graphics.fill(new Rectangle2D.Float(0, 0, resolutionX, resolutionY));
@@ -356,10 +360,11 @@ public final class GameManager implements Serializable {
 
 	private void inputCheck(ApplicationContext context) {
 
-		gameWait = (int) ((((float) savedFps / (float) maxFps) - 1f) * (1000f / savedFps));
+		gameWait = (int) (((float) savedFps / (float) maxFps - 1f) * (1000f / savedFps));
 
-		if (gameWait < 500 / maxFps)
+		if (gameWait < 500 / maxFps) {
 			gameWait = 500 / maxFps;
+		}
 
 		Event event = context.pollOrWaitEvent(gameWait);
 
@@ -385,7 +390,7 @@ public final class GameManager implements Serializable {
 
 
 		if (gameStarted && !gameEnded) {	
-			
+
 			if (key == KeyboardKey.P) {
 
 				if (!pauseMenu.isVisible()) {
@@ -397,11 +402,13 @@ public final class GameManager implements Serializable {
 
 			if (!pauseMenu.isVisible()) {
 
-				if (key == KeyboardKey.LEFT)
+				if (key == KeyboardKey.LEFT) {
 					mainCamera.pushLeft();
+				}
 
-				if (key == KeyboardKey.RIGHT)
+				if (key == KeyboardKey.RIGHT) {
 					mainCamera.pushRight();
+				}
 
 				if (key == KeyboardKey.D && action == Action.KEY_PRESSED) {
 
@@ -425,7 +432,7 @@ public final class GameManager implements Serializable {
 				}
 				if (key == KeyboardKey.U) {
 					System.out.println("Speed changed to fast");
-				timeScale = 5f;
+					timeScale = 5f;
 				}
 
 				if (key == KeyboardKey.Y) {
@@ -436,8 +443,8 @@ public final class GameManager implements Serializable {
 			}
 		}
 
-		
-		
+
+
 		if (action != Action.POINTER_DOWN) {
 			clickLocation = null;
 			return;
@@ -447,17 +454,19 @@ public final class GameManager implements Serializable {
 	}
 
 	public void addGameObjectToScene(GameObject obj) {
-		
-		if (!sceneContent.contains(obj) && !objectsInQueue.contains(obj))
+
+		if (!sceneContent.contains(obj) && !objectsInQueue.contains(obj)) {
 			objectsInQueue.add(obj);
+		}
 
 		obj.start();
 	}
 
 
 	public void removeGameObjectFromScene(GameObject obj) {
-		if (obj != null && !objectsToRemoveQueue.contains(obj))
+		if (obj != null && !objectsToRemoveQueue.contains(obj)) {
 			objectsToRemoveQueue.add(obj);
+		}
 	}
 
 	private void fpsCount() {
@@ -486,7 +495,7 @@ public final class GameManager implements Serializable {
 		return deltaTime;
 	}
 
-	
+
 	public float getTimeScale() {
 		return timeScale;
 	}
@@ -565,15 +574,14 @@ public final class GameManager implements Serializable {
 
 			if (gameObject.isZombie() && gameObject.isTargetable() && gameObject.isOnSameRow(o)
 					&& gameObject.getPosition().getX() > o.getPosition().getX()) {
-				if (firstEnemy == null)
+				if (firstEnemy == null) {
 					firstEnemy = gameObject;
-
-				// si firstEnemy n'est pas null on compare les distances
-				else {
+				} else {
 					// si l'objet de la boucle est plus proche de o, on le prend
 					if (o.getPosition().getX() - gameObject.getPosition().getX() > o.getPosition().getX()
-							- firstEnemy.getPosition().getX())
+							- firstEnemy.getPosition().getX()) {
 						firstEnemy = gameObject;
+					}
 				}
 			}
 		}
@@ -593,15 +601,14 @@ public final class GameManager implements Serializable {
 			}
 			if ((gameObject.isPlant() || hypnotisedZombie) && !gameObject.isProjectile() && gameObject.isOnSameRow(o)
 					&& gameObject.getPosition().getX() < o.getPosition().getX()) {
-				if (firstEnemy == null)
+				if (firstEnemy == null) {
 					firstEnemy = gameObject;
-
-				// si firstEnemy n'est pas null on compare les distances
-				else {
+				} else {
 					// si l'objet de la boucle est plus proche de o, on le prend
 					if (o.getPosition().getX() - gameObject.getPosition().getX() < o.getPosition().getX()
-							- firstEnemy.getPosition().getX())
+							- firstEnemy.getPosition().getX()) {
 						firstEnemy = gameObject;
+					}
 				}
 			}
 		}
@@ -614,8 +621,9 @@ public final class GameManager implements Serializable {
 		// utilitaires)
 
 		for (var obj : sceneContent) {
-			if(constantObjects.contains(obj))
+			if(constantObjects.contains(obj)) {
 				continue;
+			}
 			obj.destroy();
 		}
 
@@ -628,22 +636,22 @@ public final class GameManager implements Serializable {
 		clearScene();
 
 		if (win) {
-			new UI_AnimatedSprite(new Vector2((resolutionX / Constant.screenPixelPerUnit) / 2f, 0),		
+			new UI_AnimatedSprite(new Vector2(resolutionX / Constant.screenPixelPerUnit / 2f, 0),		
 					"particles/end_anim_victory.png", 1.2f, false);
-			new UI_AnimatedSprite(new Vector2( 3+ (resolutionX / Constant.screenPixelPerUnit) / 2f, 3f),
+			new UI_AnimatedSprite(new Vector2( 3+ resolutionX / Constant.screenPixelPerUnit / 2f, 3f),
 					"particles/baldi.gif", 0.8f, false);
-	}
+		}
 
-		new UI_Label(new Vector2(1f, 1f), (win) ? "Partie gagnee !" : "Partie perdue !",
-				(win) ? Color.green : Color.red, 5f);
-		
+		new UI_Label(new Vector2(1f, 1f), win ? "Partie gagnee !" : "Partie perdue !",
+				win ? Color.green : Color.red, 5f);
+
 
 		new UI_Button(new Vector2(2.3f, 2f),1f, new Color(0.9f,0.9f,0.9f,1f), 350f,60f, new Vector2(0.5f,0.5f), func -> { backToMainMenu(); });	
 		new UI_Label(new Vector2(1.25f, 2.1f), "Retour au menu", Color.black,3f);
-		
-		
+
+
 		if (!win) {
-			new UI_AnimatedSprite(new Vector2((resolutionX / Constant.screenPixelPerUnit) / 2f, 0),
+			new UI_AnimatedSprite(new Vector2(resolutionX / Constant.screenPixelPerUnit / 2f, 0),
 					"particles/end_anim_defeat.png", 1.2f, true, 110);
 
 		}

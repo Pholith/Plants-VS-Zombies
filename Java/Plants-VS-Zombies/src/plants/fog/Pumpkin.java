@@ -21,14 +21,14 @@ public class Pumpkin extends Plant {
 		return super.getLayer()+1;
 	}
 	@Override
-    public String name() {return "Pumpkin";}
+	public String name() {return "Pumpkin";}
 
 	@Override
 	public void update() {
 		super.update();
 		if (getHealth() < 200) {
 			setAnimationSprite(GameManager.getResources().getAnimationByPath("plants/Pumpkin3.png"));
-			
+
 		} else if (getHealth() < 400) {
 			setAnimationSprite(GameManager.getResources().getAnimationByPath("plants/Pumpkin2.png"));
 		}

@@ -20,21 +20,21 @@ public class PauseMenu implements Serializable {
 
 	@SuppressWarnings("rawtypes")
 	PauseMenu(float screenResolutionX,float screenResolutionY, Consumer resumeFunc, Consumer saveFunc, Consumer loadFunc, Consumer exitFunc) {
-		
+
 		elements = new HashSet<UI_Element>();
 		visible = false;
-		float middlePosX = (screenResolutionX /Constant.screenPixelPerUnit)/2f;
+		float middlePosX = screenResolutionX /Constant.screenPixelPerUnit/2f;
 		float middlePosLabX = middlePosX - 0.75f;
-		
+
 		float yFirstPos = 1.2f;
 		float spaceBetween = 1f;
 		float sizeX = 400f;
 		float sizeY = 100f;
-		
+
 		// RECTANGLE MENU
 
 		// TODO 
-		
+
 		// BOUTON REPRENDRE
 		elements.add(new UI_Button(new Vector2(middlePosX, yFirstPos + spaceBetween * 1 ), 1f, Color.lightGray, sizeX , sizeY , new Vector2(0.5f, 0.5f), resumeFunc, 95 ));
 		elements.add(new UI_Label(new Vector2(middlePosLabX, yFirstPos + spaceBetween * 1 ), "Reprendre", Color.black, 3f, 96));
@@ -55,10 +55,10 @@ public class PauseMenu implements Serializable {
 			ui_Element.hide();
 		}
 	}
-	
+
 	private Boolean visible; 
-	private HashSet<UI_Element> elements;
-	
+	private final HashSet<UI_Element> elements;
+
 	public boolean isVisible() {
 		return visible;
 	}
@@ -68,13 +68,13 @@ public class PauseMenu implements Serializable {
 			ui_Element.show();
 		}
 	}
-	
+
 	public void hide() {
 		visible = false;
 		for (UI_Element ui_Element : elements) {
 			ui_Element.hide();
 		}
 	}
-	
-	
+
+
 }

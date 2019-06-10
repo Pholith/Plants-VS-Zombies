@@ -15,12 +15,12 @@ public class Plantern extends Plant {
 		super(100, position, 1f, 25, "plants/plantern.png", 100f);
 		// TODO Auto-generated constructor stub
 	}
-	
-    
+
+
 	@Override
-    public float getLightRange() {
-    	return 2.5f;
-    }
-    
+	public float getLightRange() {
+		return 2.5f;
+	}
+
 
 }

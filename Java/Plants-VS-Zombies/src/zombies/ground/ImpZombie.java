@@ -5,7 +5,7 @@ import base.Vector2;
 import zombies.Zombie;
 
 public class ImpZombie extends Zombie {
-	
+
 	/**
 	 * 
 	 */
@@ -16,7 +16,7 @@ public class ImpZombie extends Zombie {
 	}
 
 	@Override
-    public String name() {return "ImpZombie";}
+	public String name() {return "ImpZombie";}
 
 }
 

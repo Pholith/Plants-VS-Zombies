@@ -15,7 +15,7 @@ public class DoomShroom extends ExplodingShroom {
 	public DoomShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.very_slow, 125, "plants/DoomShroom.png", 3f);
 	}
-	
+
 	@Override
 	public void onExplosion() {
 		var allZombies = GameManager.getInstance().getAllZombies();
@@ -26,7 +26,7 @@ public class DoomShroom extends ExplodingShroom {
 		super.onExplosion();
 	}
 	@Override
-    public String name() {return "DoomShroom";}
+	public String name() {return "DoomShroom";}
 
 
 }

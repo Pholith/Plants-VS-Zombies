@@ -17,18 +17,18 @@ public class FumeShroom extends AttackingShroom {
 		super(100, position, EnumReloadTime.medium, 75, "plants/FumeShroom.png", 5f);
 	}
 
-    @Override
-    public String name() {return "FumeShroom";}
+	@Override
+	public String name() {return "FumeShroom";}
 
-    @Override
-    public void attack(Vector2 position) {
-    	new Fume(position);
-    }
-    
-    @Override
-    public boolean conditionOfAttacking() {
+	@Override
+	public void attack(Vector2 position) {
+		new Fume(position);
+	}
+
+	@Override
+	public boolean conditionOfAttacking() {
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
-		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 5f);
-    }
+		return firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 5f;
+	}
 
 }

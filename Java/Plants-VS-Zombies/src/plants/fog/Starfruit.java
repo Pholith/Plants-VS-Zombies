@@ -9,7 +9,7 @@ import zombies.Zombie;
 
 public class Starfruit extends AttackingPlant {
 
-	
+
 	/**
 	 * 
 	 */
@@ -20,19 +20,19 @@ public class Starfruit extends AttackingPlant {
 
 	}
 
-    @Override
-    public String name() {return "Starfruit";}
+	@Override
+	public String name() {return "Starfruit";}
 
-    @Override
-    public boolean conditionToAttack() {
-    	var zombies = GameManager.getInstance().getZombieArround(this, 7);
-    	return zombies.size() > 0;
-    }
-    
+	@Override
+	public boolean conditionToAttack() {
+		var zombies = GameManager.getInstance().getZombieArround(this, 7);
+		return zombies.size() > 0;
+	}
+
 	@Override
 	public void attack(Vector2 position, Zombie zombie) {
 		float speed = 0.04f;
-		
+
 		new Star(getPosition(), new Vector2(speed  , speed   ));
 		new Star(getPosition(), new Vector2(speed  , -speed  ));
 		new Star(getPosition(), new Vector2(-speed , 0       ));

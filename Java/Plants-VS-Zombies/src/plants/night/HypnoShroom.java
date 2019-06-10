@@ -16,12 +16,12 @@ public class HypnoShroom extends Shroom {
 		super(100, position, EnumReloadTime.slow, 75, "plants/HypnoShroom.png", 3f);
 	}
 
-    @Override
-    public String name() {return "HypnoShroom";}
+	@Override
+	public String name() {return "HypnoShroom";}
 
-    @Override
+	@Override
 	public void update() {
-    	if (isSleeping()) {
+		if (isSleeping()) {
 			return;
 		}
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
@@ -30,5 +30,5 @@ public class HypnoShroom extends Shroom {
 			destroy();
 		}
 
-    }
+	}
 }

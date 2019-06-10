@@ -20,11 +20,11 @@ public class CherryBomb extends Plant {
 	public CherryBomb(Vector2 position) {
 		super(100, position, EnumReloadTime.slow, 150, "plants/cherryBomb.png", 6f);
 	}
-	
+
 
 	private float timeExplode = 0;
-	
-	
+
+
 	@Override
 	public void update() {
 
@@ -35,12 +35,12 @@ public class CherryBomb extends Plant {
 			new Explosion(getPosition());
 			destroy();
 		}
-		
+
 		timeExplode += GameManager.getInstance().getDeltatime();
 	}
-	
 
-    @Override
+
+	@Override
 	public String name() {return "CherryBomb";}
 
 

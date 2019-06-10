@@ -9,8 +9,8 @@ public class NewspaperZombie extends ProtectedZombie {
 
 	public NewspaperZombie(Vector2 position) {
 		super(100, position, "zombies/NewspaperZombie.png", 5f, 1f, 50);
-		
-		}
+
+	}
 	@Override
 	public String name() {return "NewspaperZombie";}
 

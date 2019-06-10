@@ -2,6 +2,7 @@ package projectiles;
 
 import java.util.HashSet;
 
+import base.LivingEntity;
 import base.Vector2;
 import zombies.Zombie;
 
@@ -18,33 +19,33 @@ public class Fume extends LineProjectile {
 		this.originalPosition = position;
 		this.maxlenght = 3f;
 	}
-	
-	private float maxlenght;
-	private Vector2 originalPosition;
+
+	private final float maxlenght;
+	private final Vector2 originalPosition;
 
 	HashSet<Zombie> alreadyAttacked;
-	
+
 	@Override
 	public void update() {
 		super.update();
-		
+
 		if (getPosition().getX() - originalPosition.getX() > maxlenght) {
 			destroy();
 		}
 
 	}
-	
+
 	@Override
-    public void hit(Zombie z) {
+	public void hit(LivingEntity z) {
 		if (alreadyAttacked.contains(z)) {
 			return;
 		}
-		alreadyAttacked.add(z);
+		alreadyAttacked.add((Zombie) z);
 		z.takeDammage(getDammage(), this);
 	}
-    @Override
+	@Override
 	public boolean canByPassScreenDoor() {
-    	return true;
-    }
+		return true;
+	}
 
 }

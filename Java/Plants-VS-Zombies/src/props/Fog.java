@@ -6,9 +6,9 @@ import ui.UI_AnimatedSprite;
 
 public class Fog extends UI_AnimatedSprite{
 
-	
-	
-	
+
+
+
 	/**
 	 * 
 	 */
@@ -18,14 +18,14 @@ public class Fog extends UI_AnimatedSprite{
 		super(pos, "particles/fog.png", 5f+ (float)Math.random()*2f, false, 30);
 	}
 
-	
 
 
-	
-	
 
 
-	
-	
-	
+
+
+
+
+
+
 }

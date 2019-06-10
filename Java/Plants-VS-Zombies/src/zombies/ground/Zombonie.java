@@ -10,7 +10,7 @@ import plants.pool.Spikeweed;
 import zombies.Zombie;
 
 public class Zombonie extends Zombie {
-	
+
 
 	/**
 	 * 
@@ -18,11 +18,11 @@ public class Zombonie extends Zombie {
 	private static final long serialVersionUID = -4198724749687465741L;
 
 	public Zombonie(Vector2 position) {
-		super(500, position, "zombies/Zombonie.png", 5f, 1.2f);
+		super(300, position, "zombies/Zombonie.png", 5f, 1.2f);
 	}
 
 	@Override
-    public String name() {return "Zombonie";}
+	public String name() {return "Zombonie";}
 
 	@Override
 	protected void eatPlant(LivingEntity enemy) {
@@ -31,7 +31,7 @@ public class Zombonie extends Zombie {
 	@Override
 	public void update() {
 		super.update();
-		
+
 		var self = this;
 
 		var spikeweedTest = GameManager.getInstance().getGameObjectArround(this, 1f, new Function<GameObject, Boolean>() {

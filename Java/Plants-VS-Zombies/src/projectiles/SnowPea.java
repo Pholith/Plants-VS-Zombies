@@ -1,10 +1,11 @@
 package projectiles;
 
+import base.LivingEntity;
 import base.Vector2;
 import zombies.Zombie;
 
 public class SnowPea extends LineProjectile {
-	
+
 	/**
 	 * 
 	 */
@@ -16,20 +17,21 @@ public class SnowPea extends LineProjectile {
 		this(position, false);
 	}
 
-    @Override
-    public String name() {
-    	return "SnowPeash";
-    }
-    @Override
-    public void hit(Zombie z) {
-    	super.hit(z);
-    	z.slow();
-    }
-    @Override
-    public void onBurn() {
-    	super.onBurn();
-    	new Pea(getPosition(), true);
-    	destroy();
-    }
+	@Override
+	public String name() {
+		return "SnowPeash";
+	}
+	@Override
+	public void hit(LivingEntity l) {
+		Zombie z = (Zombie) l; 
+		super.hit(z);
+		z.slow();
+	}
+	@Override
+	public void onBurn() {
+		super.onBurn();
+		new Pea(getPosition(), true);
+		destroy();
+	}
 
 }

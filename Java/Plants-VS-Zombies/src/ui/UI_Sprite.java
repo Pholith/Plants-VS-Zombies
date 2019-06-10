@@ -12,20 +12,20 @@ public class UI_Sprite extends UI_Element {
 	 * 
 	 */
 	private static final long serialVersionUID = 4716337722130003353L;
-	private Sprite sprite;
-	
-	
+	private final Sprite sprite;
+
+
 	public UI_Sprite(Vector2 pos, Sprite sprite) {
 		super(pos, 1f, Color.white, RenderMode.Sprite );
 		this.sprite  = sprite;
 	}
-	
+
 	@Override
-    public String name() {return "UI_Sprite";}
+	public String name() {return "UI_Sprite";}
 
 	@Override
 	public	Sprite display() {
 		return sprite;
 	}
-	
+
 }

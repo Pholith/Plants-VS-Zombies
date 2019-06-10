@@ -19,11 +19,11 @@ public class Torchwood extends Plant {
 	public Torchwood(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 175, "plants/Torchwood.png", 3f);
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
-		
+
 		HashSet<GameObject> projectiles = GameManager.getInstance().getGameObjectArround(this, 0.6f, new Function<GameObject, Boolean>() {
 			@Override
 			public Boolean apply(GameObject t) {
@@ -33,7 +33,7 @@ public class Torchwood extends Plant {
 				return Boolean.valueOf(false);
 			}
 		});
-		
+
 		// unique endroit avec des instanceof
 		for (GameObject projectile : projectiles) {
 			((LineProjectile) projectile).burn();
@@ -41,10 +41,10 @@ public class Torchwood extends Plant {
 	}
 	@Override
 	public String name() {return "Torchwood"; }
-    
+
 	@Override
-    public float getLightRange() {
-    	return 1f;
-    }
+	public float getLightRange() {
+		return 1f;
+	}
 
 }

@@ -16,7 +16,7 @@ public class TallNut extends Plant {
 	}
 
 	@Override
-    public String name() {return "TallNut";}
+	public String name() {return "TallNut";}
 
 	boolean changed = false;
 	@Override
@@ -26,5 +26,5 @@ public class TallNut extends Plant {
 			setAnimationSprite(GameManager.getResources().getAnimationByPath("plants/TallNut_cracked.png"));
 		}
 	}
-	
+
 }

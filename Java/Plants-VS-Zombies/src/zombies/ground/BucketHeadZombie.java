@@ -12,9 +12,9 @@ public class BucketHeadZombie extends ProtectedZombie {
 
 	public BucketHeadZombie(Vector2 position) {
 		super(100, position, "zombies/BucketHeadZombie.png", 5f, 1f, 300);
-		
+
 	}
 	@Override
-    public String name() {return "BucketHeadZombie";}
+	public String name() {return "BucketHeadZombie";}
 
 }

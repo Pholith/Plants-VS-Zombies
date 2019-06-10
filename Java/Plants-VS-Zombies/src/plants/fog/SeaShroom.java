@@ -9,7 +9,7 @@ import zombies.Zombie;
 
 public class SeaShroom extends AttackingShroom{
 
-	
+
 	/**
 	 * 
 	 */
@@ -19,18 +19,18 @@ public class SeaShroom extends AttackingShroom{
 		super(100, position, EnumReloadTime.slow, 0, "plants/SeaShroom.png", 4f);
 	}
 
-   @Override
-   public String name() {return "SeaShroom";}
+	@Override
+	public String name() {return "SeaShroom";}
 
-   @Override
-   public void attack(Vector2 position) {
-	   new PuffProjectile(position, 3f);
-   }
-   
-   @Override
-   public boolean conditionOfAttacking() {
+	@Override
+	public void attack(Vector2 position) {
+		new PuffProjectile(position, 3f);
+	}
+
+	@Override
+	public boolean conditionOfAttacking() {
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
-		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f);
-   }
+		return firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f;
+	}
 
 }

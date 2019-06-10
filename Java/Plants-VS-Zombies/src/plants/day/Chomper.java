@@ -8,7 +8,7 @@ import zombies.Zombie;
 
 public class Chomper extends AttackingPlant {
 
-	
+
 	/**
 	 * 
 	 */
@@ -19,7 +19,7 @@ public class Chomper extends AttackingPlant {
 	}
 
 	private boolean isDigesting = false;
-	private double digestTimeDelay = 20;
+	private final double digestTimeDelay = 20;
 	private double digestTime = digestTimeDelay;
 
 	@Override
@@ -30,7 +30,7 @@ public class Chomper extends AttackingPlant {
 			isDigesting = false;
 		}
 		if (!isDigesting) {
-			
+
 			Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
 			if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 2f) {
 				firstEnemy.takeDammage(1000);
@@ -41,8 +41,8 @@ public class Chomper extends AttackingPlant {
 		}
 		digestTime += GameManager.getInstance().getDeltatime();
 	}
-	
-    @Override
-    public String name() {return "Chomper";}
+
+	@Override
+	public String name() {return "Chomper";}
 
 }

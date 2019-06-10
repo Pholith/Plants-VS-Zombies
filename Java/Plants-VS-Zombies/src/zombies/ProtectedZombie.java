@@ -16,15 +16,15 @@ public abstract class ProtectedZombie extends Zombie {
 	}
 
 	private int healthOfProtection;
-	
+
 	@Override
 	public int onTakeDammage(int dammage, Projectile p) {
-		
+
 		if (p != null && haveScreenDoor() &&  p.canByPassScreenDoor()) {
 			return dammage;
-			
+
 		} else {
-			
+
 			if (healthOfProtection <= 0) {
 				return dammage;
 			}
@@ -45,15 +45,15 @@ public abstract class ProtectedZombie extends Zombie {
 		healthOfProtection = 0;
 		return true;
 	}
-	
+
 	public void doOnLoseProtection() {
 	}
-	
+
 	@Override
 	public void update() {
 		super.update();
 	}
-	
+
 	public boolean haveScreenDoor() {
 		return false;
 	}

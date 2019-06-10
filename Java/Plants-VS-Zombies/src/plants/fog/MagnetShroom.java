@@ -8,7 +8,7 @@ import zombies.Zombie;
 
 public class MagnetShroom extends Shroom {
 
-	
+
 	public MagnetShroom(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 100, "plants/MagnetShroom.png", 3f);
 
@@ -21,27 +21,32 @@ public class MagnetShroom extends Shroom {
 	@Override
 	public void update() {
 		super.update();
-    	if (isSleeping()) return;
+		if (isSleeping()) {
+			return;
+		}
 
-    	if (timeBeforeMagnet <= 0) {
-    		
-        	var zombies = GameManager.getInstance().getZombieArround(this, 5);
-        	
-        	for (Zombie zombie : zombies) {
-    			if (zombie.takeMetalProtection())
-    			{
-    				timeBeforeMagnet = 10;
-    				break;
-    			}
-    		}
+		if (timeBeforeMagnet <= 0) {
+			setAnimationSprite(GameManager.getResources().getAnimationByPath("plants/MagnetShroom.png"));
+
+			var zombies = GameManager.getInstance().getZombieArround(this, 5);
+
+			for (Zombie zombie : zombies) {
+				if (zombie.takeMetalProtection())
+				{
+					timeBeforeMagnet = 10;
+					break;
+				}
+			}
 
 		} else {
 			timeBeforeMagnet -= GameManager.getInstance().getDeltatime();
+			setAnimationSprite(GameManager.getResources().getAnimationByPath("plants/MagnetShroom2.png"));
+
 		}
 	}
-	
 
-    @Override
+
+	@Override
 	public String name() {return "MagnetShroom";}
 
 }

@@ -15,6 +15,6 @@ public class FootballZombie extends ProtectedZombie {
 
 	}
 	@Override
-    public String name() {return "FootballZombie";}
+	public String name() {return "FootballZombie";}
 
 }

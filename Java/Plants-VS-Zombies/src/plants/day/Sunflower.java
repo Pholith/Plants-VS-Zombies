@@ -8,8 +8,8 @@ import ui.UI_Sun;
 
 public class Sunflower extends Plant {
 
-    
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4797164123801536637L;
@@ -18,21 +18,21 @@ public class Sunflower extends Plant {
 		super(100, position, EnumReloadTime.fast, 50, "plants/sunflower.png", 2f);
 		productionDelay = 18;
 	}    
-	private int productionDelay;
-    private float production = 12; // La sunflower produit son premier soleil plus rapidement
+	private final int productionDelay;
+	private float production = 12; // La sunflower produit son premier soleil plus rapidement
 
-    @Override
-    public String name() {return "Sunflower";}
-	
+	@Override
+	public String name() {return "Sunflower";}
 
-    @Override
-    public void update() {
-    	super.update();
-    	if(production >= productionDelay) {
-        	new UI_Sun(getPosition(), func -> {GameManager.getResources().getASun();} );     	
-        	production = 0;
-    	}
-    	production += GameManager.getInstance().getDeltatime();
-    	
-    }
+
+	@Override
+	public void update() {
+		super.update();
+		if(production >= productionDelay) {
+			new UI_Sun(getPosition(), func -> {GameManager.getResources().getASun();} );     	
+			production = 0;
+		}
+		production += GameManager.getInstance().getDeltatime();
+
+	}
 }

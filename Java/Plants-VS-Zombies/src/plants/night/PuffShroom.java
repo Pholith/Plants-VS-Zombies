@@ -17,17 +17,17 @@ public class PuffShroom extends AttackingShroom {
 		super(100, position, EnumReloadTime.fast, 0, "plants/PuffShroom.png", 4f);
 	}
 
-    @Override
-    public String name() {return "PuffShroom";}
+	@Override
+	public String name() {return "PuffShroom";}
 
-    @Override
-    public void attack(Vector2 position) {
-    	new PuffProjectile(position, 3f);
-    }
-    
-    @Override
-    public boolean conditionOfAttacking() {
+	@Override
+	public void attack(Vector2 position) {
+		new PuffProjectile(position, 3f);
+	}
+
+	@Override
+	public boolean conditionOfAttacking() {
 		Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
-		return (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f);
-    }
+		return firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX()+ 3f;
+	}
 }

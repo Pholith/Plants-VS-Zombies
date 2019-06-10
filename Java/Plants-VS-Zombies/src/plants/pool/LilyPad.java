@@ -15,6 +15,6 @@ public class LilyPad extends Plant {
 		super(50, position, EnumReloadTime.very_fast, 25, "plants/LilyPad.png", 1f);
 	}
 
-    @Override
-    public String name() {return "LilyPad";}
+	@Override
+	public String name() {return "LilyPad";}
 }

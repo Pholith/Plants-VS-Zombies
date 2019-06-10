@@ -14,32 +14,32 @@ public abstract class AttackingShroom extends Shroom {
 		super(health, position, reloadTime, cost, animationPath , animationSpeed);
 	}
 
-    private float attackSpeedCount = 0;
+	private float attackSpeedCount = 0;
 
-    @Override
-    public String name() {return "AttackingPlant";}
+	@Override
+	public String name() {return "AttackingPlant";}
 
-    @Override
-    public void update() {
-    	super.update();
-    	if (!isSleeping()) {
+	@Override
+	public void update() {
+		super.update();
+		if (!isSleeping()) {
 
-	    	if (conditionOfAttacking()) {
-	        	attackSpeedCount += GameManager.getInstance().getDeltatime();
-		  
-		    	if(attackSpeedCount >= 1.1f) {
-		    		attack(getPosition());
-		    		attackSpeedCount = 0;
-		    	}
-	    	}
-    	}
-    }
+			if (conditionOfAttacking()) {
+				attackSpeedCount += GameManager.getInstance().getDeltatime();
 
-    public void attack(Vector2 position) {
-    	
-    }
-    public boolean conditionOfAttacking() {
-    	return (GameManager.getInstance().getFirstZombie(this) != null);
-    }
-    
+				if(attackSpeedCount >= 1.1f) {
+					attack(getPosition());
+					attackSpeedCount = 0;
+				}
+			}
+		}
+	}
+
+	public void attack(Vector2 position) {
+
+	}
+	public boolean conditionOfAttacking() {
+		return GameManager.getInstance().getFirstZombie(this) != null;
+	}
+
 }

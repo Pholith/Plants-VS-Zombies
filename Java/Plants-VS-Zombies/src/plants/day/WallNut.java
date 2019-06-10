@@ -17,7 +17,7 @@ public class WallNut extends Plant {
 	}
 
 	@Override
-    public String name() {return "WallNut";}
+	public String name() {return "WallNut";}
 
-	
+
 }

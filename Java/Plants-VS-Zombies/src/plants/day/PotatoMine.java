@@ -17,30 +17,30 @@ public class PotatoMine extends Plant {
 	public PotatoMine(Vector2 position) {
 		super(100, position, EnumReloadTime.slow, 25, "plants/patatomine.png", 4f);
 	}
-	
+
 	private float timeBeforeReady = 10;
-			
+
 	@Override
 	public void update() {
 
 		if (timeBeforeReady <= 0) {
-	    	setActive();
+			setActive();
 			Zombie firstEnemy = (Zombie) GameManager.getInstance().getFirstZombie(this);
 			if (firstEnemy != null && firstEnemy.getPosition().getX() < this.getPosition().getX() +0.5f) {
-				
+
 				for (Zombie	gameObject: GameManager.getInstance().getZombieArround(this, 1f)) {
 					gameObject.takeDammage(500);
 				}
 				new Explosion(getPosition());
 				destroy();
-	    	}
-	    } else {
+			}
+		} else {
 			setInactive();
 			timeBeforeReady -= GameManager.getInstance().getDeltatime();
 		}
-				
+
 	}
-	
+
 	@Override
-    public String name() {return "PotatoMine";}
+	public String name() {return "PotatoMine";}
 }

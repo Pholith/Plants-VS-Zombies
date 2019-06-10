@@ -18,8 +18,8 @@ public class Peashooter extends AttackingPlant {
 
 	}
 
-    @Override
-    public String name() {return "Peashooter";}
+	@Override
+	public String name() {return "Peashooter";}
 
 	@Override
 	public void attack(Vector2 position, Zombie zombie) {

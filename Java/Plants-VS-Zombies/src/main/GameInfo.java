@@ -13,31 +13,31 @@ public class GameInfo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = -8106369629273399594L;
-	@SuppressWarnings("rawtypes")
+
 	private final Class<? extends Plant>[] listOfPlants; 
 	private final ArrayList<Class<? extends Zombie>> listOfGroundZombies; 
 	private final ArrayList<Class<? extends Zombie>> listOfWaterZombies; 
 	private final EnumTerrain selectedTerrain;
-	
-	
-	
-	
+
+
+
+
 	@SuppressWarnings("rawtypes")
 	public Class[] getListOfPlants() {
 		return listOfPlants;
 	}
-	
+
 	public ArrayList<Class<? extends Zombie>> getListOfWaterZombies() {
 		return listOfWaterZombies;
 	}
 	public ArrayList<Class<? extends Zombie>> getListOfGroundZombies() {
 		return listOfGroundZombies;
 	}
-	
+
 	public EnumTerrain getSelectedTerrain() {
 		return selectedTerrain;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public GameInfo(Class[] listOfPlants, ArrayList<Class<? extends Zombie>> listOfGroundZombies, ArrayList<Class<? extends Zombie>> listOfWaterZombies, EnumTerrain selectedTerrain) {
 		super();
@@ -59,8 +59,8 @@ public class GameInfo implements Serializable{
 	public boolean isRoof() {
 		return selectedTerrain == EnumTerrain.roof;
 	}
-	
-	
+
+
 	public static boolean isNight(EnumTerrain sel) {
 		return sel == EnumTerrain.night_lawn || sel == EnumTerrain.night_roof || sel == EnumTerrain.fog;
 	}
@@ -70,8 +70,8 @@ public class GameInfo implements Serializable{
 	public static boolean isFog(EnumTerrain sel) {
 		return sel == EnumTerrain.fog;
 	}
-	
-	
-	
-	
+
+
+
+
 }

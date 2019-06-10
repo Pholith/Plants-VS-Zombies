@@ -8,13 +8,13 @@ import main.GameManager;
 
 public abstract class Plant extends LivingEntity {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7281120931319503073L;
-	private Square associatedSquare;
+	private final Square associatedSquare;
 
-    
+
 	public Plant( int health, Vector2 position, float reloadTime, int cost, String animationPath, float animationSpeed) {
 		super(health, position, animationPath, animationSpeed + (float)Math.random());
 		this.reloadTime = reloadTime;
@@ -23,15 +23,22 @@ public abstract class Plant extends LivingEntity {
 	}
 
 
- 
+	private boolean hasLadder = false;
+	public void placeLadder() {
+		hasLadder = true;
+	}
+	public boolean hasLadder() {
+		return hasLadder;
+	}
+	
 	// renvoie le prix d'une plante
 	public int cost;
-    public int getCost() {
-    	return cost;
-    }
-    
-    @Override
-    public String name() {return "Plant";}
+	public int getCost() {
+		return cost;
+	}
+
+	@Override
+	public String name() {return "Plant";}
 
 
 	@Override
@@ -39,14 +46,18 @@ public abstract class Plant extends LivingEntity {
 		return true;
 	}
 
-	private float reloadTime;
-    public float getReloadTime() {
-    	return reloadTime;
-    }
-    
-    @Override
-    public void onDestroy() {
-    if(associatedSquare != null)
-    	associatedSquare.removeEnt(this);
-    }
+	public boolean isShroom() {
+		return false;
+	}
+	private final float reloadTime;
+	public float getReloadTime() {
+		return reloadTime;
+	}
+
+	@Override
+	public void onDestroy() {
+		if(associatedSquare != null) {
+			associatedSquare.removeEnt(this);
+		}
+	}
 }

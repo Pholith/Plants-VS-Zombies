@@ -19,8 +19,8 @@ public class SimpleZombie extends Zombie {
 
 	}
 	@Override
-    public String name() {return "SimpleZombie";}
+	public String name() {return "SimpleZombie";}
 
 
-    
+
 }

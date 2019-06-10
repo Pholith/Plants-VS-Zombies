@@ -17,7 +17,7 @@ public class TangleKelp extends Plant {
 	public TangleKelp(Vector2 position) {
 		super(100, position, EnumReloadTime.fast, 25,"plants/TangleKelp.png", 3f);
 	}
-	
+
 	@Override
 	public void update() {
 
@@ -26,9 +26,9 @@ public class TangleKelp extends Plant {
 			firstEnemy.destroy();
 			new Explosion(getPosition());
 			destroy();
-    	}
+		}
 	}
-	
+
 	@Override
-    public String name() {return "TangleKelp";}
+	public String name() {return "TangleKelp";}
 }

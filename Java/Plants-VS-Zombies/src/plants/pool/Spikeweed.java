@@ -24,7 +24,7 @@ public class Spikeweed extends AttackingPlant {
 			zombie.takeDammage(10);
 		}
 	}
-	
+
 	// Pour ne pas subir des dégats des zombies
 	@Override
 	public boolean isPlant() {
@@ -32,5 +32,5 @@ public class Spikeweed extends AttackingPlant {
 	}
 	@Override
 	public String name() { return "Spikeweed" ;}
-	
+
 }

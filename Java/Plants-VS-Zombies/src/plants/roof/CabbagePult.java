@@ -14,7 +14,7 @@ public class CabbagePult extends AttackingPlant {
 	private static final long serialVersionUID = 3181715344348714771L;
 
 	public CabbagePult(Vector2 position) {
-		super(100, position, EnumReloadTime.fast, 100, "plants/CabbagePult.png", 2f);
+		super(100, position, EnumReloadTime.fast, 100, "plants/CabbagePult.png", 2f, 1.5);
 	}
 
 	@Override
@@ -22,6 +22,6 @@ public class CabbagePult extends AttackingPlant {
 		new Cabbage(getPosition(), zombie);
 	}
 
-    @Override
+	@Override
 	public String name() { return "CabbagePult"; }
 }
