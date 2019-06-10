@@ -7,14 +7,17 @@ Vincent Buisset
 
 
 Ce qui a été implémenté:
-- Entiereté de la phase 1 et 2
+- Entiereté de la phase 1, 2 et 3
 - Gestion intelligente de la scene et des GameObjects
 - Lecture des sprites et animation
 - Système de Projectile
 - Systeme de Caméra et de rendu
-- Différents terrain, don le jardin , la piscine et le jardin de nuit
-- Menu de sélection du terrrain et des plantes.
-- Plus de plantes !
+- Tout les terrain demandés
+- Menu de sélection du terrrain et des plantes
+- Système de sauvegarde
+- Système de fichier de config
+- Des vidéo explicatives sur le statut du joueur, en cas de défaite ou de victoire (à voir sans attendre).
+
 
 
 Avant propos:
@@ -81,6 +84,8 @@ Les choix techniques:
  - La Caméra est une classe fille de GameObject. Elle comporte une fonction  render(ArrayList<GameObject> sceneObjs, Graphics2D graphics), qui permet d'afficher tout les objets de la scene à l'écran, le tout en fonction de sa position propre. 
 
 
+
+
 Les éventuels problèmes rencontrés:
 
  - Il a été assez difficile de rendre générique la partie du code permettant de choisir un type de Zombie aléatoire à faire spawn sans utiliser plein de if ou un switch. Pour cela, j'ai réalisé un tableau de classes qui contient toutes les classes de Zombie, et qui me permet d'en choisir un aléatoirement et de l'instancier.
@@ -89,6 +94,10 @@ Les éventuels problèmes rencontrés:
 
  - Problemes rencontrés au niveau de vagues de zombies, du choix des plantes en début de jeu et de leur sélection pendant la partie. Nous avons finalement obtés pour des systemes géneriques avec des listes de classes. Ces listes complètes sont disponibles dans Resources.java (plantsTotalList et zombiesTotalList).
 
+ - Au premier abord, le système de sauvegarde semblait être difficile à implémenter. En effet le type Image que nous utilisons dans nos sprites n'est pas sérialisable. Nous avons obté pour un système de stockage du lien de l'image dans le sprite. Ceux ci sont actualisés à la deserialisation, ce qui permet de recharger l'image de façon automatique.  
+
 ====== Notre Diagramme UML ====== 
 
 Pour rendre compréhensible l'organisation de notre projet, nous avons réalisé un diagramme UML avec le logiciel StarUML, un export en image de ce diagramme est disponible: PlantsVSZombies.jpg dans le même dossier que le README.txt .
+
+
