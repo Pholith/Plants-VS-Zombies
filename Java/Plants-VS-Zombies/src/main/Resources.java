@@ -310,7 +310,7 @@ public class Resources implements Serializable {
 		cutImage("plants/Star.png", 1, 1, new Vector2(0.4f, 0.4f), 70);
 		cutImage("plants/Melon.png", 1, 1, new Vector2(1.5f, 1.5f), 70);
 		cutImage("zombies/BasketBall.png", 1, 1, new Vector2(-0.2f, 0.3f), 70);
-		cutImage("zombies/Ladder.png", 1, 1, 100);
+		cutImage("props/ladder.png", 1, 1, 100);
 
 
 		cutImage("props/gravestone.png", 1, 1, new Vector2(0.4f, 0.6f), 170);
@@ -426,9 +426,9 @@ public class Resources implements Serializable {
 
 		int i;
 		for(i = 0; i < plants.length; i++) {
-			int b = i; // obligé.. oups. ?
+			int b = i; // obligé.. oups. merci java
 			try {
-				// créé des plantes et les détruits juste ensuite pour accéder aux champs plutôt que de faire plein de réflexion statique qu'il fait 
+				// créé des plantes et les détruits juste ensuite pour accéder aux champs plutôt que de faire plein de réflexion statique 
 				Constructor<? extends Plant> constructor = plants[i].getDeclaredConstructor(new Class[] {Vector2.class});
 				Plant plant = constructor.newInstance(new Object[] { new Vector2(-1, -1) });
 				reloadTime = plant.getReloadTime();
@@ -626,6 +626,7 @@ public class Resources implements Serializable {
 				constructor.newInstance(new Object[] {vector});
 				money -= cost;	
 				plantButtonList[selectedPlant].selectPlant();
+				
 
 			} catch (Exception e) {
 				System.out.println(e);

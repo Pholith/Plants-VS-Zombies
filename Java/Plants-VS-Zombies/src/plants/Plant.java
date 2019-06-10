@@ -1,9 +1,11 @@
 package plants;
 
+import base.GameObject;
 import base.LivingEntity;
 import base.Square;
 import base.Vector2;
 import main.GameManager;
+import ui.UI_Sprite;
 
 
 public abstract class Plant extends LivingEntity {
@@ -24,9 +26,12 @@ public abstract class Plant extends LivingEntity {
 
 
 	private boolean hasLadder = false;
+	private GameObject ladder;
 	public void placeLadder() {
 		hasLadder = true;
+		ladder = new UI_Sprite(getPosition().add(new Vector2(0.3f, 0)), GameManager.getResources().getAnimationByPath("props/ladder.png")[0],  getLayer()+1);
 	}
+	
 	public boolean hasLadder() {
 		return hasLadder;
 	}
@@ -59,5 +64,7 @@ public abstract class Plant extends LivingEntity {
 		if(associatedSquare != null) {
 			associatedSquare.removeEnt(this);
 		}
+		if(ladder != null)
+			ladder.destroy();
 	}
 }

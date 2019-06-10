@@ -44,6 +44,7 @@ public abstract class UI_Element extends GameObject {
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor) {
 		this( pos,  renderScale,  renderColor, RenderMode.Self );
 	}
+	
 
 	public UI_Element(Vector2 pos, float renderScale, Color renderColor, RenderMode rendMode) {
 		this( pos,  renderScale,  renderColor, rendMode, 90 );

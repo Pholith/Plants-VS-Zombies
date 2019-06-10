@@ -14,7 +14,7 @@ public class Pumpkin extends Plant {
 
 	public Pumpkin(Vector2 position) {
 		super(500, position, EnumReloadTime.slow, 125, "plants/Pumpkin1.png", 1f);
-
+		translationFixed(new Vector2(0.15f, 0) );
 	}
 	@Override
 	protected int getLayer() {

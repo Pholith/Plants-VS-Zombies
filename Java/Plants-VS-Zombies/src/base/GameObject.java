@@ -13,7 +13,7 @@ public abstract class GameObject implements Serializable, Comparable<GameObject>
 	private static final long serialVersionUID = -7807705176476327139L;
 
 	private final int layer; // Pour l'ordre d'affichage ( ENTRE 1 ET 1000 )
-	protected int getLayer() { return layer; } // permet de modifier le layer comme en protected
+	protected int getLayer() { return layer/10; } // permet de modifier le layer comme en protected
 
 	private Vector2 position;
 	private final RenderMode renderMode;
