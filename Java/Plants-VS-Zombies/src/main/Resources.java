@@ -85,10 +85,10 @@ public class Resources implements Serializable {
 
 	@SuppressWarnings("rawtypes")
 	private final Class[] zombiesTotalList = new Class[] {
-			SimpleZombie.class, ConeheadZombie.class,/* PoleVaulterZombie.class, BucketHeadZombie.class,
+			SimpleZombie.class, ConeheadZombie.class, PoleVaulterZombie.class, BucketHeadZombie.class,
 			FootballZombie.class, NewspaperZombie.class, ScreenDoorZombie.class,
 			Zombonie.class, DiggerZombie.class, DiscoZombie.class, JackInTheBoxZombie.class, 
-			PogoZombie.class,  CatapultZombie.class, */ LadderZombie.class,
+			PogoZombie.class,  CatapultZombie.class,  LadderZombie.class,
 
 //			GargantuarZombie.class,
 	};
